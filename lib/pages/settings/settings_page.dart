@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smart_home_app/pages/home/home_page.dart';
 import 'package:smart_home_app/pages/main_menu/main_menu.dart';
 import 'settings_bloc.dart';
 import 'settings_form.dart';
@@ -12,11 +11,7 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: true,
           title: Text('Settings'),
-            leading: IconButton(icon:Icon(Icons.arrow_back),
-              onPressed:() => HomePage(),
-            )
         ),
       body: BlocProvider(
         builder: (context) {

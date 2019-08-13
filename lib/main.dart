@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smart_home_app/pages/settings/settings_page.dart';
+import 'package:smart_home_app/pages/settings/settings.dart';
 import 'package:smart_home_app/repository/user_repository.dart';
 import 'package:smart_home_app/authentication/authentication.dart';
 import 'package:smart_home_app/pages/splash/splash.dart';
@@ -39,7 +39,8 @@ Future main() async {
   runApp(
     BlocProvider<AuthenticationBloc>(
       builder: (context) {
-        return AuthenticationBloc(userRepository: userRepository, adaptors: adaptors)
+        return AuthenticationBloc(
+            userRepository: userRepository, adaptors: adaptors)
           ..dispatch(AppStarted());
       },
       child: App(userRepository: userRepository),

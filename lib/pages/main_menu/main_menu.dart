@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:smart_home_app/pages/about/about.dart';
+import 'package:smart_home_app/pages/home/home.dart';
+import 'package:smart_home_app/pages/settings/settings.dart';
 
 class MainMenu extends StatelessWidget {
   MainMenu();
@@ -20,21 +23,39 @@ class MainMenu extends StatelessWidget {
             ),
           ),
           ListTile(
-            title: Text('Item 1'),
+            leading: Icon(Icons.home),
+            title: Text('Home'),
             onTap: () {
-              // Update the state of the app
-              // ...
-              // Then close the drawer
-              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomePage(),
+                ),
+              );
             },
           ),
           ListTile(
-            title: Text('Item 2'),
+            leading: Icon(Icons.settings),
+            title: Text('Settings'),
             onTap: () {
-              // Update the state of the app
-              // ...
-              // Then close the drawer
-              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SettingsPage(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.info),
+            title: Text('About'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AboutPage(),
+                ),
+              );
             },
           ),
         ],

@@ -8,7 +8,7 @@ class SplashPage extends StatelessWidget {
         child: Container(
           decoration: new BoxDecoration(
               image: new DecorationImage(
-            image: new AssetImage('assets/images/smarthome_logo.png'),
+            image: new AssetImage('res/images/smarthome_logo.png'),
           )),
         ),
       ),
