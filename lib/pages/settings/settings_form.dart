@@ -1,7 +1,9 @@
+import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'settings_bloc.dart';
 import 'settings_state.dart';
+import 'package:flutter/services.dart';
 
 class SettingsForm extends StatefulWidget {
   @override
@@ -16,11 +18,8 @@ class _SettingsFormState extends State<SettingsForm> {
   Widget build(BuildContext context) {
     final settingsBloc = BlocProvider.of<SettingsBloc>(context);
 
-    _onSettingsButtonPressed() {
-//      settingsBloc.dispatch(SettingsButtonPressed(
-//        username: _serverAddress.text,
-//        password: _accessToken.text,
-//      ));
+    _onSettingsScanQrCode() {
+      scan();
     }
 
     return BlocListener<SettingsBloc, SettingsState>(
@@ -46,12 +45,9 @@ class _SettingsFormState extends State<SettingsForm> {
                 TextFormField(
                   decoration: InputDecoration(labelText: 'access token'),
                   controller: _accessToken,
-                  obscureText: true,
                 ),
                 RaisedButton(
-                  onPressed: () {
-//                  state is! SettingsLoading ? _onSettingsButtonPressed : null,
-                  },
+                  onPressed: _onSettingsScanQrCode,
                   child: Text('SCAN QR CODE'),
                 ),
                 Container(
@@ -65,5 +61,26 @@ class _SettingsFormState extends State<SettingsForm> {
         },
       ),
     );
+  }
+
+  Future scan() async {
+    try {
+      String barcode = await BarcodeScanner.scan();
+      setState(() => this._accessToken.text = barcode);
+    } on PlatformException catch (e) {
+      if (e.code == BarcodeScanner.CameraAccessDenied) {
+        setState(() {
+          this._accessToken.text =
+              'The user did not grant the camera permission!';
+        });
+      } else {
+        setState(() => this._accessToken.text = 'Unknown error: $e');
+      }
+    } on FormatException {
+      setState(() => this._accessToken.text =
+          'null (User returned using the "back"-button before scanning anything. Result)');
+    } catch (e) {
+      setState(() => this._accessToken.text = 'Unknown error: $e');
+    }
   }
 }

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smart_home_app/pages/settings/settings.dart';
+import 'package:smart_home_app/pages/settings/settings_page.dart';
 import 'package:smart_home_app/repository/user_repository.dart';
 import 'package:smart_home_app/authentication/authentication.dart';
 import 'package:smart_home_app/pages/splash/splash.dart';
 import 'package:smart_home_app/pages/login/login.dart';
 import 'package:smart_home_app/pages/home/home.dart';
 import 'package:smart_home_app/common/common.dart';
+
+import 'adaptors/adaptors.dart';
 
 class SimpleBlocDelegate extends BlocDelegate {
   @override
@@ -29,13 +31,15 @@ class SimpleBlocDelegate extends BlocDelegate {
   }
 }
 
-void main() {
+Future main() async {
+  Adaptors adaptors = new Adaptors();
+
   BlocSupervisor.delegate = SimpleBlocDelegate();
   final userRepository = UserRepository();
   runApp(
     BlocProvider<AuthenticationBloc>(
       builder: (context) {
-        return AuthenticationBloc(userRepository: userRepository)
+        return AuthenticationBloc(userRepository: userRepository, adaptors: adaptors)
           ..dispatch(AppStarted());
       },
       child: App(userRepository: userRepository),
@@ -57,10 +61,13 @@ class App extends StatelessWidget {
             return HomePage();
           }
           if (state is AuthenticationUnauthenticated) {
-            return SettingsPage();
+            return LoginPage(userRepository: userRepository);
           }
           if (state is AuthenticationLoading) {
             return LoadingIndicator();
+          }
+          if (state is NeedUpdateSettings) {
+            return SettingsPage();
           }
           return SplashPage();
         },

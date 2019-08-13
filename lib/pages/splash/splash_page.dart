@@ -5,7 +5,12 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('Splash Screen'),
+        child: Container(
+          decoration: new BoxDecoration(
+              image: new DecorationImage(
+            image: new AssetImage('assets/images/smarthome_logo.png'),
+          )),
+        ),
       ),
     );
   }

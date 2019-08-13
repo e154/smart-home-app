@@ -23,3 +23,8 @@ class SettingsFailure extends SettingsState {
   @override
   String toString() => 'SettingsFailure { error: $error }';
 }
+
+class SettingsQrScan extends SettingsState {
+  @override
+  String toString() => 'SettingsQrScan';
+}
