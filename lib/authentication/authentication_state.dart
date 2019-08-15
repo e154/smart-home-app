@@ -20,12 +20,6 @@ class AuthenticationUnauthenticated extends AuthenticationState {
   String toString() => 'AuthenticationUnauthenticated';
 }
 
-//NeedUpdateSettings
-class NeedUpdateSettings extends AuthenticationState {
-  @override
-  String toString() => 'NeedUpdateSettings';
-}
-
 //Loading (Загрузка)
 class AuthenticationLoading extends AuthenticationState {
   @override

@@ -15,10 +15,7 @@ class SettingsPage extends StatelessWidget {
         ),
       body: BlocProvider(
         builder: (context) {
-          return SettingsBloc(
-//            authenticationBloc: BlocProvider.of<AuthenticationBloc>(context),
-//            userRepository: userRepository,
-          );
+          return SettingsBloc();
         },
         child: SettingsForm(),
       ),

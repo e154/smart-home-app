@@ -14,6 +14,7 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     final loginBloc = BlocProvider.of<LoginBloc>(context);
+    loginBloc.dispatch(FetchSettings());
 
     _onLoginButtonPressed() {
       loginBloc.dispatch(LoginButtonPressed(
@@ -35,30 +36,33 @@ class _LoginFormState extends State<LoginForm> {
       },
       child: BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {
+          if (state is LoginSettingsLoaded) {
+            _usernameController.text = state.credentials.userLogin;
+            _passwordController.text = state.credentials.userPassword;
+          }
+
           return Form(
-            child: Column(
-              children: [
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'username'),
-                  controller: _usernameController,
-                ),
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'password'),
-                  controller: _passwordController,
-                  obscureText: true,
-                ),
-                RaisedButton(
-                  onPressed:
-                      state is! LoginLoading ? _onLoginButtonPressed : null,
-                  child: Text('Login'),
-                ),
-                Container(
-                  child: state is LoginLoading
-                      ? CircularProgressIndicator()
-                      : null,
-                ),
-              ],
-            ),
+            child: state is LoginLoading
+                ? CircularProgressIndicator()
+                : Column(
+                    children: [
+                      TextFormField(
+                        decoration: InputDecoration(labelText: 'username'),
+                        controller: _usernameController,
+                      ),
+                      TextFormField(
+                        decoration: InputDecoration(labelText: 'password'),
+                        controller: _passwordController,
+                        obscureText: true,
+                      ),
+                      RaisedButton(
+                        onPressed: state is! LoginLoading
+                            ? _onLoginButtonPressed
+                            : null,
+                        child: Text('Login'),
+                      ),
+                    ],
+                  ),
           );
         },
       ),

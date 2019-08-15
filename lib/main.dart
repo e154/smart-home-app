@@ -68,9 +68,6 @@ class App extends StatelessWidget {
           if (state is AuthenticationLoading) {
             return LoadingIndicator();
           }
-          if (state is NeedUpdateSettings) {
-            return SettingsPage();
-          }
           return SplashPage();
         },
       ),
