@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_home_app/pages/about/about.dart';
 import 'package:smart_home_app/pages/settings/settings.dart';
 import 'package:smart_home_app/repository/user_repository.dart';
 import 'package:smart_home_app/authentication/authentication.dart';
@@ -73,6 +74,10 @@ class App extends StatelessWidget {
           return SplashPage();
         },
       ),
+      routes: <String, WidgetBuilder>{
+        '/settings': (BuildContext context) => SettingsPage(),
+        '/about': (BuildContext context) => AboutPage(),
+      },
     );
   }
 }

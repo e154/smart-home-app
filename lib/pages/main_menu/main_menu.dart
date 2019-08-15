@@ -26,36 +26,21 @@ class MainMenu extends StatelessWidget {
             leading: Icon(Icons.home),
             title: Text('Home'),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HomePage(),
-                ),
-              );
+              Navigator.pushNamed(context, '/');
             },
           ),
           ListTile(
             leading: Icon(Icons.settings),
             title: Text('Settings'),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => SettingsPage(),
-                ),
-              );
+              Navigator.pushNamed(context, '/settings');
             },
           ),
           ListTile(
             leading: Icon(Icons.info),
             title: Text('About'),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AboutPage(),
-                ),
-              );
+              Navigator.pushNamed(context, '/about');
             },
           ),
         ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_home_app/pages/main_menu/main_menu.dart';
 import 'package:smart_home_app/repository/user_repository.dart';
 
 import 'package:smart_home_app/authentication/authentication.dart';
@@ -28,6 +29,7 @@ class LoginPage extends StatelessWidget {
         },
         child: LoginForm(),
       ),
+      drawer: MainMenu(),
     );
   }
 }
