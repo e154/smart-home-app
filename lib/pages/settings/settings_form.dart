@@ -27,6 +27,7 @@ class _SettingsFormState extends State<SettingsForm> {
 
   @override
   Widget build(BuildContext context) {
+    print(context.toString());
     final settingsBloc = BlocProvider.of<SettingsBloc>(context);
     settingsBloc.dispatch(FetchSettings());
 

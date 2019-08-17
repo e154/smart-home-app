@@ -10,16 +10,19 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
+      appBar: AppBar(
           title: Text('Settings'),
-        ),
+          automaticallyImplyLeading: true,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () => Navigator.pop(context, false),
+          )),
       body: BlocProvider(
         builder: (context) {
           return SettingsBloc();
         },
         child: SettingsForm(),
       ),
-      drawer: MainMenu(),
     );
   }
 }

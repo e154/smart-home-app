@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:smart_home_app/pages/main_menu/main_menu.dart';
 import 'package:url_launcher/url_launcher.dart' as url_launcher;
 
 import '../../constants.dart';
@@ -51,7 +50,12 @@ class AboutPage extends StatelessWidget {
     );
     return Scaffold(
       appBar: AppBar(
-          title: Text('About'),
+        title: Text('About'),
+        automaticallyImplyLeading: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context, false),
+        ),
       ),
       body: ListView(
         children: <Widget>[
@@ -59,7 +63,6 @@ class AboutPage extends StatelessWidget {
           ...kAboutListTiles,
         ],
       ),
-      drawer: MainMenu(),
     );
   }
 }
