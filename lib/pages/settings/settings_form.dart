@@ -19,6 +19,7 @@ class SettingsForm extends StatefulWidget {
 class _SettingsFormState extends State<SettingsForm> {
   final _serverAddress = TextEditingController();
   final _accessToken = TextEditingController();
+  Timer _debounce;
 
   @override
   void initState() {
@@ -33,10 +34,13 @@ class _SettingsFormState extends State<SettingsForm> {
 
     //TODO to many requests per second, need add timeout 1second
     void _sendUpdateSettingsEvent() {
-      Settings settings = new Settings();
-      settings.serverAddress = _serverAddress.text;
-      settings.accessToken = _accessToken.text;
-      settingsBloc.dispatch(UpdateSettings(settings));
+      if (_debounce?.isActive ?? false) _debounce.cancel();
+      _debounce = Timer(const Duration(milliseconds: 500), () {
+        Settings settings = new Settings();
+        settings.serverAddress = _serverAddress.text;
+        settings.accessToken = _accessToken.text;
+        settingsBloc.dispatch(UpdateSettings(settings));
+      });
     }
 
     _serverAddress.addListener(() => _sendUpdateSettingsEvent());
@@ -62,9 +66,9 @@ class _SettingsFormState extends State<SettingsForm> {
           }
 
           return Form(
-            child: state is SettingsLoading
+            child: /*state is SettingsLoading
               ? CircularProgressIndicator()
-              : Column(
+              : */Column(
               children: [
                 TextFormField(
                   decoration: InputDecoration(labelText: 'server address'),

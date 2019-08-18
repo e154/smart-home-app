@@ -9,8 +9,10 @@ import 'package:smart_home_app/pages/splash/splash.dart';
 import 'package:smart_home_app/pages/login/login.dart';
 import 'package:smart_home_app/pages/home/home.dart';
 import 'package:smart_home_app/common/common.dart';
+import 'package:http/http.dart' as http;
 
 import 'adaptors/adaptors.dart';
+import 'repository/repository.dart';
 
 class SimpleBlocDelegate extends BlocDelegate {
   @override
@@ -37,6 +39,9 @@ Future main() async {
 
   BlocSupervisor.delegate = SimpleBlocDelegate();
   final userRepository = UserRepository();
+  final gateRepository = GateRepository(
+    httpClient: http.Client(),
+  );
   runApp(
     BlocProvider<AuthenticationBloc>(
       builder: (context) {
@@ -44,15 +49,20 @@ Future main() async {
             userRepository: userRepository, adaptors: adaptors)
           ..dispatch(AppStarted());
       },
-      child: App(userRepository: userRepository),
+      child: App(
+        userRepository: userRepository,
+        gateRepository: gateRepository,
+      ),
     ),
   );
 }
 
 class App extends StatelessWidget {
   final UserRepository userRepository;
+  final GateRepository gateRepository;
 
-  App({Key key, @required this.userRepository}) : super(key: key);
+  App({Key key, @required this.userRepository, @required this.gateRepository})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
