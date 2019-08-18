@@ -20,13 +20,17 @@ class GateRepository {
       final locationResponse = await this.httpClient.get(locationUrl);
       return locationResponse.statusCode == 200;
     } catch (error) {
-//      print(error);
       return false;
     }
   }
 
-  Future<void> checkServerToken() async {
-    await Future.delayed(Duration(seconds: 1));
-    return;
+  Future<bool> checkServerToken(String baseUrl, String accessToken) async {
+    final locationUrl = '$baseUrl/';
+    try {
+      final locationResponse = await this.httpClient.get(locationUrl);
+      return locationResponse.statusCode == 200;
+    } catch (error) {
+      return false;
+    }
   }
 }

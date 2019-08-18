@@ -29,4 +29,8 @@ class Credentials {
         "user_login": userLogin,
         "user_password": userPassword,
       };
+
+  bool equal(Credentials s) {
+    return s.userPassword == userPassword && s.userLogin == userLogin;
+  }
 }

@@ -21,7 +21,6 @@ class SettingsLoaded extends SettingsState {
 }
 
 class SettingsLoading extends SettingsState {
-
   @override
   String toString() => 'SettingsLoading';
 }
@@ -33,4 +32,23 @@ class SettingsFailure extends SettingsState {
 
   @override
   String toString() => 'SettingsFailure { error: $error }';
+}
+
+class SettingsShowSnackbar extends SettingsState {
+  final String msg;
+
+  SettingsShowSnackbar(this.msg);
+
+  @override
+  String toString() => 'SettingsShowSnackbar';
+}
+
+class SettingsValidateInfo extends SettingsState {
+  final String field;
+  final bool status;
+
+  SettingsValidateInfo({@required this.field, @required this.status});
+
+  @override
+  String toString() => 'SettingsValidateInfo';
 }

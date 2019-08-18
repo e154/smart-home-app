@@ -28,4 +28,8 @@ class Settings {
         "server_address": serverAddress,
         "access_token": accessToken,
       };
+
+  bool equal(Settings s) {
+    return s.serverAddress == serverAddress && s.accessToken == accessToken;
+  }
 }

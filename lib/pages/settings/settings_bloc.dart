@@ -9,6 +9,7 @@ import 'settings_state.dart';
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   Adaptors adaptors;
   Repository repository;
+  Settings oldSettings;
 
   SettingsBloc() {
     adaptors = new Adaptors();
@@ -26,12 +27,25 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       yield SettingsLoaded(settings);
     }
     if (event is UpdateSettings) {
-      adaptors.variable.updateSettings(event.settings);
-      if (event.settings.serverAddress != "") {
-        bool result = await repository.gate.checkServerConnection(event.settings.serverAddress);
-        print('result: $result');
+      if (oldSettings != null && oldSettings.equal(event.settings)) {
+        return;
       }
+      oldSettings = event.settings;
+      adaptors.variable.updateSettings(event.settings);
 
+      // check server address
+      if (event.settings.serverAddress != "") {
+        bool result = await repository.gate
+            .checkServerConnection(event.settings.serverAddress);
+        yield SettingsValidateInfo(field: "serverAddress", status: result);
+
+        // check access token
+        if (event.settings.accessToken != "") {
+          result = await repository.gate.checkServerToken(
+              event.settings.serverAddress, event.settings.accessToken);
+          yield SettingsValidateInfo(field: "accessToken", status: result);
+        }
+      }
     }
   }
 

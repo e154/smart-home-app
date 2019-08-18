@@ -20,6 +20,8 @@ class _SettingsFormState extends State<SettingsForm> {
   final _serverAddress = TextEditingController();
   final _accessToken = TextEditingController();
   Timer _debounce;
+  bool _serverAddressValid = false;
+  bool _accessTokenValid = false;
 
   @override
   void initState() {
@@ -55,26 +57,84 @@ class _SettingsFormState extends State<SettingsForm> {
             ),
           );
         }
+        if (state is SettingsShowSnackbar) {
+          Scaffold.of(context).showSnackBar(
+            SnackBar(
+              content: Text('${state.msg}'),
+              backgroundColor: Colors.green,
+            ),
+          );
+        }
+        if (state is SettingsValidateInfo) {
+          switch (state.field) {
+            case "serverAddress":
+              _serverAddressValid = state.status;
+              break;
+            case "accessToken":
+              _accessTokenValid = state.status;
+          }
+        }
       },
       child: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, state) {
-
           if (state is SettingsLoaded) {
             _serverAddress.text = state.settings.serverAddress;
             _accessToken.text = state.settings.accessToken;
           }
 
           return Form(
-            child: /*state is SettingsLoading
+            child:
+                /*state is SettingsLoading
               ? CircularProgressIndicator()
-              : */Column(
+              : */
+                Column(
               children: [
                 TextFormField(
-                  decoration: InputDecoration(labelText: 'server address'),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                  decoration: new InputDecoration(
+                    labelText: 'server address',
+                    suffixIcon: _serverAddressValid
+                        ? new Icon(
+                            Icons.check,
+                            color: Colors.green,
+                          )
+                        : new Icon(
+                            Icons.close,
+                            color: Colors.red,
+                          ),
+                    border: InputBorder.none,
+                    contentPadding: const EdgeInsets.only(
+                        top: 30.0, right: 30.0, bottom: 30.0, left: 5.0),
+                  ),
                   controller: _serverAddress,
                 ),
                 TextFormField(
-                  decoration: InputDecoration(labelText: 'access token'),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                  decoration: new InputDecoration(
+                    labelText: 'access token',
+                    suffixIcon: _accessTokenValid
+                        ? new Icon(
+                            Icons.check,
+                            color: Colors.green,
+                          )
+                        : new Icon(
+                            Icons.close,
+                            color: Colors.red,
+                          ),
+                    border: InputBorder.none,
+                    contentPadding: const EdgeInsets.only(
+                        top: 30.0, right: 30.0, bottom: 30.0, left: 5.0),
+                  ),
                   controller: _accessToken,
                 ),
                 RaisedButton(
