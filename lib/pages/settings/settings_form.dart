@@ -32,7 +32,6 @@ class _SettingsFormState extends State<SettingsForm> {
     final settingsBloc = BlocProvider.of<SettingsBloc>(context);
     settingsBloc.dispatch(FetchSettings());
 
-    //TODO to many requests per second, need add timeout 1second
     void _sendUpdateSettingsEvent() {
       if (_debounce?.isActive ?? false) _debounce.cancel();
       _debounce = Timer(const Duration(milliseconds: 500), () {
