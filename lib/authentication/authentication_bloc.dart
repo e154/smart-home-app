@@ -3,17 +3,17 @@ import 'dart:async';
 import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
 import 'package:smart_home_app/adaptors/adaptors.dart';
-import 'package:smart_home_app/repository/user_repository.dart';
 
 import 'package:smart_home_app/authentication/authentication.dart';
+import 'package:smart_home_app/repositories/repositories.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
-  final UserRepository userRepository;
+  final Repository repository;
   final Adaptors adaptors;
 
-  AuthenticationBloc({@required this.userRepository, this.adaptors})
-      : assert(userRepository != null && adaptors != null);
+  AuthenticationBloc({@required this.repository, this.adaptors})
+      : assert(repository != null && adaptors != null);
 
   @override
   AuthenticationState get initialState => AuthenticationUninitialized();
@@ -23,7 +23,7 @@ class AuthenticationBloc
     AuthenticationEvent event,
   ) async* {
     if (event is AppStarted) {
-      final bool hasToken = await userRepository.hasToken();
+      final bool hasToken = await repository.user.hasToken();
 
       if (hasToken) {
         yield AuthenticationAuthenticated();
@@ -34,16 +34,15 @@ class AuthenticationBloc
 
     if (event is LoggedIn) {
       yield AuthenticationLoading();
-      await userRepository.persistToken(event.token);
+      await repository.user.persistToken(event.token);
       yield AuthenticationAuthenticated();
     }
 
     if (event is LoggedOut) {
       yield AuthenticationLoading();
       await adaptors.variable.clearCredentials();
-      await userRepository.deleteToken();
+      await repository.user.deleteToken();
       yield AuthenticationUnauthenticated();
     }
   }
 }
-

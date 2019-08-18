@@ -1,14 +1,18 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:smart_home_app/adaptors/adaptors.dart';
 import 'package:smart_home_app/models/setting.dart';
+import 'package:smart_home_app/repositories/repositories.dart';
 import 'settings_event.dart';
 import 'settings_state.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
-  Adaptors _adaptors;
+  Adaptors adaptors;
+  Repository repository;
 
   SettingsBloc() {
-    _adaptors = new Adaptors();
+    adaptors = new Adaptors();
+    repository = new Repository();
   }
 
   @override
@@ -18,13 +22,18 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   Stream<SettingsState> mapEventToState(SettingsEvent event) async* {
     if (event is FetchSettings) {
       yield SettingsLoading();
-      Settings settings = await _adaptors.variable.getSettings();
+      Settings settings = await adaptors.variable.getSettings();
       yield SettingsLoaded(settings);
     }
     if (event is UpdateSettings) {
-      _adaptors.variable.updateSettings(event.settings);
+      adaptors.variable.updateSettings(event.settings);
+      if (event.settings.serverAddress != "") {
+        bool result = await repository.gate.checkServerConnection(event.settings.serverAddress);
+        print('result: $result');
+      }
+
     }
   }
 
-  Future<Settings> getSettings() => _adaptors.variable.getSettings();
+  Future<Settings> getSettings() => adaptors.variable.getSettings();
 }

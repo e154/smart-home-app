@@ -3,7 +3,6 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_home_app/pages/about/about.dart';
 import 'package:smart_home_app/pages/settings/settings.dart';
-import 'package:smart_home_app/repository/user_repository.dart';
 import 'package:smart_home_app/authentication/authentication.dart';
 import 'package:smart_home_app/pages/splash/splash.dart';
 import 'package:smart_home_app/pages/login/login.dart';
@@ -12,7 +11,7 @@ import 'package:smart_home_app/common/common.dart';
 import 'package:http/http.dart' as http;
 
 import 'adaptors/adaptors.dart';
-import 'repository/repository.dart';
+import 'repositories/repositories.dart';
 
 class SimpleBlocDelegate extends BlocDelegate {
   @override
@@ -36,33 +35,38 @@ class SimpleBlocDelegate extends BlocDelegate {
 
 Future main() async {
   Adaptors adaptors = new Adaptors();
+  Repository repository = new Repository();
 
   BlocSupervisor.delegate = SimpleBlocDelegate();
-  final userRepository = UserRepository();
-  final gateRepository = GateRepository(
-    httpClient: http.Client(),
-  );
+
   runApp(
-    BlocProvider<AuthenticationBloc>(
-      builder: (context) {
-        return AuthenticationBloc(
-            userRepository: userRepository, adaptors: adaptors)
-          ..dispatch(AppStarted());
-      },
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthenticationBloc>(
+          builder: (context) {
+            return AuthenticationBloc(
+                repository: repository, adaptors: adaptors)
+              ..dispatch(AppStarted());
+          },
+        ),
+        BlocProvider<SettingsBloc>(
+          builder: (context) =>
+//              SettingsBloc(),
+              SettingsBloc(),
+        ),
+      ],
       child: App(
-        userRepository: userRepository,
-        gateRepository: gateRepository,
+        repository: repository,
       ),
     ),
   );
 }
 
 class App extends StatelessWidget {
-  final UserRepository userRepository;
-  final GateRepository gateRepository;
+  final Repository repository;
+  final Adaptors adaptors;
 
-  App({Key key, @required this.userRepository, @required this.gateRepository})
-      : super(key: key);
+  App({Key key, @required this.repository, @required this.adaptors}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +77,7 @@ class App extends StatelessWidget {
             return HomePage();
           }
           if (state is AuthenticationUnauthenticated) {
-            return LoginPage(userRepository: userRepository);
+            return LoginPage(repository: repository);
           }
           if (state is AuthenticationLoading) {
             return LoadingIndicator();

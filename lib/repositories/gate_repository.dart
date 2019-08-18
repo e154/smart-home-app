@@ -14,14 +14,15 @@ class GateRepository {
     return 'token';
   }
 
-  Future<String> checkServerAddress(String baseUrl) async {
+  Future<bool> checkServerConnection(String baseUrl) async {
     final locationUrl = '$baseUrl/';
-    final locationResponse = await this.httpClient.get(locationUrl);
-    if (locationResponse.statusCode != 200) {
-      throw "error";
+    try {
+      final locationResponse = await this.httpClient.get(locationUrl);
+      return locationResponse.statusCode == 200;
+    } catch (error) {
+//      print(error);
+      return false;
     }
-
-    return "ok";
   }
 
   Future<void> checkServerToken() async {

@@ -4,20 +4,20 @@ import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
 import 'package:smart_home_app/adaptors/adaptors.dart';
 import 'package:smart_home_app/models/models.dart';
-import 'package:smart_home_app/repository/user_repository.dart';
 
 import 'package:smart_home_app/authentication/authentication.dart';
+import 'package:smart_home_app/repositories/repositories.dart';
 import 'login.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  final UserRepository userRepository;
+  final Repository repository;
   final AuthenticationBloc authenticationBloc;
   Adaptors _adaptors;
 
   LoginBloc({
-    @required this.userRepository,
+    @required this.repository,
     @required this.authenticationBloc,
-  })  : assert(userRepository != null),
+  })  : assert(repository != null),
         assert(authenticationBloc != null) {
     _adaptors = new Adaptors();
   }
@@ -35,7 +35,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       if (settings.isValid && credentials.isValid) {
         try {
           // auto login, if all params exist
-          final token = await userRepository.authenticate(
+          final token = await repository.user.authenticate(
             username: credentials.userLogin,
             password: credentials.userPassword,
           );
@@ -49,7 +49,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
     if (event is LoginButtonPressed) {
       try {
-        final token = await userRepository.authenticate(
+        final token = await repository.user.authenticate(
           username: event.username,
           password: event.password,
         );

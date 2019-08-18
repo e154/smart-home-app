@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smart_home_app/pages/main_menu/main_menu.dart';
+import 'package:smart_home_app/adaptors/adaptors.dart';
+import 'package:smart_home_app/repositories/repositories.dart';
+import 'settings.dart';
 import 'settings_bloc.dart';
 import 'settings_form.dart';
 
@@ -9,6 +11,7 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
           title: Text('Settings'),

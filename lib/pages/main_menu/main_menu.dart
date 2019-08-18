@@ -23,13 +23,6 @@ class MainMenu extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.home),
-            title: Text('Home'),
-            onTap: () {
-              Navigator.pushNamed(context, '/');
-            },
-          ),
-          ListTile(
             leading: Icon(Icons.settings),
             title: Text('Settings'),
             onTap: () {
