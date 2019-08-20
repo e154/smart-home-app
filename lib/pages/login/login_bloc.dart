@@ -7,7 +7,6 @@ import 'package:smart_home_app/adaptors/adaptors.dart';
 import 'package:smart_home_app/models/models.dart';
 
 import 'package:smart_home_app/authentication/authentication.dart';
-import 'package:smart_home_app/models/user_history.dart';
 import 'package:smart_home_app/repositories/repositories.dart';
 import 'login.dart';
 
@@ -34,20 +33,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       Settings settings = await _adaptors.variable.getSettings();
       Credentials credentials = await _adaptors.variable.getCredentials();
       yield LoginSettingsLoaded(settings, credentials);
-      if (settings.isValid && credentials.isValid) {
-        try {
-          // auto login, if all params exist
-          final token = await repository.user.authenticate(
-            username: credentials.userLogin,
-            password: credentials.userPassword,
-          );
-
-          authenticationBloc.dispatch(LoggedIn(token: token));
-          yield LoginInitial();
-        } catch (error) {
-          yield LoginFailure(error: error.toString());
-        }
-      }
     }
     if (event is LoginButtonPressed) {
       try {
@@ -63,11 +48,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             .signin(settings: settings, credentials: credentials);
 
         String token = response["access_token"];
-        User user = User.fromJson(response["current_user"]);
+        User currentUser = User.fromJson(response["current_user"]);
 
-        print(response["current_user"]["history"] as List);
-
-        authenticationBloc.dispatch(LoggedIn(token: token));
+        authenticationBloc.dispatch(LoggedIn(token: token, user: currentUser));
 
         yield LoginInitial();
       } catch (error) {

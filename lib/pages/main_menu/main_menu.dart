@@ -16,10 +16,18 @@ class MainMenu extends StatelessWidget {
         // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: <Widget>[
-          DrawerHeader(
-            child: Text('Drawer Header'),
-            decoration: BoxDecoration(
-              color: Colors.blue,
+          UserAccountsDrawerHeader(
+            accountName: Text("Ashish Rawat"),
+            accountEmail: Text("ashishrawat2911@gmail.com"),
+            currentAccountPicture: CircleAvatar(
+              backgroundColor:
+              Theme.of(context).platform == TargetPlatform.iOS
+                  ? Colors.white
+                  : Colors.blue,
+              child: Text(
+                "A",
+                style: TextStyle(fontSize: 40.0),
+              ),
             ),
           ),
           ListTile(
