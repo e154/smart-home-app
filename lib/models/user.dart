@@ -3,8 +3,7 @@
 //     final user = userFromJson(jsonString);
 
 import 'dart:convert';
-
-import 'package:smart_home_app/models/user_history.dart';
+import 'models.dart';
 
 User userFromJson(String str) => User.fromJson(json.decode(str));
 
@@ -12,38 +11,39 @@ String userToJson(User data) => json.encode(data.toJson());
 
 class User {
   int id;
-  String nickname;
-  String firstName;
-  String lastName;
-  String email;
-  DateTime createdAt;
-  DateTime updatedAt;
+  String nickname, firstName, lastName, email, lang;
+  DateTime createdAt, updatedAt, currentSignInAt, lastSignInAt;
+  List<UserHistory> history;
+  Image image;
+  int signInCount;
+  List<UserMeta> meta;
+  Role role;
 
-//  List<UserHistory> history;
+  User();
 
-  User({
-    this.id,
-    this.nickname,
-    this.firstName,
-    this.lastName,
-    this.email,
-    this.createdAt,
-    this.updatedAt,
-//    this.history,
-  });
+  factory User.fromJson(Map<String, dynamic> json) {
+    User user = new User();
 
-  factory User.fromJson(Map<String, dynamic> json) => new User(
-        id: json["id"],
-        nickname: json["nickname"],
-        email: json["email"],
-        firstName: json["first_name"],
-        lastName: json["last_name"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-//        history: (json["history"] as List)
-//            .map((i) => UserHistory.fromJson(i))
-//            .toList(),
-      );
+    user.id = json["id"];
+    user.nickname = json["nickname"];
+    user.email = json["email"];
+    user.firstName = json["first_name"];
+    user.lastName = json["last_name"];
+    user.signInCount = json["sign_in_count"];
+    user.lang = json["lang"];
+    user.history =
+        (json["history"] as List).map((i) => UserHistory.fromJson(i)).toList();
+    user.meta =
+        json["meta"] != null ? (json["meta"] as List).map((i) => UserMeta.fromJson(i)).toList() : null;
+    user.image = json["image"] != null ? Image.fromJson(json["image"]) : null;
+    user.role = Role.fromJson(json["role"]);
+    user.createdAt = DateTime.parse(json["created_at"]);
+    user.updatedAt = DateTime.parse(json["updated_at"]);
+    user.currentSignInAt = DateTime.parse(json["current_sign_in_at"]);
+    user.lastSignInAt = DateTime.parse(json["last_sign_in_at"]);
+
+    return user;
+  }
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -51,8 +51,15 @@ class User {
         "first_name": firstName,
         "first_name": lastName,
         "email": email,
-//        "history": history,
+        "image": image,
+        "sign_in_count": signInCount,
+        "lang": lang,
+        "history": history,
+        "meta": meta,
+        "role": role,
         "created_at": createdAt,
         "updated_at": updatedAt,
+        "last_sign_in_at": lastSignInAt,
+        "current_sign_in_at": currentSignInAt,
       };
 }
