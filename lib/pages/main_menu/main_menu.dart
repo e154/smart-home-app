@@ -26,6 +26,7 @@ class MainMenu extends StatelessWidget {
             leading: Icon(Icons.settings),
             title: Text('Settings'),
             onTap: () {
+              Navigator.of(context).pop(); // close the drawer
               Navigator.pushNamed(context, '/settings');
             },
           ),
@@ -33,6 +34,7 @@ class MainMenu extends StatelessWidget {
             leading: Icon(Icons.info),
             title: Text('About'),
             onTap: () {
+              Navigator.of(context).pop(); // close the drawer
               Navigator.pushNamed(context, '/about');
             },
           ),
