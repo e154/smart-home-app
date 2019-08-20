@@ -37,8 +37,11 @@ class _LoginFormState extends State<LoginForm> {
       child: BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {
           if (state is LoginSettingsLoaded) {
-            _usernameController.text = state.credentials.userLogin;
-            _passwordController.text = state.credentials.userPassword;
+            _usernameController.text = 'user@e154.ru';
+            _passwordController.text = 'user';
+
+//            _usernameController.text = state.credentials.userLogin;
+//            _passwordController.text = state.credentials.userPassword;
           }
 
           return Form(

@@ -1,12 +1,14 @@
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 
+import 'auth_repository.dart';
 import 'gate_repository.dart';
 import 'user_repository.dart';
 
 class Repository {
   GateRepository gate;
   UserRepository user;
+  AuthRepository auth;
 
   static final Repository _singleton = new Repository._internal();
 
@@ -18,5 +20,6 @@ class Repository {
     final httpClient = http.Client();
     gate = new GateRepository(httpClient: httpClient);
     user = new UserRepository(httpClient: httpClient);
+    auth = new AuthRepository(httpClient: httpClient);
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
@@ -6,6 +7,7 @@ import 'package:smart_home_app/adaptors/adaptors.dart';
 import 'package:smart_home_app/models/models.dart';
 
 import 'package:smart_home_app/authentication/authentication.dart';
+import 'package:smart_home_app/models/user_history.dart';
 import 'package:smart_home_app/repositories/repositories.dart';
 import 'login.dart';
 
@@ -49,18 +51,25 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
     if (event is LoginButtonPressed) {
       try {
-        final token = await repository.user.authenticate(
-          username: event.username,
-          password: event.password,
-        );
+        Settings settings = await _adaptors.variable.getSettings();
 
-        authenticationBloc.dispatch(LoggedIn(token: token));
-        yield LoginInitial();
         //save user credentials
         Credentials credentials = new Credentials();
         credentials.userLogin = event.username;
         credentials.userPassword = event.password;
         await _adaptors.variable.updateCredentials(credentials);
+
+        dynamic response = await repository.auth
+            .signin(settings: settings, credentials: credentials);
+
+        String token = response["access_token"];
+        User user = User.fromJson(response["current_user"]);
+
+        print(response["current_user"]["history"] as List);
+
+        authenticationBloc.dispatch(LoggedIn(token: token));
+
+        yield LoginInitial();
       } catch (error) {
         yield LoginFailure(error: error.toString());
       }

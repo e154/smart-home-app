@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+const BASE_PATH = "/server/api/v1";
 const APP_NAME = "Smart home";
 const APP_VERSION = "v0.0.1";
 const APP_DESCRIPTION = "Smart home mobile client applications";

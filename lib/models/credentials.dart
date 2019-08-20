@@ -33,4 +33,10 @@ class Credentials {
   bool equal(Credentials s) {
     return s.userPassword == userPassword && s.userLogin == userLogin;
   }
+
+  String basicAuth() {
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$userLogin:$userPassword'));
+    return basicAuth;
+  }
 }
