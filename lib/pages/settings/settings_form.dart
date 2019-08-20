@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_home_app/models/setting.dart';
 import 'package:smart_home_app/pages/settings/settings.dart';
+import 'package:smart_home_app/widgets/widgets.dart';
 import 'settings_bloc.dart';
 import 'settings_state.dart';
 import 'package:flutter/services.dart';
@@ -95,15 +96,7 @@ class _SettingsFormState extends State<SettingsForm> {
                   },
                   decoration: new InputDecoration(
                     labelText: 'server address',
-                    suffixIcon: _serverAddressValid
-                        ? new Icon(
-                            Icons.check,
-                            color: Colors.green,
-                          )
-                        : new Icon(
-                            Icons.close,
-                            color: Colors.red,
-                          ),
+                    suffixIcon: CheckIconWidget(_serverAddressValid),
                     border: InputBorder.none,
                     contentPadding: const EdgeInsets.only(
                         top: 20.0, right: 30.0, bottom: 10.0, left: 10.0),
@@ -119,15 +112,7 @@ class _SettingsFormState extends State<SettingsForm> {
                   },
                   decoration: new InputDecoration(
                     labelText: 'access token',
-                    suffixIcon: _accessTokenValid
-                        ? new Icon(
-                            Icons.check,
-                            color: Colors.green,
-                          )
-                        : new Icon(
-                            Icons.close,
-                            color: Colors.red,
-                          ),
+                    suffixIcon: CheckIconWidget(_accessTokenValid),
                     border: InputBorder.none,
                     contentPadding: const EdgeInsets.only(
                         top: 10.0, right: 30.0, bottom: 10.0, left: 10.0),
