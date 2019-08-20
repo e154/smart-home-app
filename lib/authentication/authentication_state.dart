@@ -1,4 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:smart_home_app/models/models.dart';
 
 abstract class AuthenticationState extends Equatable {}
 
@@ -10,6 +12,10 @@ class AuthenticationUninitialized extends AuthenticationState {
 
 //Authenticated (Авторозован)
 class AuthenticationAuthenticated extends AuthenticationState {
+  User user;
+
+  AuthenticationAuthenticated({@required this.user});
+
   @override
   String toString() => 'AuthenticationAuthenticated';
 }

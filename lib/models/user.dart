@@ -14,15 +14,18 @@ class User {
   int id;
   String nickname;
   String firstName;
+  String lastName;
   String email;
   DateTime createdAt;
   DateTime updatedAt;
+
 //  List<UserHistory> history;
 
   User({
     this.id,
     this.nickname,
     this.firstName,
+    this.lastName,
     this.email,
     this.createdAt,
     this.updatedAt,
@@ -34,6 +37,7 @@ class User {
         nickname: json["nickname"],
         email: json["email"],
         firstName: json["first_name"],
+        lastName: json["last_name"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
 //        history: (json["history"] as List)
@@ -45,6 +49,7 @@ class User {
         "id": id,
         "nickname": nickname,
         "first_name": firstName,
+        "first_name": lastName,
         "email": email,
 //        "history": history,
         "created_at": createdAt,

@@ -25,3 +25,8 @@ class LoggedOut extends AuthenticationEvent {
   @override
   String toString() => 'LoggedOut';
 }
+
+class FetchCurrentUser extends AuthenticationEvent {
+  @override
+  String toString() => 'FetchCurrentUser';
+}

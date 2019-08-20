@@ -29,7 +29,7 @@ class AuthenticationBloc
       final bool hasToken = await repository.user.hasToken();
 
       if (hasToken) {
-        yield AuthenticationAuthenticated();
+        yield AuthenticationAuthenticated(user: _currentUser);
       } else {
         yield AuthenticationUnauthenticated();
       }
@@ -40,14 +40,23 @@ class AuthenticationBloc
       _currentUser = event.user;
       yield AuthenticationLoading();
       await repository.user.persistToken(event.token);
-      yield AuthenticationAuthenticated();
+      yield AuthenticationAuthenticated(user: _currentUser);
     }
 
     if (event is LoggedOut) {
       yield AuthenticationLoading();
+      _accessToken = "";
+      _currentUser = null;
+
 //      await adaptors.variable.clearCredentials();
 //      await repository.user.deleteToken();
       yield AuthenticationUnauthenticated();
+    }
+
+    if (event is FetchCurrentUser) {
+      if (_currentUser != null) {
+        yield AuthenticationAuthenticated(user: _currentUser);
+      }
     }
   }
 }
