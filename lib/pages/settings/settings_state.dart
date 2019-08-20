@@ -43,12 +43,20 @@ class SettingsShowSnackbar extends SettingsState {
   String toString() => 'SettingsShowSnackbar';
 }
 
-class SettingsValidateInfo extends SettingsState {
-  final String field;
+class SettingsValidateAddressValid extends SettingsState {
   final bool status;
 
-  SettingsValidateInfo({@required this.field, @required this.status});
+  SettingsValidateAddressValid({@required this.status});
 
   @override
-  String toString() => 'SettingsValidateInfo';
+  String toString() => 'SettingsValidateAddressValid';
+}
+
+class SettingsValidateAccessTokenValid extends SettingsState {
+  final bool status;
+
+  SettingsValidateAccessTokenValid({@required this.status});
+
+  @override
+  String toString() => 'SettingsValidateAccessTokenValid';
 }

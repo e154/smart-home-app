@@ -65,14 +65,11 @@ class _SettingsFormState extends State<SettingsForm> {
             ),
           );
         }
-        if (state is SettingsValidateInfo) {
-          switch (state.field) {
-            case "serverAddress":
-              _serverAddressValid = state.status;
-              break;
-            case "accessToken":
-              _accessTokenValid = state.status;
-          }
+        if (state is SettingsValidateAddressValid) {
+          _serverAddressValid = state.status;
+        }
+        if (state is SettingsValidateAccessTokenValid) {
+          _accessTokenValid = state.status;
         }
       },
       child: BlocBuilder<SettingsBloc, SettingsState>(
@@ -109,7 +106,7 @@ class _SettingsFormState extends State<SettingsForm> {
                           ),
                     border: InputBorder.none,
                     contentPadding: const EdgeInsets.only(
-                        top: 30.0, right: 30.0, bottom: 30.0, left: 5.0),
+                        top: 20.0, right: 30.0, bottom: 10.0, left: 10.0),
                   ),
                   controller: _serverAddress,
                 ),
@@ -133,7 +130,7 @@ class _SettingsFormState extends State<SettingsForm> {
                           ),
                     border: InputBorder.none,
                     contentPadding: const EdgeInsets.only(
-                        top: 30.0, right: 30.0, bottom: 30.0, left: 5.0),
+                        top: 10.0, right: 30.0, bottom: 10.0, left: 10.0),
                   ),
                   controller: _accessToken,
                 ),

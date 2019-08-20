@@ -37,13 +37,13 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       if (event.settings.serverAddress != "") {
         bool result = await repository.gate
             .checkServerConnection(event.settings.serverAddress);
-        yield SettingsValidateInfo(field: "serverAddress", status: result);
+        yield SettingsValidateAddressValid(status: result);
 
         // check access token
         if (event.settings.accessToken != "") {
-          result = await repository.gate.checkServerToken(
+          bool result = await repository.gate.checkServerToken(
               event.settings.serverAddress, event.settings.accessToken);
-          yield SettingsValidateInfo(field: "accessToken", status: result);
+          yield SettingsValidateAccessTokenValid(status: result);
         }
       }
     }
