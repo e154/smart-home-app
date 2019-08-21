@@ -45,7 +45,11 @@ class _LoginFormState extends State<LoginForm> {
 
           return Form(
             child: state is LoginLoading
-                ? CircularProgressIndicator()
+                ? Container(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  )
                 : Column(
                     children: [
                       TextFormField(

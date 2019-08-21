@@ -11,17 +11,11 @@ import 'package:smart_home_app/repositories/repositories.dart';
 import 'login.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  final Repository repository;
   final AuthenticationBloc authenticationBloc;
-  Adaptors _adaptors;
 
   LoginBloc({
-    @required this.repository,
     @required this.authenticationBloc,
-  })  : assert(repository != null),
-        assert(authenticationBloc != null) {
-    _adaptors = new Adaptors();
-  }
+  }) : assert(authenticationBloc != null);
 
   @override
   LoginState get initialState => LoginInitial();
@@ -30,21 +24,22 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
     if (event is FetchSettings) {
       yield LoginLoadSettings();
-      Settings settings = await _adaptors.variable.getSettings();
-      Credentials credentials = await _adaptors.variable.getCredentials();
+      Settings settings = await Adaptors.get().variable.getSettings();
+      Credentials credentials = await Adaptors.get().variable.getCredentials();
       yield LoginSettingsLoaded(settings, credentials);
     }
     if (event is LoginButtonPressed) {
       try {
-        Settings settings = await _adaptors.variable.getSettings();
+        yield LoginLoading();
+        Settings settings = await Adaptors.get().variable.getSettings();
 
         //save user credentials
         Credentials credentials = new Credentials();
         credentials.userLogin = event.username;
         credentials.userPassword = event.password;
-        await _adaptors.variable.updateCredentials(credentials);
+        await Adaptors.get().variable.updateCredentials(credentials);
 
-        dynamic response = await repository.auth
+        dynamic response = await Repository.get().auth
             .signin(settings: settings, credentials: credentials);
 
         String token = response["access_token"];

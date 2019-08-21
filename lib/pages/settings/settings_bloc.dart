@@ -7,14 +7,9 @@ import 'settings_event.dart';
 import 'settings_state.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
-  Adaptors adaptors;
-  Repository repository;
   Settings oldSettings;
 
-  SettingsBloc() {
-    adaptors = new Adaptors();
-    repository = new Repository();
-  }
+  SettingsBloc();
 
   @override
   SettingsState get initialState => SettingsInitial();
@@ -23,7 +18,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   Stream<SettingsState> mapEventToState(SettingsEvent event) async* {
     if (event is FetchSettings) {
       yield SettingsLoading();
-      Settings settings = await adaptors.variable.getSettings();
+      Settings settings = await Adaptors.get().variable.getSettings();
       yield SettingsLoaded(settings);
     }
     if (event is UpdateSettings) {
@@ -31,17 +26,17 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         return;
       }
       oldSettings = event.settings;
-      adaptors.variable.updateSettings(event.settings);
+      Adaptors.get().variable.updateSettings(event.settings);
 
       // check server address
       if (event.settings.serverAddress != "") {
-        bool result = await repository.gate
+        bool result = await Repository.get().gate
             .checkServerConnection(event.settings.serverAddress);
         yield SettingsValidateAddressValid(status: result);
 
         // check access token
         if (event.settings.accessToken != "") {
-          bool result = await repository.gate.checkServerToken(
+          bool result = await Repository.get().gate.checkServerToken(
               event.settings.serverAddress, event.settings.accessToken);
           yield SettingsValidateAccessTokenValid(status: result);
         }
@@ -49,5 +44,5 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     }
   }
 
-  Future<Settings> getSettings() => adaptors.variable.getSettings();
+  Future<Settings> getSettings() => Adaptors.get().variable.getSettings();
 }

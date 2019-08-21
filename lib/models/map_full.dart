@@ -1,21 +1,21 @@
 // To parse this JSON data, do
 //
-//     final mapShort = mapShortFromJson(jsonString);
+//     final mapFull = mapFullFromJson(jsonString);
 
 import 'dart:convert';
 
 import 'models.dart';
 
-MapShort mapShortFromJson(String str) => MapShort.fromJson(json.decode(str));
+MapFull mapFullFromJson(String str) => MapFull.fromJson(json.decode(str));
 
-String mapShortToJson(MapShort data) => json.encode(data.toJson());
+String mapFullToJson(MapFull data) => json.encode(data.toJson());
 
-class MapShort {
+class MapFull {
   int id;
   String name, description;
   DateTime createdAt, updatedAt;
 
-  MapShort({
+  MapFull({
     this.id,
     this.name,
     this.description,
@@ -23,7 +23,7 @@ class MapShort {
     this.updatedAt,
   });
 
-  factory MapShort.fromJson(Map<String, dynamic> json) => new MapShort(
+  factory MapFull.fromJson(Map<String, dynamic> json) => new MapFull(
     id: json["id"] as int,
     name: json["name"] as String,
     description: json["description"] as String,

@@ -7,13 +7,6 @@ class GateRepository {
 
   GateRepository({@required this.httpClient}) : assert(httpClient != null);
 
-  Future<String> authenticate({
-    @required String token,
-  }) async {
-    await Future.delayed(Duration(seconds: 1));
-    return 'token';
-  }
-
   Future<bool> checkServerConnection(String baseUrl) async {
     final locationUrl = '$baseUrl/check/mobile_access';
     try {

@@ -6,6 +6,8 @@ class Adaptors {
 
   static final Adaptors _singleton = new Adaptors._internal();
 
+  static Adaptors get() => _singleton;
+
   factory Adaptors() {
     return _singleton;
   }

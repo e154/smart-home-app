@@ -1,22 +1,13 @@
 import 'dart:async';
 
-import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
-import 'package:smart_home_app/adaptors/adaptors.dart';
 
 import 'package:smart_home_app/authentication/authentication.dart';
-import 'package:smart_home_app/models/models.dart';
-import 'package:smart_home_app/repositories/repositories.dart';
+import 'package:smart_home_app/common/common.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
-  final Repository repository;
-  final Adaptors adaptors;
-  String _accessToken;
-  User _currentUser;
-
-  AuthenticationBloc({@required this.repository, this.adaptors})
-      : assert(repository != null && adaptors != null);
+  final MainState mainState = new MainState();
 
   @override
   AuthenticationState get initialState => AuthenticationUninitialized();
@@ -26,36 +17,25 @@ class AuthenticationBloc
     AuthenticationEvent event,
   ) async* {
     if (event is AppStarted) {
-      final bool hasToken = await repository.user.hasToken();
-
-      if (hasToken) {
-        yield AuthenticationAuthenticated(user: _currentUser);
-      } else {
-        yield AuthenticationUnauthenticated();
-      }
+      yield AuthenticationUnauthenticated();
     }
 
     if (event is LoggedIn) {
-      _accessToken = event.token;
-      _currentUser = event.user;
-      yield AuthenticationLoading();
-      await repository.user.persistToken(event.token);
-      yield AuthenticationAuthenticated(user: _currentUser);
+      mainState.currentUserToken = event.token;
+      mainState.currentUser = event.user;
+      yield AuthenticationAuthenticated(user: event.user);
     }
 
     if (event is LoggedOut) {
       yield AuthenticationLoading();
-      _accessToken = "";
-      _currentUser = null;
-
-//      await adaptors.variable.clearCredentials();
-//      await repository.user.deleteToken();
+      mainState.currentUserToken = "";
+      mainState.currentUser = null;
       yield AuthenticationUnauthenticated();
     }
 
     if (event is FetchCurrentUser) {
-      if (_currentUser != null) {
-        yield AuthenticationAuthenticated(user: _currentUser);
+      if (mainState.currentUser != null) {
+        yield AuthenticationAuthenticated(user: mainState.currentUser);
       }
     }
   }

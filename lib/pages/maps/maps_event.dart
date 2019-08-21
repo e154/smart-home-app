@@ -8,3 +8,4 @@ class FetchMapList extends MapsEvent {
   @override
   String toString() => 'FetchMapList';
 }
+

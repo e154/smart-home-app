@@ -2,16 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_home_app/pages/about/about.dart';
+import 'package:smart_home_app/pages/maps/maps.dart';
 import 'package:smart_home_app/pages/settings/settings.dart';
 import 'package:smart_home_app/authentication/authentication.dart';
 import 'package:smart_home_app/pages/splash/splash.dart';
 import 'package:smart_home_app/pages/login/login.dart';
 import 'package:smart_home_app/pages/home/home.dart';
-import 'package:smart_home_app/common/common.dart';
-import 'package:http/http.dart' as http;
-
-import 'adaptors/adaptors.dart';
-import 'repositories/repositories.dart';
+import 'package:smart_home_app/widgets/widgets.dart';
 
 class SimpleBlocDelegate extends BlocDelegate {
   @override
@@ -34,9 +31,6 @@ class SimpleBlocDelegate extends BlocDelegate {
 }
 
 Future main() async {
-  Adaptors adaptors = new Adaptors();
-  Repository repository = new Repository();
-
   BlocSupervisor.delegate = SimpleBlocDelegate();
 
   runApp(
@@ -44,9 +38,7 @@ Future main() async {
       providers: [
         BlocProvider<AuthenticationBloc>(
           builder: (context) {
-            return AuthenticationBloc(
-                repository: repository, adaptors: adaptors)
-              ..dispatch(AppStarted());
+            return AuthenticationBloc()..dispatch(AppStarted());
           },
         ),
         BlocProvider<SettingsBloc>(
@@ -55,18 +47,13 @@ Future main() async {
               SettingsBloc(),
         ),
       ],
-      child: App(
-        repository: repository,
-      ),
+      child: App(),
     ),
   );
 }
 
 class App extends StatelessWidget {
-  final Repository repository;
-  final Adaptors adaptors;
-
-  App({Key key, @required this.repository, @required this.adaptors}) : super(key: key);
+  App({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +64,7 @@ class App extends StatelessWidget {
             return HomePage();
           }
           if (state is AuthenticationUnauthenticated) {
-            return LoginPage(repository: repository);
+            return LoginPage();
           }
           if (state is AuthenticationLoading) {
             return LoadingIndicator();

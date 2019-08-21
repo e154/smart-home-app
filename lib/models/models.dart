@@ -8,3 +8,4 @@ export 'user_meta.dart';
 export 'role.dart';
 export 'map_options.dart';
 export 'map_short.dart';
+export 'map_full.dart';
