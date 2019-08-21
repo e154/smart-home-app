@@ -81,11 +81,7 @@ class _SettingsFormState extends State<SettingsForm> {
           }
 
           return Form(
-            child:
-                /*state is SettingsLoading
-              ? CircularProgressIndicator()
-              : */
-                Column(
+            child: Column(
               children: [
                 TextFormField(
                   validator: (value) {
