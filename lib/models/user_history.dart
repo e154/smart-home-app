@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:smart_home_app/common/common.dart';
+
 UserHistory userHistoryFromJson(String str) =>
     UserHistory.fromJson(json.decode(str));
 
@@ -20,7 +22,7 @@ class UserHistory {
 
   factory UserHistory.fromJson(Map<String, dynamic> json) => new UserHistory(
         ip: json["ip"],
-        time: DateTime.parse(json["time"]),
+        time: DateTime.parse(ignoreSubMicro(json["time"])),
       );
 
   Map<String, dynamic> toJson() => {

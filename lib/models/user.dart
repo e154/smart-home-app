@@ -3,6 +3,8 @@
 //     final user = userFromJson(jsonString);
 
 import 'dart:convert';
+import 'package:smart_home_app/common/common.dart';
+
 import 'models.dart';
 
 User userFromJson(String str) => User.fromJson(json.decode(str));
@@ -37,10 +39,10 @@ class User {
         json["meta"] != null ? (json["meta"] as List).map((i) => UserMeta.fromJson(i)).toList() : null;
     user.image = json["image"] != null ? Image.fromJson(json["image"]) : null;
     user.role = Role.fromJson(json["role"]);
-    user.createdAt = DateTime.parse(json["created_at"]);
-    user.updatedAt = DateTime.parse(json["updated_at"]);
-    user.currentSignInAt = DateTime.parse(json["current_sign_in_at"]);
-    user.lastSignInAt = DateTime.parse(json["last_sign_in_at"]);
+    user.createdAt = DateTime.parse(ignoreSubMicro(json["created_at"]));
+    user.updatedAt = DateTime.parse(ignoreSubMicro(json["updated_at"]));
+    user.currentSignInAt = DateTime.parse(ignoreSubMicro(json["current_sign_in_at"]));
+    user.lastSignInAt = DateTime.parse(ignoreSubMicro(json["last_sign_in_at"]));
 
     return user;
   }

@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:smart_home_app/common/common.dart';
+
 import 'models.dart';
 
 MapShort mapShortFromJson(String str) => MapShort.fromJson(json.decode(str));
@@ -27,8 +29,8 @@ class MapShort {
     id: json["id"] as int,
     name: json["name"] as String,
     description: json["description"] as String,
-    createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: DateTime.parse(json["updated_at"]),
+    createdAt: DateTime.parse(ignoreSubMicro(json["created_at"])),
+    updatedAt: DateTime.parse(ignoreSubMicro(json["updated_at"])),
   );
 
   Map<String, dynamic> toJson() => {

@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:smart_home_app/common/common.dart';
+
 Image imageFromJson(String str) => Image.fromJson(json.decode(str));
 
 String imageToJson(Image data) => json.encode(data.toJson());
@@ -31,7 +33,7 @@ class Image {
     image.thumb = json["thumb"];
     image.title = json["title"];
     image.url = json["url"];
-    image.createdAt = DateTime.parse(json["created_at"]);
+    image.createdAt = DateTime.parse(ignoreSubMicro(json["created_at"]));
 
     return image;
   }
