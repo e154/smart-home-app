@@ -19,7 +19,7 @@ class AuthRepository {
       'Authorization': credentials.basicAuth(),
       'ServerAuthorization': settings.accessToken,
       'Content-Type': 'application/json'
-    });
+    }).timeout(const Duration(seconds: 1));
 
     if (signInResponse.statusCode != 200) {
       throw Exception('error authenticate ' + signInResponse.body);

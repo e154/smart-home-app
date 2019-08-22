@@ -35,13 +35,40 @@ class _SettingsFormState extends State<SettingsForm> {
     final settingsBloc = BlocProvider.of<SettingsBloc>(context);
     settingsBloc.dispatch(FetchSettings());
 
+    void _updateSettings() {
+      Settings settings = new Settings();
+      settings.serverAddress = _serverAddress.text;
+      settings.accessToken = _accessToken.text;
+      settingsBloc.dispatch(UpdateSettings(settings));
+    }
+
+    Future scan() async {
+      try {
+        String barcode = await BarcodeScanner.scan();
+        print(barcode);
+        this._accessToken.text = barcode;
+        _updateSettings();
+      } on PlatformException catch (e) {
+        if (e.code == BarcodeScanner.CameraAccessDenied) {
+          setState(() {
+            this._accessToken.text =
+                'The user did not grant the camera permission!';
+          });
+        } else {
+          setState(() => this._accessToken.text = 'Unknown error: $e');
+        }
+      } on FormatException {
+        setState(() => this._accessToken.text =
+            'null (User returned using the "back"-button before scanning anything. Result)');
+      } catch (e) {
+        setState(() => this._accessToken.text = 'Unknown error: $e');
+      }
+    }
+
     void _sendUpdateSettingsEvent() {
       if (_debounce?.isActive ?? false) _debounce.cancel();
       _debounce = Timer(const Duration(milliseconds: 500), () {
-        Settings settings = new Settings();
-        settings.serverAddress = _serverAddress.text;
-        settings.accessToken = _accessToken.text;
-        settingsBloc.dispatch(UpdateSettings(settings));
+        _updateSettings();
       });
     }
 
@@ -125,27 +152,6 @@ class _SettingsFormState extends State<SettingsForm> {
         },
       ),
     );
-  }
-
-  Future scan() async {
-    try {
-      String barcode = await BarcodeScanner.scan();
-      setState(() => this._accessToken.text = barcode);
-    } on PlatformException catch (e) {
-      if (e.code == BarcodeScanner.CameraAccessDenied) {
-        setState(() {
-          this._accessToken.text =
-              'The user did not grant the camera permission!';
-        });
-      } else {
-        setState(() => this._accessToken.text = 'Unknown error: $e');
-      }
-    } on FormatException {
-      setState(() => this._accessToken.text =
-          'null (User returned using the "back"-button before scanning anything. Result)');
-    } catch (e) {
-      setState(() => this._accessToken.text = 'Unknown error: $e');
-    }
   }
 
   @override

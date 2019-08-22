@@ -23,7 +23,7 @@ class MapRepository {
         'Authorization': MainState.get().currentUserToken,
         'ServerAuthorization': settings.accessToken,
         'Content-Type': 'application/json'
-      });
+      }).timeout(const Duration(seconds: 1));
 
       switch (mapListResponse.statusCode) {
         case 200:
@@ -49,7 +49,7 @@ class MapRepository {
         'Authorization': MainState.get().currentUserToken,
         'ServerAuthorization': settings.accessToken,
         'Content-Type': 'application/json'
-      });
+      }).timeout(const Duration(seconds: 1));
 
       switch (mapFullResponse.statusCode) {
         case 200:

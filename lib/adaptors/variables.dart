@@ -21,6 +21,7 @@ class VariableAdaptor {
     Map<String, dynamic> variable = await table.get(settingsName);
     if (variable == null || variable.isEmpty) {
       settings = Settings();
+      settings.serverAddress = "https://gate.e154.ru";
       var variable = new Variable();
       variable.name = settingsName;
       variable.value = jsonEncode(settings);
