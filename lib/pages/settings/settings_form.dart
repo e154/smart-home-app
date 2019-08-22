@@ -31,7 +31,6 @@ class _SettingsFormState extends State<SettingsForm> {
 
   @override
   Widget build(BuildContext context) {
-    print(context.toString());
     final settingsBloc = BlocProvider.of<SettingsBloc>(context);
     settingsBloc.dispatch(FetchSettings());
 
@@ -45,7 +44,6 @@ class _SettingsFormState extends State<SettingsForm> {
     Future scan() async {
       try {
         String barcode = await BarcodeScanner.scan();
-        print(barcode);
         this._accessToken.text = barcode;
         _updateSettings();
       } on PlatformException catch (e) {

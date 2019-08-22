@@ -66,7 +66,6 @@ class VariableAdaptor {
 
   // update user credentials database variable
   Future<Credentials> updateCredentials(Credentials credentials) async {
-    print("update credentials");
     var variable = new Variable();
     variable.name = credentialsName;
     variable.value = jsonEncode(credentials);
@@ -77,7 +76,6 @@ class VariableAdaptor {
 
   // update user credentials database variable
   Future<Credentials> clearCredentials() async {
-    print("clear credentials");
     Credentials credentials = new Credentials();
     var variable = new Variable();
     variable.name = credentialsName;
