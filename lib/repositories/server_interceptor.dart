@@ -13,16 +13,24 @@ class ServerInterceptor implements InterceptorContract {
     Settings settings = await Adaptors.get().variable.getSettings();
 
     data.url = settings.serverAddress + BASE_PATH + data.url;
-    data.headers["Authorization"] = MainState.get().currentUserToken;
-    data.headers["ServerAuthorization"] = settings.accessToken;
-    data.headers["Content-Type"] = "application/json";
+
+    if (data.headers["Authorization"] == null) {
+      data.headers["Authorization"] = MainState.get().currentUserToken;
+    }
+
+    if (data.headers["ServerAuthorization"] == null) {
+      data.headers["ServerAuthorization"] = settings.accessToken;
+    }
+
+    if (data.headers["Content-Type"] == null) {
+      data.headers["Content-Type"] = "application/json";
+    }
 
     return data;
   }
 
   @override
   Future<ResponseData> interceptResponse({ResponseData data}) async {
-
     return data;
   }
 }
