@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'login.dart';
+import 'package:smart_home_app/blocs/blocs.dart';
 
 class LoginForm extends StatefulWidget {
   @override
@@ -14,7 +14,7 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     final loginBloc = BlocProvider.of<LoginBloc>(context);
-    loginBloc.dispatch(FetchSettings());
+    loginBloc.dispatch(LoginFetchSettings());
 
     _onLoginButtonPressed() {
       loginBloc.dispatch(LoginButtonPressed(

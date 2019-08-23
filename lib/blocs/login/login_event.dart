@@ -19,8 +19,8 @@ class LoginButtonPressed extends LoginEvent {
       'LoginButtonPressed { username: $username, password: $password }';
 }
 
-class FetchSettings extends LoginEvent {
+class LoginFetchSettings extends LoginEvent {
 
   @override
-  String toString() => 'FetchSettings';
+  String toString() => 'LoginFetchSettings';
 }

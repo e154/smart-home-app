@@ -14,8 +14,8 @@ class UpdateSettings extends SettingsEvent {
   String toString() => 'UpdateSettings $settings';
 }
 
-class FetchSettings extends SettingsEvent {
+class SettingsFetchSettings extends SettingsEvent {
 
   @override
-  String toString() => 'FetchSettings';
+  String toString() => 'SettingsFetchSettings';
 }

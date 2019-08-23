@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smart_home_app/pages/about/about.dart';
-import 'package:smart_home_app/pages/maps/maps.dart';
-import 'package:smart_home_app/pages/settings/settings.dart';
-import 'package:smart_home_app/authentication/authentication.dart';
-import 'package:smart_home_app/pages/splash/splash.dart';
-import 'package:smart_home_app/pages/login/login.dart';
-import 'package:smart_home_app/pages/home/home.dart';
+import 'package:smart_home_app/blocs/blocs.dart';
+import 'package:smart_home_app/pages/pages.dart';
 import 'package:smart_home_app/widgets/widgets.dart';
 
 class SimpleBlocDelegate extends BlocDelegate {

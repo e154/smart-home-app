@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_home_app/blocs/blocs.dart';
 import 'package:smart_home_app/models/models.dart';
-
-import 'maps_bloc.dart';
-import 'maps_event.dart';
-import 'maps_state.dart';
 
 class MapsForm extends StatefulWidget {
   @override

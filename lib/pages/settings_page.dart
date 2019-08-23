@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smart_home_app/adaptors/adaptors.dart';
-import 'package:smart_home_app/authentication/authentication_bloc.dart';
-import 'package:smart_home_app/repositories/repositories.dart';
-import 'settings.dart';
-import 'settings_bloc.dart';
-import 'settings_form.dart';
+import 'package:smart_home_app/blocs/blocs.dart';
+import 'package:smart_home_app/widgets/widgets.dart';
 
 class SettingsPage extends StatelessWidget {
   SettingsPage();

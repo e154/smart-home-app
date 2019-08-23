@@ -1,8 +1,7 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
-
-import 'package:smart_home_app/authentication/authentication.dart';
+import 'authentication_event.dart';
+import 'authentication_state.dart';
 import 'package:smart_home_app/common/common.dart';
 
 class AuthenticationBloc

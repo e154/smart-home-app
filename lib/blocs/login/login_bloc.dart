@@ -1,14 +1,14 @@
 import 'dart:async';
-import 'dart:convert';
-
 import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
 import 'package:smart_home_app/adaptors/adaptors.dart';
+import 'package:smart_home_app/blocs/authentication/authentication.dart';
 import 'package:smart_home_app/models/models.dart';
 
-import 'package:smart_home_app/authentication/authentication.dart';
 import 'package:smart_home_app/repositories/repositories.dart';
-import 'login.dart';
+
+import 'login_event.dart';
+import 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthenticationBloc authenticationBloc;
@@ -22,7 +22,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
-    if (event is FetchSettings) {
+    if (event is LoginFetchSettings) {
       yield LoginLoadSettings();
       Settings settings = await Adaptors.get().variable.getSettings();
       Credentials credentials = await Adaptors.get().variable.getCredentials();
@@ -39,7 +39,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         credentials.userPassword = event.password;
         await Adaptors.get().variable.updateCredentials(credentials);
 
-        dynamic response = await Repository.get().auth
+        dynamic response = await Repository.get()
+            .auth
             .signin(settings: settings, credentials: credentials);
 
         String token = response["access_token"];

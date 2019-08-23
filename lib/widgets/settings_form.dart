@@ -1,14 +1,11 @@
 import 'dart:async';
-
+import 'package:flutter/services.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_home_app/blocs/blocs.dart';
 import 'package:smart_home_app/models/setting.dart';
-import 'package:smart_home_app/pages/settings/settings.dart';
 import 'package:smart_home_app/widgets/widgets.dart';
-import 'settings_bloc.dart';
-import 'settings_state.dart';
-import 'package:flutter/services.dart';
 
 class SettingsForm extends StatefulWidget {
   SettingsForm() {}
@@ -32,7 +29,7 @@ class _SettingsFormState extends State<SettingsForm> {
   @override
   Widget build(BuildContext context) {
     final settingsBloc = BlocProvider.of<SettingsBloc>(context);
-    settingsBloc.dispatch(FetchSettings());
+    settingsBloc.dispatch(SettingsFetchSettings());
 
     void _updateSettings() {
       Settings settings = new Settings();

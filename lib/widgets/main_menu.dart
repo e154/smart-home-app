@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smart_home_app/authentication/authentication.dart';
+import 'package:smart_home_app/blocs/blocs.dart';
 import 'package:smart_home_app/models/models.dart';
-import 'package:smart_home_app/pages/about/about.dart';
-import 'package:smart_home_app/pages/home/home.dart';
-import 'package:smart_home_app/pages/settings/settings.dart';
 
 class MainMenu extends StatefulWidget {
   @override

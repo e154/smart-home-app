@@ -1,8 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
 import 'package:smart_home_app/adaptors/adaptors.dart';
-import 'package:smart_home_app/authentication/authentication.dart';
-import 'package:smart_home_app/authentication/authentication_bloc.dart';
+import 'package:smart_home_app/blocs/authentication/authentication.dart';
 import 'package:smart_home_app/models/setting.dart';
 import 'package:smart_home_app/repositories/repositories.dart';
 import 'package:smart_home_app/widgets/check_icon.dart';
@@ -20,7 +18,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
   @override
   Stream<SettingsState> mapEventToState(SettingsEvent event) async* {
-    if (event is FetchSettings) {
+    if (event is SettingsFetchSettings) {
       yield SettingsLoading();
       Settings settings = await Adaptors.get().variable.getSettings();
       yield SettingsLoaded(settings);
