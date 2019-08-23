@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_home_app/adaptors/adaptors.dart';
+import 'package:smart_home_app/authentication/authentication.dart';
+import 'package:smart_home_app/authentication/authentication_bloc.dart';
 import 'package:smart_home_app/models/setting.dart';
 import 'package:smart_home_app/repositories/repositories.dart';
 import 'package:smart_home_app/widgets/check_icon.dart';
@@ -9,8 +11,9 @@ import 'settings_state.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   Settings oldSettings;
+  final AuthenticationBloc authenticationBloc;
 
-  SettingsBloc();
+  SettingsBloc(this.authenticationBloc);
 
   @override
   SettingsState get initialState => SettingsInitial();
@@ -41,6 +44,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
               event.settings.serverAddress, event.settings.accessToken);
           yield SettingsValidateAccessTokenValid(status: result ? CheckStatus.ok : CheckStatus.error);
         }
+      } else {
+        authenticationBloc.dispatch(LoggedOut());
       }
     }
   }

@@ -41,11 +41,11 @@ Future main() async {
             return AuthenticationBloc()..dispatch(AppStarted());
           },
         ),
-        BlocProvider<SettingsBloc>(
-          builder: (context) =>
-//              SettingsBloc(),
-              SettingsBloc(),
-        ),
+        BlocProvider<SettingsBloc>(builder: (context) {
+          final authenticationBloc =
+              BlocProvider.of<AuthenticationBloc>(context);
+          return SettingsBloc(authenticationBloc);
+        }),
       ],
       child: App(),
     ),
