@@ -17,7 +17,7 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
     if (event is FetchMapList) {
       try {
         yield LoadMapList();
-        final mapList = await Repository.get().map.fetchList();
+        final mapList = await Repository.get().map.fetchList(10, 0, "DESC", "id");
         yield MapListLoaded(mapList);
       } catch (error) {
         yield MapsFailure(error: error.toString());

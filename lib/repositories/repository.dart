@@ -4,15 +4,17 @@ import 'package:http/http.dart' as http;
 
 import 'auth_repository.dart';
 import 'gate_repository.dart';
-import 'interceptor.dart';
+import 'server_interceptor.dart';
 import 'map_repository.dart';
 import 'user_repository.dart';
+import 'workflow_repository.dart';
 
 class Repository {
   GateRepository gate;
   UserRepository user;
   AuthRepository auth;
   MapRepository map;
+  WorkflowRepository workflow;
 
   static final Repository _singleton = new Repository._internal();
 
@@ -27,12 +29,13 @@ class Repository {
 
     final httpClientWithInterceptor =
         HttpClientWithInterceptor.build(interceptors: [
-      Interceptor(),
+      ServerInterceptor(),
     ]);
 
     gate = new GateRepository(httpClient: httpClient);
-    auth = new AuthRepository(httpClient: httpClientWithInterceptor);
-    user = new UserRepository(httpClient: httpClientWithInterceptor);
+    auth = new AuthRepository(httpClient: httpClient);
+    user = new UserRepository(httpClient: httpClient);
     map = new MapRepository(httpClient: httpClientWithInterceptor);
+    workflow = new WorkflowRepository(httpClient: httpClientWithInterceptor);
   }
 }
