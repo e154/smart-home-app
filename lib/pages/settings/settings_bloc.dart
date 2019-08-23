@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:smart_home_app/adaptors/adaptors.dart';
 import 'package:smart_home_app/models/setting.dart';
 import 'package:smart_home_app/repositories/repositories.dart';
+import 'package:smart_home_app/widgets/check_icon.dart';
 import 'settings_event.dart';
 import 'settings_state.dart';
 
@@ -32,13 +33,13 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       if (event.settings.serverAddress != "") {
         bool result = await Repository.get().gate
             .checkServerConnection(event.settings.serverAddress);
-        yield SettingsValidateAddressValid(status: result);
+        yield SettingsValidateAddressValid(status: result ? CheckStatus.ok : CheckStatus.error);
 
         // check access token
         if (event.settings.accessToken != "") {
           bool result = await Repository.get().gate.checkServerToken(
               event.settings.serverAddress, event.settings.accessToken);
-          yield SettingsValidateAccessTokenValid(status: result);
+          yield SettingsValidateAccessTokenValid(status: result ? CheckStatus.ok : CheckStatus.error);
         }
       }
     }

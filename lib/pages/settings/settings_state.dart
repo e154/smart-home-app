@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 import 'package:smart_home_app/models/setting.dart';
+import 'package:smart_home_app/widgets/check_icon.dart';
 
 abstract class SettingsState extends Equatable {
   SettingsState([List props = const []]) : super(props);
@@ -44,7 +45,7 @@ class SettingsShowSnackbar extends SettingsState {
 }
 
 class SettingsValidateAddressValid extends SettingsState {
-  final bool status;
+  final CheckStatus status;
 
   SettingsValidateAddressValid({@required this.status});
 
@@ -53,7 +54,7 @@ class SettingsValidateAddressValid extends SettingsState {
 }
 
 class SettingsValidateAccessTokenValid extends SettingsState {
-  final bool status;
+  final CheckStatus status;
 
   SettingsValidateAccessTokenValid({@required this.status});
 

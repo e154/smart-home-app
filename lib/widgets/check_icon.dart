@@ -1,23 +1,39 @@
 import 'package:flutter/material.dart';
 
-class CheckIconWidget extends StatelessWidget {
-  final bool _valid;
+enum CheckStatus { ok, error, inProcess }
 
-  CheckIconWidget(this._valid);
+class CheckIconWidget extends StatelessWidget {
+  final CheckStatus status;
+
+  CheckIconWidget(this.status);
 
   @override
   Widget build(BuildContext context) {
-
-    if (_valid) {
-      return Icon(
-        Icons.check,
-        color: Colors.green,
-      );
-    } else {
-      return Icon(
-        Icons.close,
-        color: Colors.red,
-      );
+    switch (status) {
+      case CheckStatus.ok:
+        return Icon(
+          Icons.check,
+          color: Colors.green,
+        );
+        break;
+      case CheckStatus.error:
+        return Icon(
+          Icons.close,
+          color: Colors.red,
+        );
+      default:
+        return Container(
+          margin: const EdgeInsets.all(10.0),
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                child: CircularProgressIndicator(),
+                height: 20.0,
+                width: 20.0,
+              )
+            ],
+          ),
+        );
     }
   }
 }

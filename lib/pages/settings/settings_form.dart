@@ -21,8 +21,8 @@ class _SettingsFormState extends State<SettingsForm> {
   final _serverAddress = TextEditingController();
   final _accessToken = TextEditingController();
   Timer _debounce;
-  bool _serverAddressValid = false;
-  bool _accessTokenValid = false;
+  CheckStatus _serverAddressValid = CheckStatus.inProcess;
+  CheckStatus _accessTokenValid = CheckStatus.inProcess;
 
   @override
   void initState() {
