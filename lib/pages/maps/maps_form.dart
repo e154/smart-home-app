@@ -36,6 +36,13 @@ class _MapsFormState extends State<MapsForm> {
       },
       child: BlocBuilder<MapsBloc, MapsState>(builder: (context, state) {
         if (state is MapListLoaded) {
+          if (ListView == null) {
+            return Container(
+              child: Center(
+                child: Text("No maps"),
+              ),
+            );
+          }
           return ListView.builder(
             itemCount: mapList.length,
             padding: const EdgeInsets.all(6),

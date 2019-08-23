@@ -21,7 +21,8 @@ class CheckIconWidget extends StatelessWidget {
           Icons.close,
           color: Colors.red,
         );
-      default:
+        break;
+      case CheckStatus.inProcess:
         return Container(
           margin: const EdgeInsets.all(10.0),
           child: Column(
@@ -33,6 +34,12 @@ class CheckIconWidget extends StatelessWidget {
               )
             ],
           ),
+        );
+        break;
+      default:
+        return Icon(
+          Icons.close,
+          color: Colors.grey,
         );
     }
   }
