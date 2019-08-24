@@ -4,16 +4,16 @@
 
 import 'dart:convert';
 
+import 'package:smart_home_app/common/common.dart';
+
 Variable variableFromJson(String str) => Variable.fromJson(json.decode(str));
 
 String variableToJson(Variable data) => json.encode(data.toJson());
 
 class Variable {
-  String name;
-  String value;
+  String name, value;
   bool autoload;
-  DateTime createdAt;
-  DateTime updatedAt;
+  DateTime createdAt, updatedAt;
 
   Variable({
     this.name,
@@ -27,8 +27,8 @@ class Variable {
         name: json["name"],
         value: json["value"],
         autoload: json["autoload"],
-        createdAt: json["created_at"],
-        updatedAt: json["updated_at"],
+        createdAt: DateTime.parse(ignoreSubMicro(json["created_at"])),
+        updatedAt: DateTime.parse(ignoreSubMicro(json["updated_at"])),
       );
 
   Map<String, dynamic> toJson() => {

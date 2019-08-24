@@ -33,7 +33,7 @@ class Repository {
     ]);
 
     gate = new GateRepository(httpClient: httpClient);
-    auth = new AuthRepository(httpClient: httpClient);
+    auth = new AuthRepository(httpClient: httpClientWithInterceptor);
     user = new UserRepository(httpClient: httpClient);
     map = new MapRepository(httpClient: httpClientWithInterceptor);
     workflow = new WorkflowRepository(httpClient: httpClientWithInterceptor);
