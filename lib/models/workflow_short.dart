@@ -1,48 +1,54 @@
 // To parse this JSON data, do
 //
-//     final workflow = workflowFromJson(jsonString);
+//     final workflow = workflowShortFromJson(jsonString);
 
 import 'dart:convert';
 
 import 'package:smart_home_app/common/common.dart';
 
-import 'script.dart';
 import 'workflow_scenario.dart';
+import 'workflow_scenario_short.dart';
 
-Workflow workflowFromJson(String str) => Workflow.fromJson(json.decode(str));
+WorkflowShort workflowShortFromJson(String str) =>
+    WorkflowShort.fromJson(json.decode(str));
 
-String workflowToJson(Workflow data) => json.encode(data.toJson());
+String workflowShortToJson(WorkflowShort data) => json.encode(data.toJson());
 
-class Workflow {
+class WorkflowShort {
   int id;
   String name, description, status;
-  WorkflowScenario scenario;
-  List<WorkflowScenario> scenarios;
-  List<Script> scripts;
+  WorkflowScenarioShort scenario;
+  List<WorkflowScenarioShort> scenarios;
   DateTime createdAt, updatedAt;
 
-  Workflow({
+  WorkflowShort({
     this.id,
     this.name,
     this.description,
     this.scenario,
-    this.scripts,
     this.status,
     this.scenarios,
     this.createdAt,
     this.updatedAt,
   });
 
-  factory Workflow.fromJson(Map<String, dynamic> json) {
-    final scenario = WorkflowScenario.fromJson(json["scenario"]);
-    final scenarios =
-        (json["scenarios"] as List).map((s) => WorkflowScenario.fromJson(s));
-    final scripts = (json["scripts"] as List).map((s) => Script.fromJson(s));
-    Workflow workflow = new Workflow(
+  factory WorkflowShort.fromJson(Map<String, dynamic> json) {
+    WorkflowScenarioShort scenario;
+    if (json["scenario"] != null) {
+      scenario = WorkflowScenarioShort.fromJson(json["scenario"]);
+    }
+
+    List<WorkflowScenarioShort> scenarios;
+    if (json["scenarios"] != null) {
+      scenarios = (json["scenarios"] as List)
+          .map((s) => WorkflowScenarioShort.fromJson(s))
+          .toList();
+    }
+
+    WorkflowShort workflow = new WorkflowShort(
       id: json["id"] as int,
       name: json["name"] as String,
       description: json["description"] as String,
-      scripts: scripts,
       status: json["status"] as String,
       scenario: scenario,
       scenarios: scenarios,
@@ -57,7 +63,6 @@ class Workflow {
         "name": name,
         "description": description,
         "scenario": scenario,
-        "scripts": scripts,
         "status": status,
         "scenarios": scenarios,
         "created_at": createdAt,

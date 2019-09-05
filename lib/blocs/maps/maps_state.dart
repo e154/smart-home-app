@@ -19,7 +19,11 @@ class LoadMapList extends MapsState {
 class MapListLoaded extends MapsState {
   List<MapShort> mapList;
 
-  MapListLoaded(this.mapList);
+  MapListLoaded(this.mapList) {
+    if (mapList == null) {
+      mapList = List<MapShort>();
+    }
+  }
 
   @override
   String toString() => 'MapListLoaded';

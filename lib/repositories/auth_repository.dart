@@ -15,7 +15,7 @@ class AuthRepository {
 
     final signInResponse = await this.httpClient.post('/signin', headers: {
       'Authorization': credentials.basicAuth(),
-    }).timeout(const Duration(seconds: 5));
+    }).timeout(const Duration(seconds: 10));
 
     if (signInResponse.statusCode != 200) {
       throw Exception('error authenticate ' + signInResponse.body);

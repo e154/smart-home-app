@@ -8,3 +8,4 @@ const GITHUB_URL = "http://github.com/e154/smart-home";
 const WEBSITE = "https://e154.github.io/smart-home/";
 final kAppIcon =
     Image.asset('res/images/launcher_icon.png', height: 64.0, width: 64.0);
+const DB_VERSION = 4;

@@ -9,22 +9,20 @@ class WorkflowRepository {
 
   WorkflowRepository({@required this.httpClient}) : assert(httpClient != null);
 
-  Future<List<Workflow>> fetchList(int limit, offset, String order, sortBy) async {
+  Future<List<WorkflowShort>> fetchList(int limit, offset, String order, sortBy) async {
     try {
-      final mapListResponse = await this
-          .httpClient
+      final response = await this.httpClient
           .get('/workflows?limit=$limit&offset=$offset&order=$order&sort_by=$sortBy')
           .timeout(const Duration(seconds: 1));
-
-      switch (mapListResponse.statusCode) {
+      switch (response.statusCode) {
         case 200:
-          final mapList = (jsonDecode(mapListResponse.body)["items"] as List)
-              .map((f) => Workflow.fromJson(f))
+          final workflowList = (jsonDecode(response.body)["items"] as List)
+              .map((f) => WorkflowShort.fromJson(f))
               .toList();
-          return mapList;
+          return workflowList;
           break;
         default:
-          throw Exception('error fetch map list: ' + mapListResponse.body);
+          throw Exception('error fetch workflow list: ' + response.body);
       }
     } catch (error) {
       print(error);

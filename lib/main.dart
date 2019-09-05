@@ -41,6 +41,23 @@ Future main() async {
               BlocProvider.of<AuthenticationBloc>(context);
           return SettingsBloc(authenticationBloc);
         }),
+        BlocProvider<MapsBloc>(builder: (context) {
+          return MapsBloc();
+        }),
+        BlocProvider<WorkflowsBloc>(builder: (context) {
+          return WorkflowsBloc();
+        }),
+        BlocProvider<LoginBloc>(builder: (context) {
+          final authenticationBloc =
+              BlocProvider.of<AuthenticationBloc>(context);
+          return LoginBloc(authenticationBloc: authenticationBloc);
+        }),
+        BlocProvider<HomeBloc>(builder: (context) {
+          return HomeBloc();
+        }),
+        BlocProvider<TabBloc>(builder: (context) {
+          return TabBloc();
+        }),
       ],
       child: App(),
     ),

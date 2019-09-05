@@ -44,7 +44,7 @@ class _MapsFormState extends State<MapsForm> {
             itemCount: mapList.length,
             padding: const EdgeInsets.all(6),
             itemBuilder: (BuildContext context, int i) {
-              if (i.isOdd) return Divider();
+              //if (i.isOdd) return Divider();
               final index = i ~/ 2 + 1;
               return _buildRow(index, mapList[i]);
             },

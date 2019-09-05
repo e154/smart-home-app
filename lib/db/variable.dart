@@ -6,8 +6,7 @@ class Variable {
   String name;
   String value;
   int autoload;
-  String createdAt;
-  String updatedAt;
+  String createdAt, updatedAt;
 }
 
 class Variables {
