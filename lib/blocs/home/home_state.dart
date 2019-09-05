@@ -27,10 +27,12 @@ class HomeLoading extends HomeState {
 
 class HomeLoaded extends HomeState {
   UserSettings _userSettings;
+  Workflow _workflow;
 
+  HomeLoaded(this._userSettings, this._workflow);
+
+  Workflow get workflow => _workflow;
   UserSettings get userSettings => _userSettings;
-
-  HomeLoaded(this._userSettings);
 
   @override
   String toString() => 'HomeLoaded';

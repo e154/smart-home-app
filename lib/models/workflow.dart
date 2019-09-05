@@ -36,8 +36,9 @@ class Workflow {
   factory Workflow.fromJson(Map<String, dynamic> json) {
     final scenario = WorkflowScenario.fromJson(json["scenario"]);
     final scenarios =
-        (json["scenarios"] as List).map((s) => WorkflowScenario.fromJson(s));
-    final scripts = (json["scripts"] as List).map((s) => Script.fromJson(s));
+        (json["scenarios"] as List).map((s) => WorkflowScenario.fromJson(s)).toList();
+    final scripts = (json["scripts"] as List).map((s) => Script.fromJson(s)).toList();
+
     Workflow workflow = new Workflow(
       id: json["id"] as int,
       name: json["name"] as String,

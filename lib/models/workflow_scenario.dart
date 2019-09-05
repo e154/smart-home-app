@@ -8,11 +8,9 @@ import 'package:smart_home_app/common/common.dart';
 
 import 'script.dart';
 
-WorkflowScenario workflowScenarioFromJson(String str) =>
-    WorkflowScenario.fromJson(json.decode(str));
+WorkflowScenario workflowScenarioFromJson(String str) => WorkflowScenario.fromJson(json.decode(str));
 
-String workflowScenarioToJson(WorkflowScenario data) =>
-    json.encode(data.toJson());
+String workflowScenarioToJson(WorkflowScenario data) => json.encode(data.toJson());
 
 class WorkflowScenario {
   int id, workflowId;

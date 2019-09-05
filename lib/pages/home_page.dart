@@ -30,6 +30,9 @@ class _HomePage extends State<HomePage> {
         } else {
           print("userSettings not null");
           print(state.userSettings.toJson());
+          if (state.workflow != null) {
+            print(state.workflow.toJson());
+          }
         }
       }
 

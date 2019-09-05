@@ -9,7 +9,7 @@ Script scriptFromJson(String str) => Script.fromJson(json.decode(str));
 String scriptToJson(Script data) => json.encode(data.toJson());
 
 class Script {
-  String id;
+  int id;
   String lang;
   String name;
   String source;
@@ -24,7 +24,7 @@ class Script {
   });
 
   factory Script.fromJson(Map<String, dynamic> json) => new Script(
-    id: json["id"],
+    id: json["id"] as int,
     lang: json["lang"],
     name: json["name"],
     source: json["source"],

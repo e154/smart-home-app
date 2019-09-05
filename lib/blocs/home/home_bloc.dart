@@ -23,11 +23,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       // get here user settings
       final userSettings = await Adaptors.get().userSettings.autoload(currentUser.id);
 
-      yield HomeLoaded(userSettings);
+      if (userSettings == null) {
+        yield HomeLoaded(userSettings, null);
+        return;
+      }
+
+      final workflow = await Repository.get().workflow.getById(userSettings.workflowId);
+      yield HomeLoaded(userSettings, workflow);
     }
 
     if (event is HomeSelectWorkflow) {
-
       // get current user
       final currentUser = MainState.get().currentUser;
 

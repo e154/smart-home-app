@@ -11,24 +11,38 @@ class WorkflowRepository {
 
   Future<List<WorkflowShort>> fetchList(int limit, offset, String order, sortBy) async {
     try {
-      final response = await this.httpClient
+      final response = await this
+          .httpClient
           .get('/workflows?limit=$limit&offset=$offset&order=$order&sort_by=$sortBy')
           .timeout(const Duration(seconds: 1));
       switch (response.statusCode) {
         case 200:
-          final workflowList = (jsonDecode(response.body)["items"] as List)
-              .map((f) => WorkflowShort.fromJson(f))
-              .toList();
+          final workflowList =
+              (jsonDecode(response.body)["items"] as List).map((f) => WorkflowShort.fromJson(f)).toList();
           return workflowList;
           break;
         default:
           throw Exception('error fetch workflow list: ' + response.body);
       }
     } catch (error) {
-      print(error);
       return null;
     }
   }
 
+  Future<Workflow> getById(int id) async {
 
+    try {
+      final response = await this.httpClient.get('/workflow/$id').timeout(const Duration(seconds: 1));
+      switch (response.statusCode) {
+        case 200:
+          final workflow = Workflow.fromJson(jsonDecode(response.body));
+          return workflow;
+          break;
+        default:
+          throw Exception('error fetch workflow by id: ' + response.body);
+      }
+    } catch (error) {
+      return null;
+    }
+  }
 }
