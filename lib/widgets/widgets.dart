@@ -8,3 +8,4 @@ export 'workflows_list.dart';
 export 'home_tab_selector.dart';
 export 'home_tab_favorite.dart';
 export 'home_tab_etc.dart';
+export 'scenes_favorite.dart';

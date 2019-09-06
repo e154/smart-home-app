@@ -13,6 +13,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<HomePage> {
+  UserSettings _userSettings;
+  Workflow _workflow;
+
   @override
   Widget build(BuildContext context) {
     final tabBloc = BlocProvider.of<TabBloc>(context);
@@ -30,8 +33,9 @@ class _HomePage extends State<HomePage> {
         } else {
           print("userSettings not null");
           print(state.userSettings.toJson());
+          _userSettings = state.userSettings;
           if (state.workflow != null) {
-            print(state.workflow.toJson());
+            _workflow = state.workflow;
           }
         }
       }
@@ -48,12 +52,16 @@ class _HomePage extends State<HomePage> {
     });
   }
 
+  Text _workflowName() {
+    return _workflow != null ? Text(_workflow.name) : Text('workflow not selected');
+  }
+
   Widget _showTabs(TabBloc tabBloc, HomeBloc homeBloc) {
     return BlocBuilder<TabBloc, AppTab>(builder: (context, state) {
       if (state is LoginSettingsLoaded) {}
       return Scaffold(
         appBar: AppBar(
-          title: Text("workflow name"),
+          title: _workflowName(),
           actions: <Widget>[
             IconButton(
               tooltip: "select workflow",
@@ -77,7 +85,7 @@ class _HomePage extends State<HomePage> {
             )
           ],
         ),
-        body: state == AppTab.favorite ? HomeTabFavorite() : HomeTabEtc(),
+        body: state == AppTab.favorite ? HomeTabFavorite(_userSettings, _workflow) : HomeTabEtc(),
         bottomNavigationBar: HomeTabSelector(
           activeTab: state,
           onTabSelected: (tab) => tabBloc.dispatch(UpdateTab(tab)),

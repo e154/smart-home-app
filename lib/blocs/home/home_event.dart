@@ -10,6 +10,11 @@ class HomeFetchSettings extends HomeEvent {
   String toString() => 'HomeFetchSettings';
 }
 
+class HomeFetchWorkflow extends HomeEvent {
+  @override
+  String toString() => 'HomeFetchWorkflow';
+}
+
 class HomeSelectWorkflow extends HomeEvent {
   WorkflowShort _workflow;
 
