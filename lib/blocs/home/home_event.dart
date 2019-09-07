@@ -15,6 +15,14 @@ class HomeFetchWorkflow extends HomeEvent {
   String toString() => 'HomeFetchWorkflow';
 }
 
+class HomeUpdateFavoriteScenarioList extends HomeEvent {
+  final List<int> scenarios;
+
+  HomeUpdateFavoriteScenarioList(this.scenarios);
+  @override
+  String toString() => 'HomeUpdateFavoriteScenarioList';
+}
+
 class HomeSelectWorkflow extends HomeEvent {
   WorkflowShort _workflow;
 

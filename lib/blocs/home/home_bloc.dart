@@ -41,5 +41,26 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         await Adaptors.get().userSettings.setWorkflow(currentUser.id, event.workflow.id);
       }
     }
+
+    if (event is HomeUpdateFavoriteScenarioList) {
+      if (event.scenarios == null) {
+        return;
+      }
+
+      //print('selected scenarios' + event.scenarios.toString());
+
+      // get current user
+      final currentUser = MainState.get().currentUser;
+      // get here user settings
+      final userSettings = await Adaptors.get().userSettings.autoload(currentUser.id);
+
+      if (userSettings == null) {
+        return;
+      }
+
+      userSettings.scenarios = event.scenarios;
+
+      await Adaptors.get().userSettings.update(userSettings);
+    }
   }
 }

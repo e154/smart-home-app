@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_home_app/blocs/blocs.dart';
 import 'package:smart_home_app/models/models.dart';
 import 'package:smart_home_app/widgets/scenes_favorite_editor.dart';
 
@@ -14,8 +16,10 @@ class ScenesFavorite extends StatelessWidget {
   List<Widget> _buttonBuilder() {
     List<Widget> items = new List<Widget>();
     if (favorite == null || favorite.length == 0) {
-      items.add(Center(
-        child: Text('Long press to add item'),
+      items.add(Container(
+        child: Center(
+          child: Text('Long press to add item'),
+        ),
       ));
     } else {
       if (workflow != null) {
@@ -37,6 +41,8 @@ class ScenesFavorite extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final homeBloc = BlocProvider.of<HomeBloc>(context);
+
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
       height: 160,
@@ -58,17 +64,20 @@ class ScenesFavorite extends StatelessWidget {
               onLongPressEnd: (LongPressEndDetails details) {
                 print("long press end");
                 () async {
-                  final scenes = await Navigator.push(
+                  final scenarios = await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SceneFavoriteEditor(),
+                      builder: (context) => SceneFavoriteEditor(
+                        favorite: favorite,
+                        workflow: workflow,
+                      ),
                     ),
                   );
-                  if (scenes != null) {
-                    print('selected scenes: $scenes');
-                    //...
+                  if (scenarios != null) {
+//                    print('selected scenarios');
+                    homeBloc.dispatch(HomeUpdateFavoriteScenarioList(scenarios));
                   } else {
-                    print('scenes not selected');
+//                    print('scenarios not selected');
                   }
                 }();
               },
