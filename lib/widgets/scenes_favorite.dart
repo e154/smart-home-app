@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:smart_home_app/models/models.dart';
-import 'package:smart_home_app/widgets/button_scenario_plus.dart';
+import 'package:smart_home_app/widgets/scenes_favorite_editor.dart';
 
 import 'button_scenarios.dart';
 
@@ -14,28 +14,22 @@ class ScenesFavorite extends StatelessWidget {
   List<Widget> _buttonBuilder() {
     List<Widget> items = new List<Widget>();
     if (favorite == null || favorite.length == 0) {
-      items.add(ButtonScenarioPlus(() {
-        print("Container clicked");
-      }));
+      items.add(Center(
+        child: Text('Long press to add item'),
+      ));
     } else {
       if (workflow != null) {
-        bool exist;
         workflow.scenarios.forEach((scenario) {
           if (favorite.contains(scenario.id)) {
-            final newItem = ButtonScenarios(() {
-              print("Container clicked");
-            }, scenario.name, false);
+            final newItem = ButtonScenarios(
+                function: () {
+                  print("Container clicked: " + scenario.id.toString());
+                },
+                name: scenario.name,
+                active: scenario.id == 1);
             items.add(newItem);
-          } else {
-            exist = true;
           }
         });
-
-        if (exist) {
-          items.add(ButtonScenarioPlus(() {
-            print("Container clicked");
-          }));
-        }
       }
     }
     return items;
@@ -60,10 +54,29 @@ class ScenesFavorite extends StatelessWidget {
             ),
           ),
           new Expanded(
-            child: Container(
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: _buttonBuilder(),
+            child: new GestureDetector(
+              onLongPressEnd: (LongPressEndDetails details) {
+                print("long press end");
+                () async {
+                  final scenes = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SceneFavoriteEditor(),
+                    ),
+                  );
+                  if (scenes != null) {
+                    print('selected scenes: $scenes');
+                    //...
+                  } else {
+                    print('scenes not selected');
+                  }
+                }();
+              },
+              child: Container(
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: _buttonBuilder(),
+                ),
               ),
             ),
           ),
