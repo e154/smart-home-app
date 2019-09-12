@@ -59,6 +59,21 @@ _onCreate(Database db, int version) async {
   batch.execute("CREATE INDEX name_at_values_idx ON variables (name);");
   batch.execute("CREATE INDEX autoload_at_values_idx ON variables (autoload);");
 
+  batch.execute("CREATE TABLE user_settings ("
+      "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+      "user_id INTEGER NOT NULL,"
+      "workflow_id INTEGER NULL,"
+      "scenarios Text NOT NULL,"
+      "actions Text NOT NULL,"
+      "autoload bool NULL,"
+      "created_at DateTime NOT NULL,"
+      "updated_at DateTime,"
+      "UNIQUE(user_id,workflow_id),"
+      "UNIQUE(user_id,autoload));");
+
+  batch.execute("CREATE INDEX autoload_at_user_settings_idx ON user_settings (autoload);");
+  batch.execute("CREATE INDEX user_at_user_settings_idx ON user_settings (user_id);");
+
   await batch.commit();
 }
 
