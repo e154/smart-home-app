@@ -27,12 +27,8 @@ class _HomePage extends State<HomePage> {
         return _isLoading();
       }
       if (state is HomeLoaded) {
-        print("home loaded");
         if (state.userSettings == null) {
-          print("userSettings is null");
         } else {
-          print("userSettings not null");
-          print(state.userSettings.toJson());
           _userSettings = state.userSettings;
           if (state.workflow != null) {
             _workflow = state.workflow;
@@ -40,7 +36,6 @@ class _HomePage extends State<HomePage> {
         }
       }
 
-      print("-----");
       return _showTabs(tabBloc, homeBloc);
     });
   }
@@ -75,7 +70,7 @@ class _HomePage extends State<HomePage> {
                   ),
                 );
                 if (wf != null) {
-                  print('workflow selected: $wf');
+//                  print('workflow selected: $wf');
 //                  weatherBloc.dispatch(FetchWeather(city: city));
                   homeBloc.dispatch(HomeSelectWorkflow(wf));
                 } else {

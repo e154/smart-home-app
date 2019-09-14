@@ -23,7 +23,6 @@ class _WorkflowsListState extends State<WorkflowsList> {
     return BlocListener<WorkflowsBloc, WorkflowsState>(
       listener: (context, state) {
         if (state is WorkflowListLoaded) {
-          print(state.workflowList);
           workflowList = state.workflowList;
           _refreshCompleter?.complete();
           _refreshCompleter = Completer();

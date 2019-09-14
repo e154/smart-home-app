@@ -24,9 +24,17 @@ class _HomeTabFavorite extends State<HomeTabFavorite> {
   Widget build(BuildContext context) {
     final homeBloc = BlocProvider.of<HomeBloc>(context);
 //    homeBloc.dispatch(HomeFetchSettings());
-    print(_userSettings);
+    if (_userSettings == null) {
+      return Container (
+        child: Center(
+          child: Text('please select workflow'),
+        ),
+      );
+    }
+
     return Container (
       child: ScenesFavorite(favorite: _userSettings.scenarios, workflow: _workflow,),
     );
+
   }
 }

@@ -62,7 +62,7 @@ class ScenesFavorite extends StatelessWidget {
           new Expanded(
             child: new GestureDetector(
               onLongPressEnd: (LongPressEndDetails details) {
-                print("long press end");
+//                print("long press end");
                 () async {
                   final scenarios = await Navigator.push(
                     context,
