@@ -23,6 +23,14 @@ class HomeUpdateFavoriteScenarioList extends HomeEvent {
   String toString() => 'HomeUpdateFavoriteScenarioList';
 }
 
+class HomeUpdateFavoriteActionList extends HomeEvent {
+  final List<int> actions;
+
+  HomeUpdateFavoriteActionList(this.actions);
+  @override
+  String toString() => 'HomeUpdateFavoriteActionList';
+}
+
 class HomeSelectWorkflow extends HomeEvent {
   WorkflowShort _workflow;
 

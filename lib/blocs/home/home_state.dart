@@ -28,11 +28,13 @@ class HomeLoading extends HomeState {
 class HomeLoaded extends HomeState {
   UserSettings _userSettings;
   Workflow _workflow;
+  List<MapElement> _deviceList;
 
-  HomeLoaded(this._userSettings, this._workflow);
+  HomeLoaded(this._userSettings, this._workflow, this._deviceList);
 
   Workflow get workflow => _workflow;
   UserSettings get userSettings => _userSettings;
+  List<MapElement> get deviceList => _deviceList;
 
   @override
   String toString() => 'HomeLoaded';

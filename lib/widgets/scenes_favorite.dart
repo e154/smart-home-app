@@ -11,7 +11,8 @@ class ScenesFavorite extends StatelessWidget {
   final List<int> favorite;
   final Workflow workflow;
 
-  const ScenesFavorite({Key key, this.favorite, this.workflow}) : super(key: key);
+  const ScenesFavorite({Key key, this.favorite, this.workflow})
+      : super(key: key);
 
   List<Widget> _buttonBuilder() {
     List<Widget> items = new List<Widget>();
@@ -42,11 +43,13 @@ class ScenesFavorite extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final homeBloc = BlocProvider.of<HomeBloc>(context);
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
 
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-      height: 160,
-//      color: Colors.yellow,
+      margin: EdgeInsets.only(top: 5, bottom: 0, left: 5, right: 5),
+      height: 150,
+//      color: Colors.red,
       child: Column(
         children: <Widget>[
           Container(
@@ -75,17 +78,20 @@ class ScenesFavorite extends StatelessWidget {
                   );
                   if (scenarios != null) {
 //                    print('selected scenarios');
-                    homeBloc.dispatch(HomeUpdateFavoriteScenarioList(scenarios));
+                    homeBloc
+                        .dispatch(HomeUpdateFavoriteScenarioList(scenarios));
                   } else {
 //                    print('scenarios not selected');
                   }
                 }();
               },
-              child: Container(
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: _buttonBuilder(),
-                ),
+              child: GridView.count(
+                primary: false,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 5,
+                crossAxisCount: 1,
+                children: _buttonBuilder(),
+                scrollDirection: Axis.horizontal,
               ),
             ),
           ),

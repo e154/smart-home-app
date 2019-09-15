@@ -55,4 +55,26 @@ class MapRepository {
       return null;
     }
   }
+
+  Future<List<MapElement>> getActiveElements(int limit, offset) async {
+    try {
+      final mapFullResponse = await this
+          .httpClient
+          .get('/map/active_elements?limit=$limit&offset=$offset')
+          .timeout(const Duration(seconds: 3));
+
+      switch (mapFullResponse.statusCode) {
+        case 200:
+          final mapList = (jsonDecode(mapFullResponse.body)["items"] as List)
+              .map((f) => MapElement.fromJson(f)).toList();
+          return mapList;
+          break;
+        default:
+          throw Exception('error fetch device list: ' + mapFullResponse.body);
+      }
+    } catch (error) {
+      print(error);
+      return null;
+    }
+  }
 }

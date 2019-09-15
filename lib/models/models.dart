@@ -15,3 +15,8 @@ export 'workflow_scenario.dart';
 export 'workflow_scenario_short.dart';
 export 'user_settings.dart';
 export 'app_tabs.dart';
+export 'map_element.dart';
+export 'prototype.dart';
+export 'prototype_device.dart';
+export 'graph_settings.dart';
+export 'map_zone.dart';

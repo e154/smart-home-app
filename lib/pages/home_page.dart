@@ -15,6 +15,7 @@ class HomePage extends StatefulWidget {
 class _HomePage extends State<HomePage> {
   UserSettings _userSettings;
   Workflow _workflow;
+  List<MapElement> _deviceList;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +33,9 @@ class _HomePage extends State<HomePage> {
           _userSettings = state.userSettings;
           if (state.workflow != null) {
             _workflow = state.workflow;
+          }
+          if (state.deviceList != null) {
+            _deviceList = state.deviceList;
           }
         }
       }
@@ -80,7 +84,7 @@ class _HomePage extends State<HomePage> {
             )
           ],
         ),
-        body: state == AppTab.favorite ? HomeTabFavorite(_userSettings, _workflow) : HomeTabEtc(),
+        body: state == AppTab.favorite ? HomeTabFavorite(_userSettings, _workflow, _deviceList) : HomeTabEtc(),
         bottomNavigationBar: HomeTabSelector(
           activeTab: state,
           onTabSelected: (tab) => tabBloc.dispatch(UpdateTab(tab)),
