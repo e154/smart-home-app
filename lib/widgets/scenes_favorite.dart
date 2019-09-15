@@ -47,7 +47,7 @@ class ScenesFavorite extends StatelessWidget {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Container(
-      margin: EdgeInsets.only(top: 5, bottom: 0, left: 5, right: 5),
+      margin: EdgeInsets.only(top: 15, bottom: 0, left: 5, right: 5),
       height: 150,
 //      color: Colors.red,
       child: Column(
