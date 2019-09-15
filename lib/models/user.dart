@@ -16,7 +16,7 @@ class User {
   String nickname, firstName, lastName, email, lang;
   DateTime createdAt, updatedAt, currentSignInAt, lastSignInAt;
   List<UserHistory> history;
-  Image image;
+  ServerImage image;
   int signInCount;
   List<UserMeta> meta;
   Role role;
@@ -37,7 +37,7 @@ class User {
         (json["history"] as List).map((i) => UserHistory.fromJson(i)).toList();
     user.meta =
         json["meta"] != null ? (json["meta"] as List).map((i) => UserMeta.fromJson(i)).toList() : null;
-    user.image = json["image"] != null ? Image.fromJson(json["image"]) : null;
+    user.image = json["image"] != null ? ServerImage.fromJson(json["image"]) : null;
     user.role = Role.fromJson(json["role"]);
     user.createdAt = DateTime.parse(ignoreSubMicro(json["created_at"]));
     user.updatedAt = DateTime.parse(ignoreSubMicro(json["updated_at"]));

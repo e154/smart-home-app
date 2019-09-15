@@ -24,6 +24,10 @@ class _ActionFavoriteEditor extends State<ActionFavoriteEditor> {
       ),
     );
     List<Widget> _child() {
+      if (widget.actionList == null) {
+        return List<Widget>();
+      }
+
       return widget.actionList.map((device) {
         final title = device.description != '' ? device.description : device.name;
         return CheckboxListTile(
