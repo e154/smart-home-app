@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:smart_home_app/adaptors/adaptors.dart';
 import 'package:smart_home_app/common/common.dart';
+import 'package:smart_home_app/models/models.dart';
 import 'package:smart_home_app/repositories/repository.dart';
 
 import 'home_event.dart';

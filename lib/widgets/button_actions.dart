@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:smart_home_app/models/models.dart';
 
 class ButtonActions extends StatefulWidget {
   Function function;
-  String name;
+  MapElement element;
   bool active;
 
-  ButtonActions({Key key, this.function, this.name, this.active}) : super(key: key);
+  ButtonActions({Key key, this.function, this.element, this.active})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _ButtonScenarios();
@@ -59,8 +61,11 @@ class _ButtonScenarios extends State<ButtonActions> {
               scale: _squareScale,
               child: Container(
                   decoration: new BoxDecoration(
-                    color: widget.active ? Color.fromRGBO(43, 152, 240, 1) : Color.fromRGBO(234, 235, 235, 1),
-                    borderRadius: new BorderRadius.all(const Radius.circular(12.0)),
+                    color: widget.active
+                        ? Color.fromRGBO(43, 152, 240, 1)
+                        : Color.fromRGBO(234, 235, 235, 1),
+                    borderRadius:
+                        new BorderRadius.all(const Radius.circular(12.0)),
 //                boxShadow: [
 //                  new BoxShadow(
 //                    blurRadius: 3,
@@ -70,7 +75,8 @@ class _ButtonScenarios extends State<ButtonActions> {
 //                  )
 //                ],
                   ),
-                  constraints: BoxConstraints.expand(width: _width, height: _height),
+                  constraints:
+                      BoxConstraints.expand(width: _width, height: _height),
                   child: Container(
                     padding: EdgeInsets.all(_padding),
                     child: Center(
@@ -78,10 +84,20 @@ class _ButtonScenarios extends State<ButtonActions> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
+                        Container(
+                            width: 60,
+                            height: 60,
+                            child: (widget.element.prototypeType == 'device')
+                                ? (widget.element.prototype as PrototypeDevice)
+                                    .serverImage
+                                    .image
+                                : null),
                         Text(
-                          widget.name,
+                          widget.element.description,
                           style: TextStyle(
-                              color: widget.active ? Colors.white : Color.fromRGBO(97, 97, 97, 1),
+                              color: widget.active
+                                  ? Colors.white
+                                  : Color.fromRGBO(97, 97, 97, 1),
                               fontWeight: FontWeight.bold),
                         ),
                       ],

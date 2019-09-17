@@ -17,7 +17,7 @@ String prototypeDeviceToJson(PrototypeDevice data) =>
 class PrototypeDevice extends Prototype {
   int id, deviceId, imageId;
   String systemName;
-  ServerImage image;
+  ServerImage serverImage;
   List<MapDeviceAction> actions;
   List<MapDeviceState> states;
 
@@ -26,7 +26,7 @@ class PrototypeDevice extends Prototype {
     this.deviceId,
     this.imageId,
     this.systemName,
-    this.image,
+    this.serverImage,
     this.actions,
     this.states,
   });
@@ -37,7 +37,7 @@ class PrototypeDevice extends Prototype {
         deviceId: json["device_id"] as int,
         imageId: json["image_id"] as int,
         systemName: json["system_name"],
-        image: ServerImage.fromJson(json["image"]),
+        serverImage: ServerImage.fromJson(json["image"]),
         actions: (json["actions"] as List)
             .map((action) => MapDeviceAction.fromJson(action))
             .toList(),

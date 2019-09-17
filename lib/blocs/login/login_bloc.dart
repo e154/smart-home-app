@@ -3,6 +3,7 @@ import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
 import 'package:smart_home_app/adaptors/adaptors.dart';
 import 'package:smart_home_app/blocs/authentication/authentication.dart';
+import 'package:smart_home_app/common/common.dart';
 import 'package:smart_home_app/models/models.dart';
 
 import 'package:smart_home_app/repositories/repositories.dart';
@@ -32,6 +33,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       try {
         yield LoginLoading();
         Settings settings = await Adaptors.get().variable.getSettings();
+        MainState.get().settings = settings;
 
         //save user credentials
         Credentials credentials = new Credentials();

@@ -24,14 +24,14 @@ class DevicesFavorite extends StatelessWidget {
       ));
     } else {
       if (actionList != null) {
-        actionList.forEach((action) {
-          if (favorite.contains(action.id)) {
+        actionList.forEach((element) {
+          if (favorite.contains(element.id)) {
             final newItem = ButtonActions(
                 function: () {
-                  print("Container clicked: " + action.id.toString());
+                  print("Container clicked: " + element.id.toString());
                 },
-                name: action.description,
-                active: action.id == 1);
+                element: element,
+                active: element.id == 1);
             items.add(newItem);
           }
         });

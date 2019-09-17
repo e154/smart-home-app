@@ -10,7 +10,7 @@ class ServerInterceptor implements InterceptorContract {
 
   @override
   Future<RequestData> interceptRequest({RequestData data}) async {
-    Settings settings = await Adaptors.get().variable.getSettings();
+    Settings settings = MainState.get().settings;
 
     data.url = settings.serverAddress + BASE_PATH + data.url;
 
