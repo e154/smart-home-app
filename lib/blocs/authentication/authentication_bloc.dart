@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:smart_home_app/repositories/repositories.dart';
 import 'authentication_event.dart';
 import 'authentication_state.dart';
 import 'package:smart_home_app/common/common.dart';
@@ -22,6 +23,7 @@ class AuthenticationBloc
     if (event is LoggedIn) {
       mainState.currentUserToken = event.token;
       mainState.currentUser = event.user;
+      Repository.get().stream.connect();
       yield AuthenticationAuthenticated(user: event.user);
     }
 
@@ -29,6 +31,7 @@ class AuthenticationBloc
       yield AuthenticationLoading();
       mainState.currentUserToken = "";
       mainState.currentUser = null;
+      Repository.get().stream.close();
       yield AuthenticationUnauthenticated();
     }
 
