@@ -79,29 +79,35 @@ class _ButtonScenarios extends State<ButtonActions> {
                       BoxConstraints.expand(width: _width, height: _height),
                   child: Container(
                     padding: EdgeInsets.all(_padding),
-                    child: Center(
-                        child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Container(
-                            width: 60,
-                            height: 60,
-                            child: (widget.element.prototypeType == 'device')
-                                ? (widget.element.prototype as PrototypeDevice)
-                                    .serverImage
-                                    .image
-                                : null),
-                        Text(
-                          widget.element.description,
-                          style: TextStyle(
-                              color: widget.active
-                                  ? Colors.white
-                                  : Color.fromRGBO(97, 97, 97, 1),
-                              fontWeight: FontWeight.bold),
+                          width: 60,
+                          height: 60,
+                          child: (widget.element.prototypeType == 'device')
+                              ? (widget.element.prototype as PrototypeDevice)
+                                  .serverImage
+                                  .image
+                              : null,
+                        ),
+                        Container(
+                          height: 20,
+                        ),
+                        Container(
+                          height: 30,
+                          child: Text(
+                            widget.element.description,
+                            style: TextStyle(
+                                color: widget.active
+                                    ? Colors.white
+                                    : Color.fromRGBO(97, 97, 97, 1),
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ],
-                    )),
+                    ),
                   )),
             ),
           ),
