@@ -40,6 +40,7 @@ dependencies:
   cached_network_image: any
   flutter_svg: ^0.14.1
   web_socket_channel: ^1.0.15
+  uuid: 2.0.1
 
 dev_dependencies:
   flutter_test:
