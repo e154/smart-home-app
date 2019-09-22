@@ -61,7 +61,7 @@ class ServerStream {
 
   //{"id":"4e71af1b-cf97-4f36-ba9d-6e15779591af","command":"do.action","payload":{"action_id":8,"device_id":1}}
   //{"id":"4e71af1b-cf97-4f36-ba9d-6e15779591af","command":"","payload":{},"forward":"response","status":"success","type":""}
-  Future<String> doAction(int actionId, deviceId) async {
+  Future<String> doAction(int actionId, deviceId) {
     var future = new Future(() {
       final payload =
           new CommandDoAction(actionId: actionId, deviceId: deviceId);
@@ -69,6 +69,7 @@ class ServerStream {
         return status;
       });
     });
+
     return future;
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_home_app/blocs/blocs.dart';
 import 'package:smart_home_app/models/models.dart';
 import 'package:smart_home_app/widgets/action_favorite_editor.dart';
+import 'package:smart_home_app/widgets/action_radial_menu.dart';
 
 import 'button_actions.dart';
 
@@ -27,7 +28,7 @@ class DevicesFavorite extends StatelessWidget {
         actionList.forEach((element) {
           if (favorite.contains(element.id)) {
             final newItem = ButtonActions(
-                function: () {
+                onPressed: (BuildContext context) {
                   print("Container clicked: " + element.id.toString());
                 },
                 element: element,

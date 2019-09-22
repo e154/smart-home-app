@@ -20,3 +20,5 @@ export 'prototype.dart';
 export 'prototype_device.dart';
 export 'graph_settings.dart';
 export 'map_zone.dart';
+export 'map_device_action.dart';
+export 'map_device_state.dart';
