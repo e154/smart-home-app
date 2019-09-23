@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:smart_home_app/models/models.dart';
+import 'dart:math';
+import 'package:vector_math/vector_math.dart' show radians, Vector3;
+import 'package:flutter/material.dart';
 
 class ButtonActions extends StatefulWidget {
   Function(BuildContext) onPressed;
@@ -158,36 +161,45 @@ class _ButtonScenarios extends State<ButtonActions> {
     );
   }
 
+  Widget _buildMenu(
+      double left, top, List<MapDeviceAction> actions, String dir) {
+    double i = -135;
+    var children = actions.map((action) {
+      i += 45;
+      return _buildMenuButton(i, action, (action) {
+        print('call action: ' + action.id.toString());
+      });
+    }).toList();
+
+    return Transform(
+      transform: Matrix4.identity()..translate(left - 30, top - 30),
+      child: Container(
+//        color: Colors.indigo,
+        child: Stack(
+          children: children,
+        ),
+      ),
+    );
+  }
+
   Widget _buildMenuButton(
-      MapDeviceAction action, Function(MapDeviceAction) onTapUp) {
+      double angle, MapDeviceAction action, Function(MapDeviceAction) onTapUp) {
+    final double rad = radians(angle);
+
+    var k = 100;
     return new GestureDetector(
       onTapUp: (_) {
         _removeOverlay();
         onTapUp(action);
       },
-      child: Container(
-//        color: Colors.amber,
-        width: 60,
-        height: 60,
-        child: (action.image != null) ? action.image.image : null,
-      ),
-    );
-  }
-
-  Widget _buildMenu(
-      double left, top, List<MapDeviceAction> actions, String dir) {
-    var children = actions
-        .map((action) => _buildMenuButton(action, (action) {
-              print('call action: ' + action.id.toString());
-            }))
-        .toList();
-    return Container(
-      alignment: Alignment(-1, -1),
-//      color: Colors.indigo,
-
-      margin: EdgeInsets.only(top: top, left: left),
-      child: Column(
-        children: children,
+      child: Transform(
+        transform: Matrix4.identity()..translate(k * cos(rad), k * sin(rad)),
+        child: Container(
+//          color: Colors.amber,
+          width: 60,
+          height: 60,
+          child: (action.image != null) ? action.image.image : null,
+        ),
       ),
     );
   }
