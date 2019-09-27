@@ -43,7 +43,7 @@ class _HomeTabFavorite extends State<HomeTabFavorite> {
             favorite: _userSettings.scenarios,
             workflow: _workflow,
           ),
-          DevicesFavorite(
+          ActionsFavorite(
             favorite: _userSettings.actions,
             actionList: _deviceList,
           ),

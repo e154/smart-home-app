@@ -8,28 +8,52 @@ import 'package:smart_home_app/widgets/action_radial_menu.dart';
 
 import 'button_actions.dart';
 
-class DevicesFavorite extends StatelessWidget {
+class ActionsFavorite extends StatefulWidget {
   final List<int> favorite;
   final List<MapElement> actionList;
 
-  const DevicesFavorite({Key key, this.favorite, this.actionList})
+  const ActionsFavorite({Key key, this.favorite, this.actionList})
       : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _ActionsFavorite();
+}
+
+class _ActionsFavorite extends State<ActionsFavorite> {
+  final ActionRadialMenu _actionRadialMenu = ActionRadialMenu();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   List<Widget> _buttonBuilder() {
     List<Widget> items = new List<Widget>();
-    if (favorite == null || favorite.length == 0) {
+    if (widget.favorite == null || widget.favorite.length == 0) {
       items.add(Container(
         child: Center(
           child: Text('Long press to add item'),
         ),
       ));
     } else {
-      if (actionList != null) {
-        actionList.forEach((element) {
-          if (favorite.contains(element.id)) {
+      if (widget.actionList != null) {
+        widget.actionList.forEach((element) {
+          if (widget.favorite.contains(element.id)) {
             final newItem = ButtonActions(
-                onPressed: (BuildContext context) {
-                  print("Container clicked: " + element.id.toString());
+                onPressed:
+                    (BuildContext context, List<MapDeviceAction> actions) {
+                  if (actions.length > 0) {
+                    _actionRadialMenu.show(context: context, actions: actions);
+                  }
+                  print("Container clicked: " +
+                      element.id.toString() +
+                      " actions: " +
+                      actions.length.toString());
                 },
                 element: element,
                 active: element.id == 1);
@@ -73,8 +97,8 @@ class DevicesFavorite extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => ActionFavoriteEditor(
-                          favorite: favorite,
-                          actionList: actionList,
+                          favorite: widget.favorite,
+                          actionList: widget.actionList,
                         ),
                       ),
                     );

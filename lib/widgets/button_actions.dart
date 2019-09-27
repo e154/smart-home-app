@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:smart_home_app/models/models.dart';
-import 'dart:math';
-import 'package:vector_math/vector_math.dart' show radians, Vector3;
-import 'package:flutter/material.dart';
 
 class ButtonActions extends StatefulWidget {
-  Function(BuildContext) onPressed;
+  Function(BuildContext, List<MapDeviceAction>) onPressed;
   MapElement element;
   bool active;
 
@@ -24,7 +21,6 @@ class _ButtonScenarios extends State<ButtonActions> {
   double _height = 120;
   double _padding = 5;
   double _squareScale = 1;
-  OverlayEntry _overlayEntry;
 
   _onTapDown(TapDownDetails details) {
     setState(() {
@@ -40,27 +36,8 @@ class _ButtonScenarios extends State<ButtonActions> {
 
   _onTapUp(TapUpDetails details) {
     _onTapCancel();
-
-    // show overlay
     var device = (widget.element.prototype as PrototypeDevice);
-    if (device.actions.length > 0) {
-      _overlayEntry = _createOverlayEntry(device.actions);
-      Overlay.of(context).insert(_overlayEntry);
-
-//      Future.delayed(const Duration(seconds: 4), () {
-//        _removeOverlay();
-//      });
-    }
-
-    // callback
-    widget.onPressed(context);
-  }
-
-  void _removeOverlay() {
-    if (_overlayEntry != null) {
-      _overlayEntry.remove();
-      _overlayEntry = null;
-    }
+    widget.onPressed(context, device.actions);
   }
 
   @override
@@ -128,77 +105,6 @@ class _ButtonScenarios extends State<ButtonActions> {
               ),
             ),
           ),
-        ),
-      ),
-    );
-  }
-
-  OverlayEntry _createOverlayEntry(List<MapDeviceAction> actions) {
-    RenderBox renderBox = context.findRenderObject();
-    var size = renderBox.size;
-    final position = renderBox.localToGlobal(Offset.zero);
-//    print("POSITION of Red: $position");
-//    print("SIZE of Red: $size");
-
-    var left = position.dx + size.width / 2;
-    var top = position.dy + size.height / 2;
-
-    return OverlayEntry(
-      builder: (context) {
-        return Positioned.fill(
-            child: GestureDetector(
-          onTapUp: (_) {
-            _removeOverlay();
-          },
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            color: new Color.fromRGBO(0, 0, 0, 0.8),
-            child: _buildMenu(left, top, actions, 'left'),
-          ),
-        ));
-      },
-    );
-  }
-
-  Widget _buildMenu(
-      double left, top, List<MapDeviceAction> actions, String dir) {
-    double i = -135;
-    var children = actions.map((action) {
-      i += 45;
-      return _buildMenuButton(i, action, (action) {
-        print('call action: ' + action.id.toString());
-      });
-    }).toList();
-
-    return Transform(
-      transform: Matrix4.identity()..translate(left - 30, top - 30),
-      child: Container(
-//        color: Colors.indigo,
-        child: Stack(
-          children: children,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildMenuButton(
-      double angle, MapDeviceAction action, Function(MapDeviceAction) onTapUp) {
-    final double rad = radians(angle);
-
-    var k = 100;
-    return new GestureDetector(
-      onTapUp: (_) {
-        _removeOverlay();
-        onTapUp(action);
-      },
-      child: Transform(
-        transform: Matrix4.identity()..translate(k * cos(rad), k * sin(rad)),
-        child: Container(
-//          color: Colors.amber,
-          width: 60,
-          height: 60,
-          child: (action.image != null) ? action.image.image : null,
         ),
       ),
     );
