@@ -13,7 +13,7 @@ String mapDeviceActionToJson(MapDeviceAction data) =>
     json.encode(data.toJson());
 
 class MapDeviceAction {
-  int id, deviceActionId, deviceId;
+  int id, deviceActionId, mapDeviceId, deviceId;
   String name, description;
   ServerImage image;
 
@@ -23,6 +23,7 @@ class MapDeviceAction {
     this.description,
     this.deviceActionId,
     this.image,
+    this.mapDeviceId,
     this.deviceId,
   });
 
@@ -33,6 +34,7 @@ class MapDeviceAction {
       description: json["description"],
       deviceActionId: json["device_action_id"] as int,
       image: ServerImage.fromJson(json["image"]),
+      mapDeviceId: json["map_device_id"] as int,
       deviceId: json["device_id"] as int,
     );
   }
@@ -43,6 +45,7 @@ class MapDeviceAction {
         "description": description,
         "device_action_id": deviceActionId,
         "image": image,
+        "map_device_id": mapDeviceId,
         "device_id": deviceId,
       };
 }

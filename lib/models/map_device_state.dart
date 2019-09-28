@@ -12,7 +12,7 @@ MapDeviceState mapDeviceStateFromJson(String str) =>
 String mapDeviceStateToJson(MapDeviceState data) => json.encode(data.toJson());
 
 class MapDeviceState {
-  int id, deviceId, deviceStateId;
+  int id, mapDeviceId, deviceStateId, deviceId;
   String systemName, description, style;
   ServerImage image;
 
@@ -23,6 +23,7 @@ class MapDeviceState {
     this.deviceStateId,
     this.image,
     this.style,
+    this.mapDeviceId,
     this.deviceId,
   });
 
@@ -33,6 +34,7 @@ class MapDeviceState {
         deviceStateId: json["device_state_id"] as int,
         image: ServerImage.fromJson(json["image"]),
         style: json["style"],
+        mapDeviceId: json["map_device_id"] as int,
         deviceId: json["device_id"] as int,
       );
 
@@ -43,6 +45,7 @@ class MapDeviceState {
         "device_state_id": deviceStateId,
         "image": image,
         "style": style,
+        "map_device_id": mapDeviceId,
         "device_id": deviceId,
       };
 }

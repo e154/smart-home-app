@@ -54,10 +54,6 @@ class _ActionsFavorite extends State<ActionsFavorite> {
                     _actionVerticalMenu.show(
                         context: context, actions: actions);
                   }
-                  print("Container clicked: " +
-                      element.id.toString() +
-                      " actions: " +
-                      actions.length.toString());
                 },
                 element: element,
                 active: element.id == 1);

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:smart_home_app/common/common.dart';
 import 'package:smart_home_app/models/models.dart';
 import 'package:smart_home_app/repositories/server_stream/payload.dart';
@@ -56,20 +58,20 @@ class ServerStream {
     var uuid = new Uuid().v4();
     final request = new Request(id: uuid, command: command, payload: payload);
     pool[uuid] = fn;
-    _sendMessage(request.toJson());
+    _sendMessage(json.encode(request.toJson()));
   }
 
   //{"id":"4e71af1b-cf97-4f36-ba9d-6e15779591af","command":"do.action","payload":{"action_id":8,"device_id":1}}
   //{"id":"4e71af1b-cf97-4f36-ba9d-6e15779591af","command":"","payload":{},"forward":"response","status":"success","type":""}
   Future<String> doAction(int actionId, deviceId) {
-    var future = new Future(() {
+    return new Future<String>(() {
       final payload =
           new CommandDoAction(actionId: actionId, deviceId: deviceId);
       _command('do.action', payload, (String status) {
         return status;
       });
-    });
 
-    return future;
+      return "";
+    });
   }
 }

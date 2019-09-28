@@ -99,9 +99,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         return;
       }
 
-      print('call action: ' + event.action.id.toString());
+      final actionId = event.action.deviceActionId;
+      final deviceId = event.action.deviceId;
 
-      Repository.get().stream.doAction(event.action.id, event.action.deviceId);
+      print('call actionId: $actionId. deviceId $deviceId');
+
+      Repository.get().stream.doAction(actionId, deviceId);
     }
   }
 }
