@@ -4,15 +4,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_home_app/blocs/blocs.dart';
 import 'package:smart_home_app/models/models.dart';
 import 'package:smart_home_app/widgets/action_favorite_editor.dart';
-import 'package:smart_home_app/widgets/action_radial_menu.dart';
+import 'package:smart_home_app/widgets/action_vertical_menu.dart';
 
 import 'button_actions.dart';
 
 class ActionsFavorite extends StatefulWidget {
   final List<int> favorite;
   final List<MapElement> actionList;
+  final Function doAction;
 
-  const ActionsFavorite({Key key, this.favorite, this.actionList})
+  const ActionsFavorite(
+      {Key key, this.favorite, this.actionList, this.doAction})
       : super(key: key);
 
   @override
@@ -20,11 +22,12 @@ class ActionsFavorite extends StatefulWidget {
 }
 
 class _ActionsFavorite extends State<ActionsFavorite> {
-  final ActionRadialMenu _actionRadialMenu = ActionRadialMenu();
+  ActionVerticalMenu _actionVerticalMenu;
 
   @override
   void initState() {
     super.initState();
+    _actionVerticalMenu = ActionVerticalMenu(widget.doAction);
   }
 
   @override
@@ -48,7 +51,8 @@ class _ActionsFavorite extends State<ActionsFavorite> {
                 onPressed:
                     (BuildContext context, List<MapDeviceAction> actions) {
                   if (actions.length > 0) {
-                    _actionRadialMenu.show(context: context, actions: actions);
+                    _actionVerticalMenu.show(
+                        context: context, actions: actions);
                   }
                   print("Container clicked: " +
                       element.id.toString() +

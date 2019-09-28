@@ -93,5 +93,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       await Adaptors.get().userSettings.update(userSettings);
     }
+
+    if (event is HomeDoAction) {
+      if (event.action == null) {
+        return;
+      }
+
+      print('call action: ' + event.action.id.toString());
+
+      Repository.get().stream.doAction(event.action.id, event.action.deviceId);
+    }
   }
 }

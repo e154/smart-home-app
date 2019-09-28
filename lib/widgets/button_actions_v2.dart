@@ -17,15 +17,19 @@ class _ButtonActionsV2 extends State<ButtonActionsV2> {
   double _squareScale = 1;
 
   _onTapDown(TapDownDetails details) {
-    print('_onTapDown');
+    setState(() {
+      _squareScale = 0.90;
+    });
   }
 
   _onTapCancel() {
-    print('_onTapCancel');
+    setState(() {
+      _squareScale = 1;
+    });
   }
 
   _onTapUp(TapUpDetails details) {
-    print('_onTapUp');
+    _onTapCancel();
     widget.onPressed();
   }
 
@@ -35,21 +39,13 @@ class _ButtonActionsV2 extends State<ButtonActionsV2> {
       onTapDown: _onTapDown,
       onTapCancel: _onTapCancel,
       onTapUp: _onTapUp,
-      behavior: HitTestBehavior.translucent,
-      child: Container(
-        key: UniqueKey(),
-//        color: Colors.green,
-        constraints: BoxConstraints.expand(width: 60, height: 60),
-        child: AnimatedContainer(
-          duration: Duration(seconds: 1),
-          curve: Curves.easeInOut,
-          padding: EdgeInsets.all(_padding),
-          child: Transform.scale(
-            scale: _squareScale,
-            child: (widget.action.image != null)
-                ? widget.action.image.image
-                : null,
-          ),
+      child: AnimatedContainer(
+        duration: Duration(seconds: 1),
+        padding: EdgeInsets.all(_padding),
+        child: Transform.scale(
+          scale: _squareScale,
+          child:
+              (widget.action.image != null) ? widget.action.image.image : null,
         ),
       ),
     );

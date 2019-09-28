@@ -19,6 +19,7 @@ class HomeUpdateFavoriteScenarioList extends HomeEvent {
   final List<int> scenarios;
 
   HomeUpdateFavoriteScenarioList(this.scenarios);
+
   @override
   String toString() => 'HomeUpdateFavoriteScenarioList';
 }
@@ -27,6 +28,7 @@ class HomeUpdateFavoriteActionList extends HomeEvent {
   final List<int> actions;
 
   HomeUpdateFavoriteActionList(this.actions);
+
   @override
   String toString() => 'HomeUpdateFavoriteActionList';
 }
@@ -40,4 +42,13 @@ class HomeSelectWorkflow extends HomeEvent {
 
   @override
   String toString() => 'HomeSelectWorkflow';
+}
+
+class HomeDoAction extends HomeEvent {
+  final MapDeviceAction action;
+
+  HomeDoAction(this.action);
+
+  @override
+  String toString() => 'HomeDoAction';
 }

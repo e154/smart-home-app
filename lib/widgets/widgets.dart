@@ -14,5 +14,5 @@ export 'scenes_favorite.dart';
 export 'scenes_favorite_editor.dart';
 export 'action_favorite.dart';
 export 'action_favorite_editor.dart';
-export 'action_radial_menu.dart';
+export 'action_vertical_menu.dart';
 export 'button_actions_v2.dart';

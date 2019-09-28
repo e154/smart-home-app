@@ -45,14 +45,17 @@ class _HomePage extends State<HomePage> {
   }
 
   Widget _showSelectWorkflow() {
-    return BlocBuilder<WorkflowsBloc, WorkflowsState>(builder: (context, state) {
+    return BlocBuilder<WorkflowsBloc, WorkflowsState>(
+        builder: (context, state) {
       if (state is LoginSettingsLoaded) {}
       return WorkflowsList();
     });
   }
 
   Text _workflowName() {
-    return _workflow != null ? Text(_workflow.name) : Text('workflow not selected');
+    return _workflow != null
+        ? Text(_workflow.name)
+        : Text('workflow not selected');
   }
 
   Widget _showTabs(TabBloc tabBloc, HomeBloc homeBloc) {
@@ -84,7 +87,16 @@ class _HomePage extends State<HomePage> {
             )
           ],
         ),
-        body: state == AppTab.favorite ? HomeTabFavorite(_userSettings, _workflow, _deviceList) : HomeTabEtc(),
+        body: state == AppTab.favorite
+            ? HomeTabFavorite(
+                userSettings: _userSettings,
+                workflow: _workflow,
+                deviceList: _deviceList,
+                doAction: (MapDeviceAction action) {
+                  homeBloc.dispatch(HomeDoAction(action));
+                },
+              )
+            : HomeTabEtc(),
         bottomNavigationBar: HomeTabSelector(
           activeTab: state,
           onTabSelected: (tab) => tabBloc.dispatch(UpdateTab(tab)),
