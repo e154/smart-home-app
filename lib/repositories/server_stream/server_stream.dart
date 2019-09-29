@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:rxdart/rxdart.dart';
 import 'package:smart_home_app/common/common.dart';
 import 'package:smart_home_app/models/models.dart';
 import 'package:smart_home_app/repositories/server_stream/payload.dart';
 import 'package:smart_home_app/repositories/server_stream/request.dart';
+import 'package:smart_home_app/repositories/server_stream/response.dart';
 import 'package:uuid/uuid.dart';
 import 'package:web_socket_channel/io.dart';
 
@@ -19,6 +21,10 @@ class ServerStream {
   }
 
   connect() {
+    _tryConnect();
+  }
+
+  _tryConnect() {
     Settings settings = MainState.get().settings;
 
     final uri = Uri.parse(settings.serverAddress);
@@ -31,7 +37,7 @@ class ServerStream {
             'X-API-Key': settings.accessToken,
             'X-Client-Type': 'mobile',
           });
-      channel.stream.listen(onData,
+      channel.stream.listen(_onData,
           onError: _onError, onDone: _onDone, cancelOnError: cancelOnError);
     } catch (e) {}
   }
@@ -40,15 +46,31 @@ class ServerStream {
     channel.sink.close();
   }
 
-  onData(dynamic data) {
-    print(data);
+  _onData(dynamic data) {
+    Map<String, dynamic> dataJson = jsonDecode(data);
+    final response = Response.fromJson(dataJson);
+
+    bool exist;
+    pool.forEach((k, v) {
+      if (k == response.id) {
+        exist = true;
+        v(response.status);
+      }
+    });
+
+    if (exist) {
+      pool.remove(response.id);
+    }
   }
 
   _onError(dynamic data) {
-    print(data);
+    print('onError: ' + data.toString());
   }
 
-  _onDone() {}
+  _onDone() async {
+    await Future.delayed(Duration(seconds: 1));
+    _tryConnect();
+  }
 
   _sendMessage(dynamic data) {
     channel.sink.add(data);

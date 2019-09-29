@@ -104,7 +104,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       print('call actionId: $actionId. deviceId $deviceId');
 
-      Repository.get().stream.doAction(actionId, deviceId);
+      final status = await Repository.get().stream.doAction(actionId, deviceId);
+      print('status: ' + status);
     }
   }
 }
