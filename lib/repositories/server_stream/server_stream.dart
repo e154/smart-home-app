@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:rxdart/rxdart.dart';
@@ -46,6 +47,7 @@ class ServerStream {
     channel.sink.close();
   }
 
+  //{"id":"4e71af1b-cf97-4f36-ba9d-6e15779591af","command":"","payload":{},"forward":"response","status":"success","type":""}
   _onData(dynamic data) {
     Map<String, dynamic> dataJson = jsonDecode(data);
     final response = Response.fromJson(dataJson);
@@ -54,7 +56,7 @@ class ServerStream {
     pool.forEach((k, v) {
       if (k == response.id) {
         exist = true;
-        v(response.status);
+        v.complete(response.status);
       }
     });
 
@@ -76,24 +78,18 @@ class ServerStream {
     channel.sink.add(data);
   }
 
-  _command(String command, Payload payload, Function fn) {
+  _command(String command, Payload payload, Completer c) {
     var uuid = new Uuid().v4();
     final request = new Request(id: uuid, command: command, payload: payload);
-    pool[uuid] = fn;
+    pool[uuid] = c;
     _sendMessage(json.encode(request.toJson()));
   }
 
   //{"id":"4e71af1b-cf97-4f36-ba9d-6e15779591af","command":"do.action","payload":{"action_id":8,"device_id":1}}
-  //{"id":"4e71af1b-cf97-4f36-ba9d-6e15779591af","command":"","payload":{},"forward":"response","status":"success","type":""}
-  Future<String> doAction(int actionId, deviceId) {
-    return new Future<String>(() {
-      final payload =
-          new CommandDoAction(actionId: actionId, deviceId: deviceId);
-      _command('do.action', payload, (String status) {
-        return status;
-      });
-
-      return "";
-    });
+  Future<dynamic> doAction(int actionId, deviceId) async {
+    Completer c = new Completer();
+    final payload = new CommandDoAction(actionId: actionId, deviceId: deviceId);
+    _command('do.action', payload, c);
+    return c.future;
   }
 }
