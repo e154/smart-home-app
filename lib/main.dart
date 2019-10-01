@@ -58,6 +58,9 @@ Future main() async {
         BlocProvider<TabBloc>(builder: (context) {
           return TabBloc();
         }),
+        BlocProvider<StreamBloc>(builder: (context) {
+          return StreamBloc();
+        }),
       ],
       child: App(),
     ),

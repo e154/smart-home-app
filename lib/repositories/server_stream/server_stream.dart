@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:rxdart/rxdart.dart';
 import 'package:smart_home_app/common/common.dart';
 import 'package:smart_home_app/models/models.dart';
 import 'package:smart_home_app/repositories/server_stream/payload.dart';
@@ -16,9 +15,15 @@ class ServerStream {
   IOWebSocketChannel channel;
   bool cancelOnError;
   Map pool;
+  StreamController streamController;
 
   ServerStream() {
+    streamController = new StreamController();
     pool = new Map();
+  }
+
+  void dispose(filename) {
+    streamController.close();
   }
 
   connect() {
@@ -52,7 +57,7 @@ class ServerStream {
     Map<String, dynamic> dataJson = jsonDecode(data);
     final response = Response.fromJson(dataJson);
 
-    bool exist;
+    bool exist = false;
     pool.forEach((k, v) {
       if (k == response.id) {
         exist = true;
@@ -62,6 +67,9 @@ class ServerStream {
 
     if (exist) {
       pool.remove(response.id);
+    } else {
+//      print(data.toString());
+      streamController.sink.add(data);
     }
   }
 
