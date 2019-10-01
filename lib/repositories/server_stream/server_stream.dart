@@ -12,14 +12,14 @@ import 'package:web_socket_channel/io.dart';
 import 'command_do_action.dart';
 
 class ServerStream {
-  IOWebSocketChannel channel;
-  bool cancelOnError;
-  Map pool;
+  IOWebSocketChannel _channel;
+  bool _cancelOnError;
+  Map _pool;
   StreamController streamController;
 
   ServerStream() {
     streamController = new StreamController();
-    pool = new Map();
+    _pool = new Map();
   }
 
   void dispose(filename) {
@@ -37,19 +37,19 @@ class ServerStream {
     final scheme = (uri.scheme == 'http') ? 'ws' : 'wss';
 
     try {
-      channel = new IOWebSocketChannel.connect(
+      _channel = new IOWebSocketChannel.connect(
           scheme + '://' + uri.host + ':' + uri.port.toString() + '/ws',
           headers: {
             'X-API-Key': settings.accessToken,
             'X-Client-Type': 'mobile',
           });
-      channel.stream.listen(_onData,
-          onError: _onError, onDone: _onDone, cancelOnError: cancelOnError);
+      _channel.stream.listen(_onData,
+          onError: _onError, onDone: _onDone, cancelOnError: _cancelOnError);
     } catch (e) {}
   }
 
   close() {
-    channel.sink.close();
+    _channel.sink.close();
   }
 
   //{"id":"4e71af1b-cf97-4f36-ba9d-6e15779591af","command":"","payload":{},"forward":"response","status":"success","type":""}
@@ -58,7 +58,7 @@ class ServerStream {
     final response = Response.fromJson(dataJson);
 
     bool exist = false;
-    pool.forEach((k, v) {
+    _pool.forEach((k, v) {
       if (k == response.id) {
         exist = true;
         v.complete(response.status);
@@ -66,7 +66,7 @@ class ServerStream {
     });
 
     if (exist) {
-      pool.remove(response.id);
+      _pool.remove(response.id);
     } else {
 //      print(data.toString());
       streamController.sink.add(data);
@@ -83,13 +83,13 @@ class ServerStream {
   }
 
   _sendMessage(dynamic data) {
-    channel.sink.add(data);
+    _channel.sink.add(data);
   }
 
   _command(String command, Payload payload, Completer c) {
     var uuid = new Uuid().v4();
     final request = new Request(id: uuid, command: command, payload: payload);
-    pool[uuid] = c;
+    _pool[uuid] = c;
     _sendMessage(json.encode(request.toJson()));
   }
 
