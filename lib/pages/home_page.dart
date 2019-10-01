@@ -21,6 +21,7 @@ class _HomePage extends State<HomePage> {
   Widget build(BuildContext context) {
     final tabBloc = BlocProvider.of<TabBloc>(context);
     final homeBloc = BlocProvider.of<HomeBloc>(context);
+    final streamBloc = BlocProvider.of<StreamBloc>(context);
     homeBloc.dispatch(HomeFetchSettings());
 
     return BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {

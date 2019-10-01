@@ -4,13 +4,14 @@
 
 import 'dart:convert';
 
+import 'package:smart_home_app/models/dashboard_telemetry.dart';
 import 'package:smart_home_app/repositories/server_stream/payload.dart';
 
 Response responseFromJson(String str) => Response.fromJson(json.decode(str));
 
 class Response {
   String id, command, forward, status, type;
-  Payload payload;
+  dynamic payload;
 
   Response({
     this.id,
@@ -22,15 +23,25 @@ class Response {
   });
 
   factory Response.fromJson(Map<String, dynamic> json) {
-    Payload payload;
+
+    final command = json["command"];
+    dynamic payload;
+
+    switch (command) {
+      case "dashboard.telemetry":
+        payload = DashboardTelemetry.fromJson(json["payload"]);
+        break;
+      default:
+        payload = json["payload"];
+    }
 
     return Response(
       id: json["id"],
-      command: json["command"] as String,
+      command: command,
       payload: payload,
-      forward: json["forward"] as String,
-      status: json["status"] as String,
-      type: json["type"] as String,
+      forward: json["forward"],
+      status: json["status"],
+      type: json["type"],
     );
   }
 }

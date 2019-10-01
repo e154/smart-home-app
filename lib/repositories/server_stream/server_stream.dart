@@ -57,20 +57,24 @@ class ServerStream {
     Map<String, dynamic> dataJson = jsonDecode(data);
     final response = Response.fromJson(dataJson);
 
-    bool exist = false;
-    _pool.forEach((k, v) {
-      if (k == response.id) {
-        exist = true;
-        v.complete(response.status);
-      }
-    });
+//    print(data.toString());
 
-    if (exist) {
-      _pool.remove(response.id);
-    } else {
-//      print(data.toString());
-      streamController.sink.add(data);
+    if (_pool != null) {
+      bool exist = false;
+      _pool.forEach((k, v) {
+        if (k == response.id) {
+          exist = true;
+          v.complete(response.status);
+        }
+      });
+
+      if (exist) {
+        _pool.remove(response.id);
+        return;
+      }
     }
+
+    streamController.sink.add(response);
   }
 
   _onError(dynamic data) {
