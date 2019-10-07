@@ -2,7 +2,10 @@ import 'dart:async';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../constants.dart';
+
 export 'variable.dart';
+export 'user_settings.dart';
 
 class DBProvider {
   DBProvider._();
@@ -32,7 +35,7 @@ class DBProvider {
     String path = join(databasesPath, dbName);
     return await openDatabase(
       path,
-      version: 3,
+      version: DB_VERSION,
       onOpen: _onOpen,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
@@ -45,7 +48,6 @@ class DBProvider {
 _onCreate(Database db, int version) async {
   var batch = db.batch();
 
-
   batch.execute("CREATE TABLE variables ("
       "name Text NOT NULL,"
       "value Text NOT NULL,"
@@ -57,12 +59,49 @@ _onCreate(Database db, int version) async {
   batch.execute("CREATE INDEX name_at_values_idx ON variables (name);");
   batch.execute("CREATE INDEX autoload_at_values_idx ON variables (autoload);");
 
-  await batch.commit();
+  batch.execute("CREATE TABLE user_settings ("
+      "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+      "user_id INTEGER NOT NULL,"
+      "workflow_id INTEGER NULL,"
+      "scenarios Text NOT NULL,"
+      "actions Text NOT NULL,"
+      "autoload bool NULL,"
+      "created_at DateTime NOT NULL,"
+      "updated_at DateTime,"
+      "UNIQUE(user_id,workflow_id),"
+      "UNIQUE(user_id,autoload));");
 
+  batch.execute("CREATE INDEX autoload_at_user_settings_idx ON user_settings (autoload);");
+  batch.execute("CREATE INDEX user_at_user_settings_idx ON user_settings (user_id);");
+
+  await batch.commit();
 }
 
 _onUpgrade(Database db, int oldVersion, int newVersion) async {
   var batch = db.batch();
+  switch (oldVersion) {
+    case 3:
+      batch.execute("CREATE TABLE user_settings ("
+          "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+          "user_id INTEGER NOT NULL,"
+          "workflow_id INTEGER NULL,"
+          "scenarios Text NOT NULL,"
+          "actions Text NOT NULL,"
+          "autoload bool NULL,"
+          "created_at DateTime NOT NULL,"
+          "updated_at DateTime,"
+          "UNIQUE(user_id,workflow_id),"
+          "UNIQUE(user_id,autoload));");
+
+      batch.execute("CREATE INDEX autoload_at_user_settings_idx ON user_settings (autoload);");
+      batch.execute("CREATE INDEX user_at_user_settings_idx ON user_settings (user_id);");
+
+      break;
+    case 4:
+    default:
+      Exception("unknown version: $oldVersion");
+  }
+
   await batch.commit();
 }
 

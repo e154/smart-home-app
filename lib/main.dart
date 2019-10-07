@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smart_home_app/pages/settings/settings_page.dart';
-import 'package:smart_home_app/repository/user_repository.dart';
-import 'package:smart_home_app/authentication/authentication.dart';
-import 'package:smart_home_app/pages/splash/splash.dart';
-import 'package:smart_home_app/pages/login/login.dart';
-import 'package:smart_home_app/pages/home/home.dart';
-import 'package:smart_home_app/common/common.dart';
-
-import 'adaptors/adaptors.dart';
+import 'package:smart_home_app/blocs/blocs.dart';
+import 'package:smart_home_app/pages/pages.dart';
+import 'package:smart_home_app/widgets/widgets.dart';
 
 class SimpleBlocDelegate extends BlocDelegate {
   @override
@@ -32,25 +26,49 @@ class SimpleBlocDelegate extends BlocDelegate {
 }
 
 Future main() async {
-  Adaptors adaptors = new Adaptors();
-
   BlocSupervisor.delegate = SimpleBlocDelegate();
-  final userRepository = UserRepository();
+
   runApp(
-    BlocProvider<AuthenticationBloc>(
-      builder: (context) {
-        return AuthenticationBloc(userRepository: userRepository, adaptors: adaptors)
-          ..dispatch(AppStarted());
-      },
-      child: App(userRepository: userRepository),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthenticationBloc>(
+          builder: (context) {
+            return AuthenticationBloc()..dispatch(AppStarted());
+          },
+        ),
+        BlocProvider<SettingsBloc>(builder: (context) {
+          final authenticationBloc =
+              BlocProvider.of<AuthenticationBloc>(context);
+          return SettingsBloc(authenticationBloc);
+        }),
+        BlocProvider<MapsBloc>(builder: (context) {
+          return MapsBloc();
+        }),
+        BlocProvider<WorkflowsBloc>(builder: (context) {
+          return WorkflowsBloc();
+        }),
+        BlocProvider<LoginBloc>(builder: (context) {
+          final authenticationBloc =
+              BlocProvider.of<AuthenticationBloc>(context);
+          return LoginBloc(authenticationBloc: authenticationBloc);
+        }),
+        BlocProvider<HomeBloc>(builder: (context) {
+          return HomeBloc();
+        }),
+        BlocProvider<TabBloc>(builder: (context) {
+          return TabBloc();
+        }),
+        BlocProvider<StreamBloc>(builder: (context) {
+          return StreamBloc();
+        }),
+      ],
+      child: App(),
     ),
   );
 }
 
 class App extends StatelessWidget {
-  final UserRepository userRepository;
-
-  App({Key key, @required this.userRepository}) : super(key: key);
+  App({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -61,17 +79,18 @@ class App extends StatelessWidget {
             return HomePage();
           }
           if (state is AuthenticationUnauthenticated) {
-            return LoginPage(userRepository: userRepository);
+            return LoginPage();
           }
           if (state is AuthenticationLoading) {
             return LoadingIndicator();
           }
-          if (state is NeedUpdateSettings) {
-            return SettingsPage();
-          }
           return SplashPage();
         },
       ),
+      routes: <String, WidgetBuilder>{
+        '/settings': (BuildContext context) => SettingsPage(),
+        '/about': (BuildContext context) => AboutPage(),
+      },
     );
   }
 }
