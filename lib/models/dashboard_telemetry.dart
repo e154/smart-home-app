@@ -5,6 +5,7 @@
 import 'dart:convert';
 
 import 'package:smart_home_app/models/models.dart';
+import 'package:smart_home_app/models/response_payload.dart';
 import 'package:smart_home_app/models/telemetry_cpu.dart';
 import 'package:smart_home_app/models/telemetry_gate.dart';
 import 'package:smart_home_app/models/telemetry_memory.dart';
@@ -13,7 +14,7 @@ import 'package:smart_home_app/models/telemetry_uptime.dart';
 DashboardTelemetry dashboardTelemetryFromJson(String str) =>
     DashboardTelemetry.fromJson(json.decode(str));
 
-class DashboardTelemetry {
+class DashboardTelemetry extends ResponsePayload {
   TelemetryCpu cpu;
   TelemetryMemory memory;
   TelemetryUptime uptime;
@@ -39,7 +40,7 @@ class DashboardTelemetry {
 
     List<TelemetryDevice> devices;
     if (json['devices']  != null && json['devices']['status'] != null) {
-      List<TelemetryDevice> devices = List<TelemetryDevice>();
+      devices = List<TelemetryDevice>();
       (json['devices']['status'] as Map).forEach((k, item){
         devices.add(TelemetryDevice.fromJson(item));
       });

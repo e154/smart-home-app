@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:smart_home_app/adaptors/adaptors.dart';
 import 'package:smart_home_app/common/common.dart';
 import 'package:smart_home_app/models/models.dart';
 import 'package:smart_home_app/repositories/repository.dart';
+import 'package:smart_home_app/repositories/server_stream/response.dart';
 
 import 'home_event.dart';
 import 'home_state.dart';
@@ -83,7 +85,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       final currentUser = MainState.get().currentUser;
       // get here user settings
       final userSettings =
-      await Adaptors.get().userSettings.autoload(currentUser.id);
+          await Adaptors.get().userSettings.autoload(currentUser.id);
 
       if (userSettings == null) {
         return;
@@ -105,7 +107,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       print('call actionId: $actionId. deviceId $deviceId');
 
       final status = await Repository.get().stream.doAction(actionId, deviceId);
-      print('status: ' + status);
     }
   }
 }

@@ -4,12 +4,12 @@
 
 import 'dart:convert';
 
-import 'package:smart_home_app/repositories/server_stream/payload.dart';
+import 'package:smart_home_app/repositories/server_stream/commanddart';
 
 String commandDoActionToJson(CommandDoAction data) =>
     json.encode(data.toJson());
 
-class CommandDoAction extends Payload {
+class CommandDoAction extends Command {
   int actionId, deviceId;
 
   CommandDoAction({
@@ -22,4 +22,8 @@ class CommandDoAction extends Payload {
         "action_id": actionId,
         "device_id": deviceId,
       };
+
+  String command() {
+    return 'do.action';
+  }
 }

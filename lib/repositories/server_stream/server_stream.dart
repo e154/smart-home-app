@@ -3,13 +3,14 @@ import 'dart:convert';
 
 import 'package:smart_home_app/common/common.dart';
 import 'package:smart_home_app/models/models.dart';
-import 'package:smart_home_app/repositories/server_stream/payload.dart';
+import 'package:smart_home_app/repositories/server_stream/commanddart';
 import 'package:smart_home_app/repositories/server_stream/request.dart';
 import 'package:smart_home_app/repositories/server_stream/response.dart';
 import 'package:uuid/uuid.dart';
 import 'package:web_socket_channel/io.dart';
 
 import 'command_do_action.dart';
+import 'command_get_devices_states.dart';
 
 class ServerStream {
   IOWebSocketChannel _channel;
@@ -64,7 +65,7 @@ class ServerStream {
       _pool.forEach((k, v) {
         if (k == response.id) {
           exist = true;
-          v.complete(response.status);
+          v.complete(response);
         }
       });
 
@@ -90,9 +91,9 @@ class ServerStream {
     _channel.sink.add(data);
   }
 
-  _command(String command, Payload payload, Completer c) {
+  _command(Command command, Completer c) {
     var uuid = new Uuid().v4();
-    final request = new Request(id: uuid, command: command, payload: payload);
+    final request = new Request(id: uuid, command: command.command(), payload: command);
     _pool[uuid] = c;
     _sendMessage(json.encode(request.toJson()));
   }
@@ -100,8 +101,16 @@ class ServerStream {
   //{"id":"4e71af1b-cf97-4f36-ba9d-6e15779591af","command":"do.action","payload":{"action_id":8,"device_id":1}}
   Future<dynamic> doAction(int actionId, deviceId) async {
     Completer c = new Completer();
-    final payload = new CommandDoAction(actionId: actionId, deviceId: deviceId);
-    _command('do.action', payload, c);
+    final command = new CommandDoAction(actionId: actionId, deviceId: deviceId);
+    _command(command, c);
+    return c.future;
+  }
+
+  //{"id":"a16e244e-19db-42d6-9136-d67e6970bb97","command":"map.get.devices.states","payload":{}}
+  Future<dynamic> getDevicesStates() async {
+    Completer c = new Completer();
+    final command = new CommandGetDevicesStates();
+    _command(command, c);
     return c.future;
   }
 }

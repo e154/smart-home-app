@@ -48,6 +48,7 @@ class _ActionsFavorite extends State<ActionsFavorite> {
         widget.actionList.forEach((element) {
           if (widget.favorite.contains(element.id)) {
             final newItem = ButtonActions(
+              key: Key('button_action_id' + element.id.toString()),
                 onPressed:
                     (BuildContext context, List<MapDeviceAction> actions) {
                   if (actions.length > 0) {
@@ -67,9 +68,12 @@ class _ActionsFavorite extends State<ActionsFavorite> {
 
   @override
   Widget build(BuildContext context) {
+    final streamBloc = BlocProvider.of<StreamBloc>(context);
     final homeBloc = BlocProvider.of<HomeBloc>(context);
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+
+    streamBloc.dispatch(StreamGetDevicesStates());
 
     return Expanded(
       child: Container(

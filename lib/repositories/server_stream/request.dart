@@ -4,14 +4,14 @@
 
 import 'dart:convert';
 
-import 'package:smart_home_app/repositories/server_stream/payload.dart';
+import 'package:smart_home_app/repositories/server_stream/commanddart';
 
 String requestToJson(Request data) => json.encode(data.toJson());
 
 class Request {
   String id;
   String command;
-  Payload payload;
+  Command payload;
 
   Request({
     this.id,
