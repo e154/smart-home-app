@@ -86,7 +86,6 @@ class _ButtonScenarios extends State<ButtonActions> {
             onTapCancel: _onTapCancel,
             onTapUp: _onTapUp,
             child: Container(
-              constraints: BoxConstraints.expand(width: 130, height: 130),
               child: AnimatedContainer(
                 duration: Duration(seconds: 1),
                 curve: Curves.easeInOut,
@@ -116,28 +115,33 @@ class _ButtonScenarios extends State<ButtonActions> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
                         children: <Widget>[
-                          Container(
-                            width: 60,
-                            height: 60,
-                            child: (widget.element.prototypeType == 'device' && _currentState == null)
-                                ? (widget.element.prototype as PrototypeDevice)
-                                    .serverImage
-                                    .image
-                                : _currentState.image.image,
+                          Expanded(
+                            flex: 4,
+                            child: Container(
+                              child: (widget.element.prototypeType == 'device' && _currentState == null)
+                                  ? (widget.element.prototype as PrototypeDevice)
+                                  .serverImage
+                                  .image
+                                  : _currentState.image.image,
+                            )
                           ),
-                          Container(
-                            height: 20,
+                          Expanded(
+                            flex: 2,
+                            child: Container(),
                           ),
-                          Container(
-                            height: 30,
-                            child: Text(
-                              widget.element.description,
-                              style: TextStyle(
-                                  color: widget.active
-                                      ? Colors.white
-                                      : Color.fromRGBO(97, 97, 97, 1),
-                                  fontWeight: FontWeight.bold),
+                          Expanded(
+                            flex: 4,
+                            child: Container(
+                              child: Text(
+                                widget.element.description,
+                                style: TextStyle(
+                                    color: widget.active
+                                        ? Colors.white
+                                        : Color.fromRGBO(97, 97, 97, 1),
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
                           ),
                         ],
