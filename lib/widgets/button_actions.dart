@@ -21,8 +21,8 @@ class ButtonActions extends StatefulWidget {
 class _ButtonScenarios extends State<ButtonActions> {
   _ButtonScenarios();
 
-  double _width = 120;
-  double _height = 120;
+//  double _width = 120;
+//  double _height = 120;
   double _padding = 5;
   double _squareScale = 1;
   StreamSubscription streamBlocListener;
@@ -87,7 +87,7 @@ class _ButtonScenarios extends State<ButtonActions> {
             onTapUp: _onTapUp,
             child: Container(
               child: AnimatedContainer(
-                duration: Duration(seconds: 1),
+                duration: Duration(milliseconds: 300),
                 curve: Curves.easeInOut,
                 padding: EdgeInsets.all(_padding),
                 child: Transform.scale(
@@ -108,8 +108,8 @@ class _ButtonScenarios extends State<ButtonActions> {
 //                  )
 //                ],
                     ),
-                    constraints:
-                        BoxConstraints.expand(width: _width, height: _height),
+//                    constraints:
+//                        BoxConstraints.expand(width: _width, height: _height),
                     child: Container(
                       padding: EdgeInsets.all(_padding),
                       child: Column(
