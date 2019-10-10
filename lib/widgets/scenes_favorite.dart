@@ -46,9 +46,13 @@ class ScenesFavorite extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
+    double itemHeight = screenWidth/3 - 7;
+    itemHeight = (itemHeight > 120)?120:itemHeight;
+//    print('itemHeight $itemHeight');
+
     return Container(
       margin: EdgeInsets.only(top: 15, bottom: 0, left: 5, right: 5),
-      height: 150,
+      height: itemHeight+20,
 //      color: Colors.red,
       child: Column(
         children: <Widget>[

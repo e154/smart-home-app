@@ -36,7 +36,7 @@ class _HomeTabFavorite extends State<HomeTabFavorite> {
     }
 
     return Container(
-      child: Column(
+      child: ListView(
         children: <Widget>[
           ScenesFavorite(
             favorite: widget.userSettings.scenarios,

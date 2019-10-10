@@ -57,6 +57,7 @@ class _ButtonScenarios extends State<ButtonActions> {
 //            print("SET STATE: " + state.systemName);
             setState(() {
               _currentState = state;
+              widget.active = state.systemName.contains('_ON');
             });
           }
         });

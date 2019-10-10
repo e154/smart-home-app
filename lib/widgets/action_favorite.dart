@@ -48,7 +48,7 @@ class _ActionsFavorite extends State<ActionsFavorite> {
         widget.actionList.forEach((element) {
           if (widget.favorite.contains(element.id)) {
             final newItem = ButtonActions(
-              key: Key('button_action_id' + element.id.toString()),
+                key: Key('button_action_id' + element.id.toString()),
                 onPressed:
                     (BuildContext context, List<MapDeviceAction> actions) {
                   if (actions.length > 0) {
@@ -75,57 +75,60 @@ class _ActionsFavorite extends State<ActionsFavorite> {
 
     streamBloc.dispatch(StreamGetDevicesStates());
 
-    return Expanded(
-      child: Container(
+    return Container(
 //        color: Colors.red,
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-        child: Column(
-          children: <Widget>[
-            Container(
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+      child: Column(
+        children: <Widget>[
+          Container(
 //              color: Colors.blue,
-              width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: 5),
-              height: 20,
-              child: Text(
-                'Actions',
-                style: TextStyle(color: Colors.grey),
-                textAlign: TextAlign.left,
-              ),
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(horizontal: 5),
+            height: 20,
+            child: Text(
+              'Actions',
+              style: TextStyle(color: Colors.grey),
+              textAlign: TextAlign.left,
             ),
-            new Expanded(
-              child: new GestureDetector(
-                onLongPressEnd: (LongPressEndDetails details) {
-                  print("long press end");
-                  () async {
-                    final actions = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ActionFavoriteEditor(
-                          favorite: widget.favorite,
-                          actionList: widget.actionList,
-                        ),
+          ),
+          new ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: 200, // Set as you want or you can remove it also.
+              maxHeight: double.infinity,
+            ),
+            child: new GestureDetector(
+              onLongPressEnd: (LongPressEndDetails details) {
+                print("long press end");
+                () async {
+                  final actions = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ActionFavoriteEditor(
+                        favorite: widget.favorite,
+                        actionList: widget.actionList,
                       ),
-                    );
-                    if (actions != null) {
+                    ),
+                  );
+                  if (actions != null) {
 //                    print('selected actions');
-                      homeBloc.dispatch(HomeUpdateFavoriteActionList(actions));
-                    } else {
+                    homeBloc.dispatch(HomeUpdateFavoriteActionList(actions));
+                  } else {
 //                    print('scenarios not selected');
-                    }
-                  }();
-                },
-                child: GridView.count(
-                  primary: false,
-                  crossAxisSpacing: 5,
-                  mainAxisSpacing: 5,
-                  crossAxisCount: 3,
-                  children: _buttonBuilder(),
-                  scrollDirection: Axis.vertical,
-                ),
+                  }
+                }();
+              },
+              child: GridView.count(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                crossAxisSpacing: 5,
+                mainAxisSpacing: 5,
+                crossAxisCount: 3,
+                children: _buttonBuilder(),
+                scrollDirection: Axis.vertical,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
