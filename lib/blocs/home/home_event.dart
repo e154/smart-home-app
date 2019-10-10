@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:smart_home_app/models/models.dart';
 
 abstract class HomeEvent extends Equatable {
@@ -47,8 +48,17 @@ class HomeSelectWorkflow extends HomeEvent {
 class HomeDoAction extends HomeEvent {
   final MapDeviceAction action;
 
-  HomeDoAction(this.action);
+  HomeDoAction({@required this.action});
 
   @override
   String toString() => 'HomeDoAction';
+}
+
+class HomeSelectScenario extends HomeEvent {
+  final int workflowId, scenarioId;
+
+  HomeSelectScenario({@required this.workflowId, this.scenarioId});
+
+  @override
+  String toString() => 'HomeSelectScenario';
 }

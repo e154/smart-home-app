@@ -33,9 +33,20 @@ class HomeLoaded extends HomeState {
   HomeLoaded(this._userSettings, this._workflow, this._deviceList);
 
   Workflow get workflow => _workflow;
+
   UserSettings get userSettings => _userSettings;
+
   List<MapElement> get deviceList => _deviceList;
 
   @override
   String toString() => 'HomeLoaded';
+}
+
+class HomeLoadedScenarios extends HomeState {
+  List<WorkflowScenario> scenarios;
+
+  HomeLoadedScenarios(this.scenarios);
+
+  @override
+  String toString() => 'HomeLoadedScenarios';
 }
