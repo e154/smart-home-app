@@ -6,7 +6,8 @@ class ButtonScenarios extends StatefulWidget {
   String name;
   bool active;
 
-  ButtonScenarios({Key key, this.function, this.name, this.active}) : super(key: key);
+  ButtonScenarios({Key key, this.function, this.name, this.active})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _ButtonScenarios();
@@ -15,8 +16,8 @@ class ButtonScenarios extends StatefulWidget {
 class _ButtonScenarios extends State<ButtonScenarios> {
   _ButtonScenarios();
 
-  double _width = 120;
-  double _height = 120;
+//  double _width = 120;
+//  double _height = 120;
   double _padding = 5;
   double _squareScale = 1;
 
@@ -50,17 +51,20 @@ class _ButtonScenarios extends State<ButtonScenarios> {
         onTapCancel: _onTapCancel,
         onTapUp: _onTapUp,
         child: Container(
-          constraints: BoxConstraints.expand(width: 130, height: 130),
+//          constraints: BoxConstraints.expand(width: 130, height: 130),
           child: AnimatedContainer(
-            duration: Duration(seconds: 1),
+            duration: Duration(milliseconds: 300),
             curve: Curves.easeInOut,
             padding: EdgeInsets.all(_padding),
             child: Transform.scale(
               scale: _squareScale,
               child: Container(
                   decoration: new BoxDecoration(
-                    color: widget.active ? Color.fromRGBO(43, 152, 240, 1) : Color.fromRGBO(234, 235, 235, 1),
-                    borderRadius: new BorderRadius.all(const Radius.circular(12.0)),
+                    color: widget.active
+                        ? Color.fromRGBO(43, 152, 240, 1)
+                        : Color.fromRGBO(234, 235, 235, 1),
+                    borderRadius:
+                        new BorderRadius.all(const Radius.circular(12.0)),
 //                boxShadow: [
 //                  new BoxShadow(
 //                    blurRadius: 3,
@@ -70,7 +74,7 @@ class _ButtonScenarios extends State<ButtonScenarios> {
 //                  )
 //                ],
                   ),
-                  constraints: BoxConstraints.expand(width: _width, height: _height),
+//                  constraints: BoxConstraints.expand(width: _width, height: _height),
                   child: Container(
                     padding: EdgeInsets.all(_padding),
                     child: Center(
@@ -81,7 +85,9 @@ class _ButtonScenarios extends State<ButtonScenarios> {
                         Text(
                           widget.name,
                           style: TextStyle(
-                              color: widget.active ? Colors.white : Color.fromRGBO(97, 97, 97, 1),
+                              color: widget.active
+                                  ? Colors.white
+                                  : Color.fromRGBO(97, 97, 97, 1),
                               fontWeight: FontWeight.bold),
                         ),
                       ],

@@ -21,8 +21,8 @@ class ButtonActions extends StatefulWidget {
 class _ButtonScenarios extends State<ButtonActions> {
   _ButtonScenarios();
 
-  double _width = 120;
-  double _height = 120;
+//  double _width = 120;
+//  double _height = 120;
   double _padding = 5;
   double _squareScale = 1;
   StreamSubscription streamBlocListener;
@@ -57,6 +57,7 @@ class _ButtonScenarios extends State<ButtonActions> {
 //            print("SET STATE: " + state.systemName);
             setState(() {
               _currentState = state;
+              widget.active = state.systemName.contains('_ON');
             });
           }
         });
@@ -86,9 +87,8 @@ class _ButtonScenarios extends State<ButtonActions> {
             onTapCancel: _onTapCancel,
             onTapUp: _onTapUp,
             child: Container(
-              constraints: BoxConstraints.expand(width: 130, height: 130),
               child: AnimatedContainer(
-                duration: Duration(seconds: 1),
+                duration: Duration(milliseconds: 300),
                 curve: Curves.easeInOut,
                 padding: EdgeInsets.all(_padding),
                 child: Transform.scale(
@@ -109,35 +109,40 @@ class _ButtonScenarios extends State<ButtonActions> {
 //                  )
 //                ],
                     ),
-                    constraints:
-                        BoxConstraints.expand(width: _width, height: _height),
+//                    constraints:
+//                        BoxConstraints.expand(width: _width, height: _height),
                     child: Container(
                       padding: EdgeInsets.all(_padding),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
                         children: <Widget>[
-                          Container(
-                            width: 60,
-                            height: 60,
-                            child: (widget.element.prototypeType == 'device' && _currentState == null)
-                                ? (widget.element.prototype as PrototypeDevice)
-                                    .serverImage
-                                    .image
-                                : _currentState.image.image,
+                          Expanded(
+                            flex: 4,
+                            child: Container(
+                              child: (widget.element.prototypeType == 'device' && _currentState == null)
+                                  ? (widget.element.prototype as PrototypeDevice)
+                                  .serverImage
+                                  .image
+                                  : _currentState.image.image,
+                            )
                           ),
-                          Container(
-                            height: 20,
+                          Expanded(
+                            flex: 2,
+                            child: Container(),
                           ),
-                          Container(
-                            height: 30,
-                            child: Text(
-                              widget.element.description,
-                              style: TextStyle(
-                                  color: widget.active
-                                      ? Colors.white
-                                      : Color.fromRGBO(97, 97, 97, 1),
-                                  fontWeight: FontWeight.bold),
+                          Expanded(
+                            flex: 4,
+                            child: Container(
+                              child: Text(
+                                widget.element.description,
+                                style: TextStyle(
+                                    color: widget.active
+                                        ? Colors.white
+                                        : Color.fromRGBO(97, 97, 97, 1),
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
                           ),
                         ],

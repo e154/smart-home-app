@@ -14,7 +14,7 @@ class ScenesFavorite extends StatelessWidget {
   const ScenesFavorite({Key key, this.favorite, this.workflow})
       : super(key: key);
 
-  List<Widget> _buttonBuilder() {
+  List<Widget> _buttonBuilder(HomeBloc homeBloc, List<WorkflowScenario> _scenarioList) {
     List<Widget> items = new List<Widget>();
     if (favorite == null || favorite.length == 0) {
       items.add(Container(
@@ -24,11 +24,13 @@ class ScenesFavorite extends StatelessWidget {
       ));
     } else {
       if (workflow != null) {
-        workflow.scenarios.forEach((scenario) {
+        _scenarioList.forEach((scenario) {
           if (favorite.contains(scenario.id)) {
             final newItem = ButtonScenarios(
                 function: () {
                   print("Container clicked: " + scenario.id.toString());
+                  homeBloc.dispatch(HomeSelectScenario(
+                      workflowId: workflow.id, scenarioId: scenario.id));
                 },
                 name: scenario.name,
                 active: scenario.id == 1);
@@ -42,13 +44,32 @@ class ScenesFavorite extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<WorkflowScenario> _scenarioList = workflow.scenarios;
+
     final homeBloc = BlocProvider.of<HomeBloc>(context);
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
+    double itemHeight = screenWidth / 3 - 7;
+    itemHeight = (itemHeight > 120) ? 120 : itemHeight;
+//    print('itemHeight $itemHeight');
+
+    return BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
+      if (state is HomeLoadedScenarios) {
+        if (state.scenarios != null) {
+          _scenarioList = state.scenarios;
+        }
+      }
+
+      return _container(itemHeight, context, homeBloc, _scenarioList);
+    });
+  }
+
+  Widget _container(
+      double itemHeight, BuildContext context, HomeBloc homeBloc, List<WorkflowScenario> _scenarioList) {
     return Container(
       margin: EdgeInsets.only(top: 15, bottom: 0, left: 5, right: 5),
-      height: 150,
+      height: itemHeight + 20,
 //      color: Colors.red,
       child: Column(
         children: <Widget>[
@@ -90,7 +111,7 @@ class ScenesFavorite extends StatelessWidget {
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 5,
                 crossAxisCount: 1,
-                children: _buttonBuilder(),
+                children: _buttonBuilder(homeBloc, _scenarioList),
                 scrollDirection: Axis.horizontal,
               ),
             ),

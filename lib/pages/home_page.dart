@@ -94,7 +94,7 @@ class _HomePage extends State<HomePage> {
                 workflow: _workflow,
                 deviceList: _deviceList,
                 doAction: (MapDeviceAction action) {
-                  homeBloc.dispatch(HomeDoAction(action));
+                  homeBloc.dispatch(HomeDoAction(action: action));
                 },
               )
             : HomeTabEtc(),

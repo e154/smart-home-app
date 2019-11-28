@@ -40,7 +40,7 @@ class _ButtonActionsV2 extends State<ButtonActionsV2> {
       onTapCancel: _onTapCancel,
       onTapUp: _onTapUp,
       child: AnimatedContainer(
-        duration: Duration(seconds: 1),
+        duration: Duration(milliseconds: 300),
         padding: EdgeInsets.all(_padding),
         child: Transform.scale(
           scale: _squareScale,

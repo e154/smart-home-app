@@ -97,9 +97,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
 
     if (event is HomeDoAction) {
-      if (event.action == null) {
-        return;
-      }
 
       final actionId = event.action.deviceActionId;
       final deviceId = event.action.deviceId;
@@ -107,6 +104,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       print('call actionId: $actionId. deviceId $deviceId');
 
       final status = await Repository.get().stream.doAction(actionId, deviceId);
+    }
+
+    if (event is HomeSelectScenario) {
+      await Repository.get().workflow.updateScenario(event.workflowId, event.scenarioId);
+      final scenarios = await Repository.get().workflow.fetchScenariosList(event.workflowId);
+      yield HomeLoadedScenarios(scenarios);
     }
   }
 }

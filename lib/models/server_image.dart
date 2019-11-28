@@ -54,12 +54,14 @@ class ServerImage {
   getOtherImage() {
     return Image.network(
       _baseUrl,
+      alignment: Alignment.topLeft,
     );
   }
 
   getSvgImage() {
     return SvgPicture.network(
       _baseUrl,
+      alignment: Alignment.topLeft,
     );
   }
 }
