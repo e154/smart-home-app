@@ -38,9 +38,9 @@ install:
 
 script:
   - flutter packages get
-  #  - flutter analyze --no-pub --no-current-package lib/ test/
-  #  - flutter test --no-pub test/
   - flutter build apk
+#  - flutter analyze --no-pub --no-current-package lib/ test/
+#  - flutter test --no-pub test/
 
 env:
   - APK_NAME="smart_home_app_${TRAVIS_TAG}.apk"
