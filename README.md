@@ -1,4 +1,6 @@
-# The smart home mobile client for program complex **Smart House**
+# The smart home mobile 
+
+### client for program complex **Smart House**
 
 [Project site](https://e154.github.io/smart-home/) |
 [Configurator](https://github.com/e154/smart-home-configurator/) |
