@@ -1,4 +1,4 @@
-# The smart home mobile client for program complex **Smart House**
+# The smart home mobile 
 
 [Project site](https://e154.github.io/smart-home/) |
 [Configurator](https://github.com/e154/smart-home-configurator/) |
@@ -12,6 +12,19 @@
 
 Attention! The project is under active development.
 ---------
+
+### Dscription
+
+App for program complex **Smart House** for Android/Iphone/Ipad 
+
+### Features
+
+1. Display the current status of the device (websocket)
+2. Toggle the status of the selected long device
+
+| loggin form               |           settings params |      favorite action tab  |
+|:-------------------------:|:-------------------------:|:-------------------------:|
+|<img width="300" alt="smart home app" src="screenshots/screenshot1.png">  |  <img width="300" alt="smart home app" src="screenshots/screenshot2.png"> |  <img width="300" alt="smart home app" src="screenshots/screenshot3.png"> |
 
 ### LICENSE
 
