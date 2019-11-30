@@ -1,6 +1,7 @@
 # The smart home mobile 
 
 [Project site](https://e154.github.io/smart-home/) |
+[Server](https://github.com/e154/smart-home/) |
 [Configurator](https://github.com/e154/smart-home-configurator/) |
 [Mobile Gate](https://github.com/e154/smart-home-gate/) |
 [Node](https://github.com/e154/smart-home-node/) |
