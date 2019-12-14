@@ -38,7 +38,7 @@ install:
 
 script:
   - flutter packages get
-  - flutter build apk
+  - flutter build apk --release
 #  - flutter analyze --no-pub --no-current-package lib/ test/
 #  - flutter test --no-pub test/
 
