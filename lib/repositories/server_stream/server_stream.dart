@@ -8,6 +8,7 @@ import 'package:smart_home_app/repositories/server_stream/request.dart';
 import 'package:smart_home_app/repositories/server_stream/response.dart';
 import 'package:uuid/uuid.dart';
 import 'package:web_socket_channel/io.dart';
+import 'package:web_socket_channel/status.dart' as status;
 
 import 'command_do_action.dart';
 import 'command_get_devices_states.dart';
@@ -15,6 +16,7 @@ import 'command_get_devices_states.dart';
 class ServerStream {
   IOWebSocketChannel _channel;
   bool _cancelOnError;
+  bool _isClosed;
   Map _pool;
   StreamController streamController;
 
@@ -28,6 +30,7 @@ class ServerStream {
   }
 
   connect() {
+    _isClosed = false;
     _tryConnect();
   }
 
@@ -50,7 +53,8 @@ class ServerStream {
   }
 
   close() {
-    _channel.sink.close();
+    _isClosed = true;
+    _channel.sink.close(status.normalClosure);
   }
 
   //{"id":"4e71af1b-cf97-4f36-ba9d-6e15779591af","command":"","payload":{},"forward":"response","status":"success","type":""}
@@ -84,7 +88,9 @@ class ServerStream {
 
   _onDone() async {
     await Future.delayed(Duration(seconds: 1));
-    _tryConnect();
+    if (!_isClosed) {
+      _tryConnect();
+    }
   }
 
   _sendMessage(dynamic data) {
@@ -93,7 +99,8 @@ class ServerStream {
 
   _command(Command command, Completer c) {
     var uuid = new Uuid().v4();
-    final request = new Request(id: uuid, command: command.command(), payload: command);
+    final request =
+        new Request(id: uuid, command: command.command(), payload: command);
     _pool[uuid] = c;
     _sendMessage(json.encode(request.toJson()));
   }
