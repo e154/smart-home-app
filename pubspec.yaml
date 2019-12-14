@@ -26,7 +26,7 @@ dependencies:
 
   flutter_bloc: ^0.20.1
   equatable: ^0.2.0
-  barcode_scan: ^0.0.4
+  barcode_scan: ^1.0.0
   jaguar_query_sqflite: ^2.2.10
   sqflite: any
   path_provider: any
@@ -37,7 +37,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_cupertino_localizations: ^1.0.1
-  cached_network_image: any
+  cached_network_image: ^2.0.0-rc
   flutter_svg: ^0.14.1
   web_socket_channel: ^1.0.15
   uuid: 2.0.1
