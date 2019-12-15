@@ -4,7 +4,9 @@ import 'db.dart';
 
 class UserSetting {
   int id, userId, workflowId, autoload;
-  String scenarios, actions, createdAt, updatedAt;
+  String serverAddress, scenarios, actions, createdAt, updatedAt;
+
+  factory UserSetting.fromRawJson(String str) => UserSetting.fromJson(json.decode(str));
 
   UserSetting({
     this.id,
@@ -13,11 +15,10 @@ class UserSetting {
     this.autoload,
     this.scenarios,
     this.actions,
+    this.serverAddress,
     this.createdAt,
     this.updatedAt,
   });
-
-  factory UserSetting.fromRawJson(String str) => UserSetting.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
@@ -28,6 +29,7 @@ class UserSetting {
         autoload: json["autoload"] == null ? null : json["autoload"] as int,
         scenarios: json["scenarios"],
         actions: json["actions"],
+        serverAddress: json["server_address"],
         createdAt: json["created_at"],
         updatedAt: json["updated_at"],
       );
@@ -39,6 +41,7 @@ class UserSetting {
         "autoload": autoload,
         "scenarios": scenarios,
         "actions": actions,
+        "server_address": serverAddress,
         "created_at": createdAt,
         "updated_at": updatedAt,
       };
@@ -53,61 +56,63 @@ class UserSettings {
     final db = await _provider.database;
 
     var res = await db.query("user_settings",
-        where: "user_id = ? and workflow_id = ?", whereArgs: [settings.userId, settings.workflowId]);
+        where: "user_id = ? and workflow_id = ? and server_address = ?", whereArgs: [settings.userId, settings.workflowId, settings.serverAddress]);
 
     if (res.isEmpty) {
       var raw = await db.rawInsert(
           "INSERT Into user_settings (user_id, workflow_id, scenarios, "
-          "actions, autoload, created_at)  VALUES (?,?,?,?,?,?)",
+          "actions, autoload, server_address, created_at)  VALUES (?,?,?,?,?,?,?)",
           [
             settings.userId,
             settings.workflowId,
             settings.scenarios,
             settings.actions,
             settings.autoload,
+            settings.serverAddress,
             settings.createdAt,
           ]);
       return raw;
     } else {
       var raw = await db.rawInsert(
           "UPDATE user_settings SET scenarios=?, actions=?,"
-          " updated_at=?, autoload=? where user_id=? and workflow_id = ?",
+          " updated_at=?, autoload=? where user_id=? and workflow_id=? and server_address=?",
           [
             settings.scenarios,
             settings.actions,
             settings.updatedAt,
             settings.autoload,
             settings.userId,
-            settings.workflowId
+            settings.workflowId,
+            settings.serverAddress
           ]);
       return raw;
     }
   }
 
-  Future<Map<String, dynamic>> autoload(int userId) async {
+  Future<Map<String, dynamic>> autoload(int userId, String serverAddress) async {
     final db = await _provider.database;
 
-    var res = await db.query("user_settings", where: "user_id = ? and autoload = 1", whereArgs: [userId]);
+    var res = await db.query("user_settings", where: "user_id = ? and autoload = 1 and server_address = ?", whereArgs: [userId, serverAddress]);
 
     return res.isNotEmpty ? res.first : null;
   }
 
-  Future<Map<String, dynamic>> getByUserAndWorkflow(int userId, workflowId) async {
+  Future<Map<String, dynamic>> getByUserAndWorkflow(int userId, workflowId, String serverAddress) async {
     final db = await _provider.database;
 
     var res =
-        await db.query("user_settings", where: "user_id = ? and workflow_id = ?", whereArgs: [userId, workflowId]);
+        await db.query("user_settings", where: "user_id = ? and workflow_id = ? and server_address = ?", whereArgs: [userId, workflowId, serverAddress]);
 
     return res.isNotEmpty ? res.first : null;
   }
 
-  Future<Map<String, dynamic>> setDefault(int userId, workflowId) async {
+  Future<Map<String, dynamic>> setDefault(int userId, workflowId, String serverAddress) async {
     final db = await _provider.database;
 
-    await db.rawQuery("UPDATE user_settings SET autoload=1 where user_id=? and workflow_id = ?", [userId, workflowId]);
+    await db.rawQuery("UPDATE user_settings SET autoload=1 where user_id=? and workflow_id = ? and server_address = ?", [userId, workflowId, serverAddress]);
 
     var res = await db
-        .rawQuery("UPDATE user_settings SET autoload=null where user_id=? and workflow_id != ?", [userId, workflowId]);
+        .rawQuery("UPDATE user_settings SET autoload=null where user_id=? and workflow_id != ? and server_address = ?", [userId, workflowId, serverAddress]);
 
     return res.isNotEmpty ? res.first : null;
   }

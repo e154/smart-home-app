@@ -23,9 +23,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       // get current user
       final currentUser = MainState.get().currentUser;
+      // get current settings
+      final settings = MainState.get().settings;
       // get here user settings
       final userSettings =
-          await Adaptors.get().userSettings.autoload(currentUser.id);
+          await Adaptors.get().userSettings.autoload(currentUser.id, settings.serverAddress);
 
       if (userSettings == null) {
         yield HomeLoaded(userSettings, null, null);
@@ -43,12 +45,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     if (event is HomeSelectWorkflow) {
       // get current user
       final currentUser = MainState.get().currentUser;
+      // get current settings
+      final settings = MainState.get().settings;
 
       if (event.workflow != null) {
         // save workflow at user settings
         await Adaptors.get()
             .userSettings
-            .setWorkflow(currentUser.id, event.workflow.id);
+            .setWorkflow(currentUser.id, event.workflow.id, settings.serverAddress);
       }
     }
 
@@ -61,9 +65,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       // get current user
       final currentUser = MainState.get().currentUser;
+      // get current settings
+      final settings = MainState.get().settings;
       // get here user settings
       final userSettings =
-          await Adaptors.get().userSettings.autoload(currentUser.id);
+          await Adaptors.get().userSettings.autoload(currentUser.id, settings.serverAddress);
 
       if (userSettings == null) {
         return;
@@ -83,9 +89,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       // get current user
       final currentUser = MainState.get().currentUser;
+      // get current settings
+      final settings = MainState.get().settings;
       // get here user settings
       final userSettings =
-          await Adaptors.get().userSettings.autoload(currentUser.id);
+          await Adaptors.get().userSettings.autoload(currentUser.id, settings.serverAddress);
 
       if (userSettings == null) {
         return;

@@ -66,13 +66,15 @@ _onCreate(Database db, int version) async {
       "scenarios Text NOT NULL,"
       "actions Text NOT NULL,"
       "autoload bool NULL,"
+      "server_address Text NULL,"
       "created_at DateTime NOT NULL,"
       "updated_at DateTime,"
-      "UNIQUE(user_id,workflow_id),"
+      "UNIQUE(user_id,workflow_id, server_address),"
       "UNIQUE(user_id,autoload));");
 
   batch.execute("CREATE INDEX autoload_at_user_settings_idx ON user_settings (autoload);");
   batch.execute("CREATE INDEX user_at_user_settings_idx ON user_settings (user_id);");
+  batch.execute("CREATE INDEX server_address_at_user_settings_idx ON user_settings (server_address);");
 
   await batch.commit();
 }
@@ -81,6 +83,7 @@ _onUpgrade(Database db, int oldVersion, int newVersion) async {
   var batch = db.batch();
   switch (oldVersion) {
     case 3:
+    case 4:
       batch.execute("CREATE TABLE user_settings ("
           "id INTEGER PRIMARY KEY AUTOINCREMENT,"
           "user_id INTEGER NOT NULL,"
@@ -95,9 +98,14 @@ _onUpgrade(Database db, int oldVersion, int newVersion) async {
 
       batch.execute("CREATE INDEX autoload_at_user_settings_idx ON user_settings (autoload);");
       batch.execute("CREATE INDEX user_at_user_settings_idx ON user_settings (user_id);");
-
+    break;
+    case 5:
+      batch.execute("ALTER TABLE user_settings "
+          "ADD COLUMN server_address Text;"
+      );
+      batch.execute("CREATE INDEX server_address_at_user_settings_idx ON user_settings (server_address);");
       break;
-    case 4:
+    case 6:
     default:
       Exception("unknown version: $oldVersion");
   }

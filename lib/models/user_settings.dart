@@ -12,6 +12,7 @@ String userSettingsToJson(UserSettings data) => json.encode(data.toJson());
 
 class UserSettings {
   int id, userId, workflowId, autoload;
+  String serverAddress;
   List<int> scenarios, actions;
   DateTime createdAt, updatedAt;
 
@@ -22,6 +23,7 @@ class UserSettings {
     this.autoload,
     this.scenarios,
     this.actions,
+    this.serverAddress,
     this.createdAt,
     this.updatedAt,
   });
@@ -34,6 +36,7 @@ class UserSettings {
       autoload: json["autoload"] as int,
       scenarios: json["scenarios"] as List<int>,
       actions: json["actions"] as List<int>,
+      serverAddress: json["server_address"],
       createdAt: DateTime.parse(ignoreSubMicro(json["created_at"])),
       updatedAt: DateTime.parse(ignoreSubMicro(json["updated_at"])),
     );
@@ -46,6 +49,7 @@ class UserSettings {
         "autoload": autoload,
         "scenarios": scenarios,
         "actions": actions,
+        "server_address": serverAddress,
         "created_at": createdAt,
         "updated_at": updatedAt,
       };
