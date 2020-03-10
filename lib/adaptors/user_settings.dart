@@ -13,10 +13,10 @@ class UserSettingsAdaptor {
 
 
   //  return saved settings or create empty object
-  Future<models.UserSettings> autoload(int userId) async {
+  Future<models.UserSettings> autoload(int userId, String serverAddress) async {
     models.UserSettings userSettings;
 
-    Map<String, dynamic> res = await table.autoload(userId);
+    Map<String, dynamic> res = await table.autoload(userId, serverAddress);
     if (res == null || res.isEmpty) {
       return null;
     } else {
@@ -27,8 +27,8 @@ class UserSettingsAdaptor {
   }
 
   // select workflow
-  Future<void> setWorkflow(int userId, workflowId) async {
-    Map<String, dynamic> res = await table.getByUserAndWorkflow(userId, workflowId);
+  Future<void> setWorkflow(int userId, workflowId, String serverAddress) async {
+    Map<String, dynamic> res = await table.getByUserAndWorkflow(userId, workflowId, serverAddress);
 
     if (res == null || res.isEmpty) {
       // user settings not found
@@ -40,11 +40,12 @@ class UserSettingsAdaptor {
       variable.actions = "[]";
       variable.autoload = 1;
       variable.createdAt = DateTime.now().toIso8601String();
+      variable.serverAddress = serverAddress;
       await table.createOrUpdate(variable);
     }
 
     // select as default
-    await table.setDefault(userId, workflowId);
+    await table.setDefault(userId, workflowId, serverAddress);
   }
 
   // update user settings
@@ -63,6 +64,7 @@ class UserSettingsAdaptor {
       f as int).toList(),
       actions: dbUserSettings.actions == null ? null : (jsonDecode(dbUserSettings.actions) as List).map((f) =>
       f as int).toList(),
+      serverAddress: dbUserSettings.serverAddress,
       createdAt: dbUserSettings.createdAt == null ? null : DateTime.parse(ignoreSubMicro(dbUserSettings.createdAt)),
       updatedAt: dbUserSettings.updatedAt == null ? null : DateTime.parse(ignoreSubMicro(dbUserSettings.updatedAt)),
     );
@@ -77,6 +79,7 @@ class UserSettingsAdaptor {
     dbUserSettings.scenarios = jsonEncode(userSettings.scenarios);
     dbUserSettings.actions = jsonEncode(userSettings.actions);
     dbUserSettings.autoload = userSettings.autoload;
+    dbUserSettings.serverAddress = userSettings.serverAddress;
     dbUserSettings.updatedAt = DateTime.now().toIso8601String();
     return dbUserSettings;
   }

@@ -57,7 +57,7 @@ class MapElement {
       graphSettings: GraphSettings.fromJson(json["graph_settings"]),
       status: json["status"],
       weight: json["weight"] as int,
-      zone: MapZone.fromJson(json["zone"]),
+      zone: json["zone"] != null ? MapZone.fromJson(json["zone"]) : null
     );
   }
 

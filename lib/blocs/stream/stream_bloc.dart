@@ -42,12 +42,11 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
       final status = await Repository.get().stream.getDevicesStates();
 
       var devices = List<MapTelemetryDevice>();
-      ((status as Response).payload['states']['device_stats'] as Map)
-          .forEach((k, v) {
+      ((status as Response).payload['devices'] as List).forEach((v) {
         devices.add(MapTelemetryDevice.fromJson(v));
       });
 
-      devices.forEach((device){
+      devices.forEach((device) {
         streamController.sink.add(MapTelemetry(device: device));
       });
     }

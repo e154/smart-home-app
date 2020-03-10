@@ -26,6 +26,7 @@ class ScenesFavorite extends StatelessWidget {
       if (workflow != null) {
         _scenarioList.forEach((scenario) {
           if (favorite.contains(scenario.id)) {
+            //TODO fix active state
             final newItem = ButtonScenarios(
                 function: () {
                   print("Container clicked: " + scenario.id.toString());
@@ -33,7 +34,7 @@ class ScenesFavorite extends StatelessWidget {
                       workflowId: workflow.id, scenarioId: scenario.id));
                 },
                 name: scenario.name,
-                active: scenario.id == 1);
+                active: false);
             items.add(newItem);
           }
         });

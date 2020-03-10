@@ -30,4 +30,3 @@ export 'telemetry_device.dart';
 export 'dashboard_telemetry.dart';
 export 'map_telemetry.dart';
 export 'map_telemetry_device.dart';
-export 'map_telemetry_device_state.dart';
