@@ -48,5 +48,11 @@ class PrototypeDevice extends Prototype {
 
   Map<String, dynamic> toJson() => {
         "id": id,
+        "device_id": deviceId,
+        "image_id": imageId,
+        "system_name": systemName,
+        "server_image": serverImage,
+        "actions": actions,
+        "states": states,
       };
 }

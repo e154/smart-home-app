@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:smart_home_app/common/common.dart';
 import 'package:smart_home_app/models/models.dart';
-import 'package:smart_home_app/repositories/server_stream/commanddart';
+import 'package:smart_home_app/repositories/server_stream/command.dart';
 import 'package:smart_home_app/repositories/server_stream/request.dart';
 import 'package:smart_home_app/repositories/server_stream/response.dart';
 import 'package:uuid/uuid.dart';
@@ -113,7 +113,7 @@ class ServerStream {
     return c.future;
   }
 
-  //{"id":"a16e244e-19db-42d6-9136-d67e6970bb97","command":"map.get.devices.states","payload":{}}
+  //{"id":"a16e244e-19db-42d6-9136-d67e6970bb97","command":"map.get.devices","payload":{}}
   Future<dynamic> getDevicesStates() async {
     Completer c = new Completer();
     final command = new CommandGetDevicesStates();

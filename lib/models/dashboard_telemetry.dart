@@ -34,14 +34,14 @@ class DashboardTelemetry extends ResponsePayload {
   factory DashboardTelemetry.fromJson(Map<String, dynamic> json) {
     TelemetryDevice device;
 
-    if (json['device'] != null && json['device']['state'] != null) {
-      device = TelemetryDevice.fromJson(json['device']['state']);
+    if (json['device'] != null) {
+      device = TelemetryDevice.fromJson(json['device']);
     }
 
     List<TelemetryDevice> devices;
-    if (json['devices']  != null && json['devices']['status'] != null) {
+    if (json['devices']  != null) {
       devices = List<TelemetryDevice>();
-      (json['devices']['status'] as Map).forEach((k, item){
+      (json['devices'] as Map).forEach((k, item){
         devices.add(TelemetryDevice.fromJson(item));
       });
     }
@@ -55,4 +55,13 @@ class DashboardTelemetry extends ResponsePayload {
       devices: devices,
     );
   }
+
+  Map<String, dynamic> toJson() => {
+    "cpu": cpu,
+    "memory": memory,
+    "uptime": uptime,
+    "gate": gate,
+    "device": device.toJson(),
+    "devices": devices,
+  };
 }

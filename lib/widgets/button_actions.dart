@@ -51,17 +51,16 @@ class _ButtonScenarios extends State<ButtonActions> {
       final device = data.device;
       var widgetDevice = (widget.element.prototype as PrototypeDevice);
 
-      if (widget.element.name == device.elementName) {
-        widgetDevice.states.forEach((state){
-          if (state.systemName == device.status.systemName) {
-//            print("SET STATE: " + state.systemName);
-            setState(() {
-              _currentState = state;
-              widget.active = state.systemName.contains('_ON');
-            });
-          }
-        });
-      }
+      widgetDevice.states.forEach((state){
+        if (widgetDevice.deviceId == device.id && state.deviceStateId == device.statusId) {
+//          print("SET STATE: " + state.systemName);
+          setState(() {
+            _currentState = state;
+            widget.active = state.systemName.contains('_ON');
+          });
+          return;
+        }
+      });
     }
   }
 

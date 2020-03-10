@@ -22,4 +22,8 @@ class MapTelemetry extends ResponsePayload {
       device: (json['device'] != null)? MapTelemetryDevice.fromJson(json['device']): null,
     );
   }
+
+  Map<String, dynamic> toJson() => {
+    "device": device.toJson(),
+  };
 }

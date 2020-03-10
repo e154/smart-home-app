@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:smart_home_app/repositories/server_stream/commanddart';
+import 'package:smart_home_app/repositories/server_stream/command.dart';
 
 String commandGetDevicesStatesToJson(CommandGetDevicesStates data) =>
     json.encode(data.toJson());
@@ -16,6 +16,6 @@ class CommandGetDevicesStates extends Command {
   Map<String, dynamic> toJson() => {};
 
   String command() {
-    return 'map.get.devices.states';
+    return 'map.get.devices';
   }
 }

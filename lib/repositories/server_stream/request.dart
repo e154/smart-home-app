@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:smart_home_app/repositories/server_stream/commanddart';
+import 'package:smart_home_app/repositories/server_stream/command.dart';
 
 String requestToJson(Request data) => json.encode(data.toJson());
 

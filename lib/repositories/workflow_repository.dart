@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart';
 import 'package:smart_home_app/models/models.dart';
+import 'requests/workflow_update_scenario.dart';
 
 class WorkflowRepository {
   Client httpClient;
@@ -74,10 +75,10 @@ class WorkflowRepository {
 
   Future<void> updateScenario(int workflowId, scenarioId) async {
     try {
-      final body = '{"workflow_scenario_id":$scenarioId}';
+      final body = WorkflowUpdateScenario(workflowScenarioId: scenarioId);
       final response = await this
           .httpClient
-          .put('/workflow/$workflowId/update_scenario', body: body)
+          .put('/workflow/$workflowId/update_scenario', body: workflowUpdateScenarioToJson(body))
           .timeout(const Duration(seconds: 1));
       switch (response.statusCode) {
         case 200:
