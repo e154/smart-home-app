@@ -10,6 +10,7 @@ import 'package:smart_home_app/models/telemetry_cpu.dart';
 import 'package:smart_home_app/models/telemetry_gate.dart';
 import 'package:smart_home_app/models/telemetry_memory.dart';
 import 'package:smart_home_app/models/telemetry_uptime.dart';
+import 'package:smart_home_app/models/telemetry_workflow.dart';
 
 DashboardTelemetry dashboardTelemetryFromJson(String str) =>
     DashboardTelemetry.fromJson(json.decode(str));
@@ -21,6 +22,7 @@ class DashboardTelemetry extends ResponsePayload {
   TelemetryGate gate;
   TelemetryDevice device;
   List<TelemetryDevice> devices;
+  TelemetryWorkflow workflow;
 
   DashboardTelemetry({
     this.cpu,
@@ -29,6 +31,7 @@ class DashboardTelemetry extends ResponsePayload {
     this.gate,
     this.device,
     this.devices,
+    this.workflow,
   });
 
   factory DashboardTelemetry.fromJson(Map<String, dynamic> json) {
@@ -51,6 +54,7 @@ class DashboardTelemetry extends ResponsePayload {
       memory: (json['memory'] != null)? TelemetryMemory.fromJson(json['memory']): null,
       uptime: (json['uptime'] != null)? TelemetryUptime.fromJson(json["uptime"]): null,
       gate: (json['gate'] != null)? TelemetryGate.fromJson(json["gate"]): null,
+      workflow: (json['workflows'] != null)? TelemetryWorkflow.fromJson(json["workflows"]): null,
       device: device,
       devices: devices,
     );
@@ -63,5 +67,6 @@ class DashboardTelemetry extends ResponsePayload {
     "gate": gate,
     "device": device.toJson(),
     "devices": devices,
+    "workflow": workflow,
   };
 }

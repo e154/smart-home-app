@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:smart_home_app/models/telemetry_workflow_scenario.dart';
+
 TelemetryWorkflow telemetryWorkflowFromJson(String str) =>
     TelemetryWorkflow.fromJson(json.decode(str));
 
@@ -11,28 +13,32 @@ String telemetryWorkflowToJson(TelemetryWorkflow data) =>
     json.encode(data.toJson());
 
 class TelemetryWorkflow {
-  int id, deviceId;
-  String description, systemName;
+  int total, disabled;
+  Map<int, TelemetryWorkflowScenario> status;
 
   TelemetryWorkflow({
-    this.id,
-    this.description,
-    this.systemName,
-    this.deviceId,
+    this.total,
+    this.disabled,
+    this.status,
   });
 
-  factory TelemetryWorkflow.fromJson(Map<String, dynamic> json) =>
-      TelemetryWorkflow(
-        id: json["id"] as int,
-        description: json["description"],
-        systemName: json["system_name"],
-        deviceId: json["device_id"] as int,
-      );
+  factory TelemetryWorkflow.fromJson(Map<String, dynamic> json) {
+    var status = new Map<int, TelemetryWorkflowScenario>();
+
+    (json["status"] as Map).forEach((k, item) {
+      final workflowId = int.parse(k);
+      status[workflowId] = TelemetryWorkflowScenario.fromJson(item);
+    });
+
+    return TelemetryWorkflow(
+      total: json["total"] as int,
+      disabled: json["disabled"] as int,
+      status: status,
+    );
+  }
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "description": description,
-        "system_name": systemName,
-        "device_id": deviceId,
+        "total": total,
+        "disabled": disabled,
       };
 }
