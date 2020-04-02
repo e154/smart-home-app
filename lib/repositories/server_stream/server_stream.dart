@@ -1,9 +1,30 @@
+/*
+ * This file is part of the Smart Home
+ * Program complex distribution https://github.com/e154/smart-home-app
+ * Copyright (C) 2016-2020, Filippov Alex
+ *
+ * This library is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library.  If not, see
+ * <https://www.gnu.org/licenses/>.
+ */
+
 import 'dart:async';
 import 'dart:convert';
 
 import 'package:smart_home_app/common/common.dart';
 import 'package:smart_home_app/models/models.dart';
 import 'package:smart_home_app/repositories/server_stream/command.dart';
+import 'package:smart_home_app/repositories/server_stream/command_get_workflow_states.dart';
 import 'package:smart_home_app/repositories/server_stream/request.dart';
 import 'package:smart_home_app/repositories/server_stream/response.dart';
 import 'package:uuid/uuid.dart';
@@ -117,6 +138,14 @@ class ServerStream {
   Future<dynamic> getDevicesStates() async {
     Completer c = new Completer();
     final command = new CommandGetDevicesStates();
+    _command(command, c);
+    return c.future;
+  }
+
+  //{"id":"a16e244e-19db-42d6-9136-d67e6970bb97","command":"workflow.get.status","payload":{}}
+  Future<dynamic> getWorkflowStates() async {
+    Completer c = new Completer();
+    final command = new CommandGetWorkflowStates();
     _command(command, c);
     return c.future;
   }

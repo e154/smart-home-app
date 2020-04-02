@@ -1,4 +1,3 @@
-
 /*
  * This file is part of the Smart Home
  * Program complex distribution https://github.com/e154/smart-home-app
@@ -19,18 +18,25 @@
  * <https://www.gnu.org/licenses/>.
  */
 
-String ignoreSubMicro(String s) {
-//  print("-----");
-//  print("before: " + s);
-  if (s.length > 27) {
-    if (s.contains("+")) {
-      s = s.substring(0, 25) + "0Z";
-    } else {
-      s = s.substring(0, 26) + s[s.length - 1];
-    }
-  }
+// To parse this JSON data, do
+//
+//     final telemetryWorkflow = telemetryWorkflowFromJson(jsonString);
 
-//  print("after: " +s);
+import 'dart:convert';
 
-  return s;
+class TelemetryWorkflowScenario {
+  int id, scenarioId;
+
+  TelemetryWorkflowScenario({this.id, this.scenarioId});
+
+  factory TelemetryWorkflowScenario.fromJson(Map<String, dynamic> json) =>
+      TelemetryWorkflowScenario(
+        id: json["id"] as int,
+        scenarioId: json["scenario_id"] as int,
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "scenario_id": scenarioId,
+      };
 }

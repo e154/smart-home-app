@@ -7,9 +7,14 @@
 [Node](https://github.com/e154/smart-home-node/) |
 [Smart home Socket](https://github.com/e154/smart-home-socket/) |
 
-[![Build Status](https://travis-ci.org/e154/smart-home-app.svg?branch=master)](https://travis-ci.org/e154/smart-home-app)
 ![status](https://img.shields.io/badge/status-beta-yellow.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+|Branch      |Status   |
+|------------|---------|
+|master      | [![Build Status](https://travis-ci.org/e154/smart-home-app.svg?branch=master)](https://travis-ci.org/e154/smart-home-app?branch=master)   |
+|dev         | [![Build Status](https://travis-ci.org/e154/smart-home-app.svg?branch=develop)](https://travis-ci.org/e154/smart-home-app?branch=develop) |
+
 
 Attention! The project is under active development.
 ---------
@@ -29,4 +34,4 @@ App for program complex **Smart House** for Android/Iphone/Ipad
 
 ### LICENSE
 
-[MIT Public License](https://github.com/e154/smart-home-app/blob/master/LICENSE)
+[GPLv3 Public License](https://github.com/e154/smart-home-app/blob/master/LICENSE)

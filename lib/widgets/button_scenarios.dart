@@ -1,12 +1,40 @@
+/*
+ * This file is part of the Smart Home
+ * Program complex distribution https://github.com/e154/smart-home-app
+ * Copyright (C) 2016-2020, Filippov Alex
+ *
+ * This library is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library.  If not, see
+ * <https://www.gnu.org/licenses/>.
+ */
+
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_home_app/blocs/stream/stream_bloc.dart';
+import 'package:smart_home_app/models/dashboard_telemetry.dart';
+import 'package:smart_home_app/models/workflow_scenario.dart';
 
 class ButtonScenarios extends StatefulWidget {
   Function function;
-  String name;
   bool active;
+  WorkflowScenario scenario;
+  int workflowId;
 
-  ButtonScenarios({Key key, this.function, this.name, this.active})
+  ButtonScenarios(
+      {Key key, this.function, this.active, this.scenario, this.workflowId})
       : super(key: key);
 
   @override
@@ -20,6 +48,7 @@ class _ButtonScenarios extends State<ButtonScenarios> {
 //  double _height = 120;
   double _padding = 5;
   double _squareScale = 1;
+  StreamSubscription streamBlocListener;
 
   _onTapDown(TapDownDetails details) {
     setState(() {
@@ -45,7 +74,36 @@ class _ButtonScenarios extends State<ButtonScenarios> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    streamBlocListener.cancel();
+  }
+
+  _streamListener(dynamic data) {
+    if (data is DashboardTelemetry) {
+      if (data.workflow == null) {
+        return;
+      }
+      data.workflow.status.forEach((k, v) {
+        if (widget.workflowId != k) {
+          return;
+        }
+//        print("wf ${widget.workflowId}, scenario ${widget.scenario.id}, ok ${widget.active}");
+        setState(() {
+          widget.active = v.scenarioId == widget.scenario.id;
+        });
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final streamBloc = BlocProvider.of<StreamBloc>(context);
+    if (streamBlocListener == null) {
+      streamBlocListener =
+          streamBloc.streamController.stream.listen(_streamListener);
+    }
+
     return new GestureDetector(
         onTapDown: _onTapDown,
         onTapCancel: _onTapCancel,
@@ -83,7 +141,7 @@ class _ButtonScenarios extends State<ButtonScenarios> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          widget.name,
+                          widget.scenario.name,
                           style: TextStyle(
                               color: widget.active
                                   ? Colors.white

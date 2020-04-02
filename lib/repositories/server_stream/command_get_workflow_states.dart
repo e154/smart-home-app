@@ -1,4 +1,3 @@
-
 /*
  * This file is part of the Smart Home
  * Program complex distribution https://github.com/e154/smart-home-app
@@ -19,18 +18,24 @@
  * <https://www.gnu.org/licenses/>.
  */
 
-String ignoreSubMicro(String s) {
-//  print("-----");
-//  print("before: " + s);
-  if (s.length > 27) {
-    if (s.contains("+")) {
-      s = s.substring(0, 25) + "0Z";
-    } else {
-      s = s.substring(0, 26) + s[s.length - 1];
-    }
+// To parse this JSON data, do
+//
+//     final commandGetWorkflowStates = commandGetWorkflowStatesFromJson(jsonString);
+
+import 'dart:convert';
+
+import 'package:smart_home_app/repositories/server_stream/command.dart';
+
+String commandGetWorkflowStatesToJson(CommandGetWorkflowStates data) =>
+    json.encode(data.toJson());
+
+class CommandGetWorkflowStates extends Command {
+  CommandGetWorkflowStates();
+
+  @override
+  Map<String, dynamic> toJson() => {};
+
+  String command() {
+    return 'workflow.get.status';
   }
-
-//  print("after: " +s);
-
-  return s;
 }

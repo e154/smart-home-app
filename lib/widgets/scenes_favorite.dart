@@ -1,3 +1,23 @@
+/*
+ * This file is part of the Smart Home
+ * Program complex distribution https://github.com/e154/smart-home-app
+ * Copyright (C) 2016-2020, Filippov Alex
+ *
+ * This library is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library.  If not, see
+ * <https://www.gnu.org/licenses/>.
+ */
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,7 +34,8 @@ class ScenesFavorite extends StatelessWidget {
   const ScenesFavorite({Key key, this.favorite, this.workflow})
       : super(key: key);
 
-  List<Widget> _buttonBuilder(HomeBloc homeBloc, List<WorkflowScenario> _scenarioList) {
+  List<Widget> _buttonBuilder(
+      HomeBloc homeBloc, List<WorkflowScenario> _scenarioList) {
     List<Widget> items = new List<Widget>();
     if (favorite == null || favorite.length == 0) {
       items.add(Container(
@@ -33,7 +54,8 @@ class ScenesFavorite extends StatelessWidget {
                   homeBloc.dispatch(HomeSelectScenario(
                       workflowId: workflow.id, scenarioId: scenario.id));
                 },
-                name: scenario.name,
+                scenario: scenario,
+                workflowId: workflow.id,
                 active: false);
             items.add(newItem);
           }
@@ -66,8 +88,8 @@ class ScenesFavorite extends StatelessWidget {
     });
   }
 
-  Widget _container(
-      double itemHeight, BuildContext context, HomeBloc homeBloc, List<WorkflowScenario> _scenarioList) {
+  Widget _container(double itemHeight, BuildContext context, HomeBloc homeBloc,
+      List<WorkflowScenario> _scenarioList) {
     return Container(
       margin: EdgeInsets.only(top: 15, bottom: 0, left: 5, right: 5),
       height: itemHeight + 20,
