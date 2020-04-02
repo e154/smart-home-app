@@ -74,6 +74,7 @@ class _ActionsFavorite extends State<ActionsFavorite> {
     double screenHeight = MediaQuery.of(context).size.height;
 
     streamBloc.dispatch(StreamGetDevicesStates());
+    streamBloc.dispatch(StreamGetWorkflowStates());
 
     return Container(
 //        color: Colors.red,

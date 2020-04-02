@@ -1,12 +1,20 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_home_app/blocs/stream/stream_bloc.dart';
+import 'package:smart_home_app/models/dashboard_telemetry.dart';
+import 'package:smart_home_app/models/workflow_scenario.dart';
 
 class ButtonScenarios extends StatefulWidget {
   Function function;
-  String name;
   bool active;
+  WorkflowScenario scenario;
+  int workflowId;
 
-  ButtonScenarios({Key key, this.function, this.name, this.active})
+  ButtonScenarios(
+      {Key key, this.function, this.active, this.scenario, this.workflowId})
       : super(key: key);
 
   @override
@@ -20,6 +28,7 @@ class _ButtonScenarios extends State<ButtonScenarios> {
 //  double _height = 120;
   double _padding = 5;
   double _squareScale = 1;
+  StreamSubscription streamBlocListener;
 
   _onTapDown(TapDownDetails details) {
     setState(() {
@@ -45,7 +54,36 @@ class _ButtonScenarios extends State<ButtonScenarios> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    streamBlocListener.cancel();
+  }
+
+  _streamListener(dynamic data) {
+    if (data is DashboardTelemetry) {
+      if (data.workflow == null) {
+        return;
+      }
+      data.workflow.status.forEach((k, v) {
+        if (widget.workflowId != k) {
+          return;
+        }
+//        print("wf ${widget.workflowId}, scenario ${widget.scenario.id}, ok ${widget.active}");
+        setState(() {
+          widget.active = v.scenarioId == widget.scenario.id;
+        });
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final streamBloc = BlocProvider.of<StreamBloc>(context);
+    if (streamBlocListener == null) {
+      streamBlocListener =
+          streamBloc.streamController.stream.listen(_streamListener);
+    }
+
     return new GestureDetector(
         onTapDown: _onTapDown,
         onTapCancel: _onTapCancel,
@@ -83,7 +121,7 @@ class _ButtonScenarios extends State<ButtonScenarios> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          widget.name,
+                          widget.scenario.name,
                           style: TextStyle(
                               color: widget.active
                                   ? Colors.white

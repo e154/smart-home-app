@@ -25,10 +25,12 @@ class TelemetryWorkflow {
   factory TelemetryWorkflow.fromJson(Map<String, dynamic> json) {
     var status = new Map<int, TelemetryWorkflowScenario>();
 
-    (json["status"] as Map).forEach((k, item) {
-      final workflowId = int.parse(k);
-      status[workflowId] = TelemetryWorkflowScenario.fromJson(item);
-    });
+    if (json['status'] != null) {
+      (json["status"] as Map).forEach((k, item) {
+        final workflowId = int.parse(k);
+        status[workflowId] = TelemetryWorkflowScenario.fromJson(item);
+      });
+    }
 
     return TelemetryWorkflow(
       total: json["total"] as int,

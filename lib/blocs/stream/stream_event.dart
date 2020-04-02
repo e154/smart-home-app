@@ -27,3 +27,10 @@ class StreamGetDevicesStates extends StreamEvent {
   @override
   String toString() => 'StreamGetDevicesStates';
 }
+
+class StreamGetWorkflowStates extends StreamEvent {
+  StreamGetWorkflowStates();
+
+  @override
+  String toString() => 'StreamGetWorkflowStates';
+}

@@ -14,7 +14,8 @@ class ScenesFavorite extends StatelessWidget {
   const ScenesFavorite({Key key, this.favorite, this.workflow})
       : super(key: key);
 
-  List<Widget> _buttonBuilder(HomeBloc homeBloc, List<WorkflowScenario> _scenarioList) {
+  List<Widget> _buttonBuilder(
+      HomeBloc homeBloc, List<WorkflowScenario> _scenarioList) {
     List<Widget> items = new List<Widget>();
     if (favorite == null || favorite.length == 0) {
       items.add(Container(
@@ -33,7 +34,8 @@ class ScenesFavorite extends StatelessWidget {
                   homeBloc.dispatch(HomeSelectScenario(
                       workflowId: workflow.id, scenarioId: scenario.id));
                 },
-                name: scenario.name,
+                scenario: scenario,
+                workflowId: workflow.id,
                 active: false);
             items.add(newItem);
           }
@@ -66,8 +68,8 @@ class ScenesFavorite extends StatelessWidget {
     });
   }
 
-  Widget _container(
-      double itemHeight, BuildContext context, HomeBloc homeBloc, List<WorkflowScenario> _scenarioList) {
+  Widget _container(double itemHeight, BuildContext context, HomeBloc homeBloc,
+      List<WorkflowScenario> _scenarioList) {
     return Container(
       margin: EdgeInsets.only(top: 15, bottom: 0, left: 5, right: 5),
       height: itemHeight + 20,

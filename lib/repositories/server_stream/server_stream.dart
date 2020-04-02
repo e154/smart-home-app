@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:smart_home_app/common/common.dart';
 import 'package:smart_home_app/models/models.dart';
 import 'package:smart_home_app/repositories/server_stream/command.dart';
+import 'package:smart_home_app/repositories/server_stream/command_get_workflow_states.dart';
 import 'package:smart_home_app/repositories/server_stream/request.dart';
 import 'package:smart_home_app/repositories/server_stream/response.dart';
 import 'package:uuid/uuid.dart';
@@ -117,6 +118,14 @@ class ServerStream {
   Future<dynamic> getDevicesStates() async {
     Completer c = new Completer();
     final command = new CommandGetDevicesStates();
+    _command(command, c);
+    return c.future;
+  }
+
+  //{"id":"a16e244e-19db-42d6-9136-d67e6970bb97","command":"workflow.get.status","payload":{}}
+  Future<dynamic> getWorkflowStates() async {
+    Completer c = new Completer();
+    final command = new CommandGetWorkflowStates();
     _command(command, c);
     return c.future;
   }
