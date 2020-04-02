@@ -29,4 +29,4 @@ App for program complex **Smart House** for Android/Iphone/Ipad
 
 ### LICENSE
 
-[MIT Public License](https://github.com/e154/smart-home-app/blob/master/LICENSE)
+[GPLv3 Public License](https://github.com/e154/smart-home-app/blob/master/LICENSE)
